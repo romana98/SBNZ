@@ -4,4 +4,7 @@
     <!--<kbase name="template-simple-KBase" packages="template-dtable">
         <ksession name="templateSimpleKsession"/>
     </kbase>-->
+    <kbase name="rules" packages="rules">
+        <ksession name="rulesSession"/>
+    </kbase>
 </kmodule>
