@@ -4,24 +4,23 @@ import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import project.recommendationandtroubleshooting.model.Product;
+import project.recommendationandtroubleshooting.model.TestModel;
 
 @Service
-public class JewelleryShopService {
+public class TestService {
 
     private final KieContainer kieContainer;
 
     @Autowired
-    public JewelleryShopService(KieContainer kieContainer) {
+    public TestService(KieContainer kieContainer) {
         this.kieContainer = kieContainer;
     }
 
-    public Product getProductDiscount(Product product) {
-        //get the stateful session
+    public TestModel getResponse(TestModel model) {
         KieSession kieSession = kieContainer.newKieSession("rulesSession");
-        kieSession.insert(product);
+        kieSession.insert(model);
         kieSession.fireAllRules();
         kieSession.dispose();
-        return product;
+        return model;
     }
 }

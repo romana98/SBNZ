@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +24,7 @@ public class Bug {
     @Column(name = "problem", unique = true, nullable = false)
     private String problem;
 
-    @Column(name = "solution", nullable = false)
-    private String solution;
+    @ElementCollection
+    private Set<String> solutions = new HashSet<>();
 
 }
