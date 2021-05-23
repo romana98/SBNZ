@@ -1,0 +1,37 @@
+package project;
+
+import project.recommendationandtroubleshooting.model.Configuration
+import project.recommendationandtroubleshooting.model.input_model.recommendation.InputRecommendation;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.ConfigurationUsageType;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.ConfigurationCharacteristicType;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.Budget;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.Mobility;
+import project.recommendationandtroubleshooting.model.recommendation.Output;
+import project.recommendationandtroubleshooting.enums.ConfigurationType
+
+
+rule "Desktop" 
+	agenda-group "type-recommendation"
+	salience (9) 
+    when
+        $i: InputRecommendation(mobility.getMobility() < 50)
+        $o: Output(recommendedConfiguration.isEmpty(), usage == null, characteristics == null, budget == "done", type == null)
+        $configurations: List() from collect(Configuration(considered == true))
+        c$: Configuration(configurationType == ConfigurationType.LAPTOP) from $configurations
+    then
+    	modify($c) { setConsidered(false) }
+    	modify($o) { setType("done") }
+end
+
+rule "Laptop" 
+	agenda-group "type-recommendation"
+	salience (9) 
+    when
+        $i: InputRecommendation(mobility.getMobility() >= 50)
+        $o: Output(recommendedConfiguration.isEmpty(), usage == null, characteristics == null, budget == "done", type == null)
+        $configurations: List() from collect(Configuration(considered == true))
+        c$: Configuration(configurationType == ConfigurationType.DESKTOP) from $configurations
+    then
+    	modify($c) { setConsidered(false) }
+    	modify($o) { setType("done") }
+end
