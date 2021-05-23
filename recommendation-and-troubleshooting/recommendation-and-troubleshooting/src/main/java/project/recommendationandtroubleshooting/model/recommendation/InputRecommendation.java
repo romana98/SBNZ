@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -13,6 +15,6 @@ public class InputRecommendation {
 
     private Budget budget;
     private ConfigurationUsageType configurationUsageType;
-    private ConfigurationCharacteristicType configurationCharacteristicType;
+    private ArrayList<ConfigurationCharacteristicType> configurationCharacteristicType = new ArrayList<ConfigurationCharacteristicType>();
     private Mobility mobility;
 }
