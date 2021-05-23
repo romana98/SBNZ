@@ -11,7 +11,6 @@ import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 @Table(name = "usage_requirements")
 public class ConfigurationUsageTypeRequirements {
@@ -69,4 +68,71 @@ public class ConfigurationUsageTypeRequirements {
     @ElementCollection
     private Set<String> ergonomic = new HashSet<>();
 
+    public Long getId() {
+        return id;
+    }
+
+    public ConfigurationUsageType getUsage() {
+        return usage;
+    }
+
+    public Set<String> getCPU() {
+        return CPU;
+    }
+
+    public Set<String> getGPU() {
+        return GPU;
+    }
+
+    public Set<String> getRAM() {
+        return RAM;
+    }
+
+    public Set<String> getOS() {
+        return OS;
+    }
+
+    public Set<String> getPSU() {
+        return PSU;
+    }
+
+    public Set<String> getDiscType() {
+        return discType;
+    }
+
+    public Set<String> getDiscSize() {
+        return discSize;
+    }
+
+    public Set<String> getMotherboard() {
+        return motherboard;
+    }
+
+    public Set<String> getScreenSize() {
+        return screenSize;
+    }
+
+    public Set<String> getScreenResolution() {
+        return screenResolution;
+    }
+
+    public Set<String> getMusicCard() {
+        return musicCard;
+    }
+
+    public Set<String> getTouchscreen() {
+        return touchscreen;
+    }
+
+    public Set<String> getMicrophone() {
+        return microphone;
+    }
+
+    public Set<String> getCamera() {
+        return camera;
+    }
+
+    public Set<String> getErgonomic() {
+        return ergonomic;
+    }
 }

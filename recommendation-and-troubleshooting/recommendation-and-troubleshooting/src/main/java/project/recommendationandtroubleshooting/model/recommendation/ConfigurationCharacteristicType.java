@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 @Entity
 @Table(name = "configuration_characteristics")
@@ -21,4 +20,12 @@ public class ConfigurationCharacteristicType {
 
     @Column(name = "characteristic", unique = true, nullable = false)
     String characteristic;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getCharacteristic() {
+        return characteristic;
+    }
 }

@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 @Entity
 @Table(name = "favorites")
@@ -24,4 +23,16 @@ public class Favorite {
 
     @Column(name = "put_to_favorite", nullable = false)
     private Long putToFavorite;
+
+    public Long getId() {
+        return id;
+    }
+
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
+    public Long getPutToFavorite() {
+        return putToFavorite;
+    }
 }

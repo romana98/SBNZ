@@ -7,10 +7,17 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 public class TestModel {
 
     private String incomeMessage;
     private String responseMessage;
+
+    public String getIncomeMessage() {
+        return incomeMessage;
+    }
+
+    public String getResponseMessage() {
+        return responseMessage;
+    }
 }

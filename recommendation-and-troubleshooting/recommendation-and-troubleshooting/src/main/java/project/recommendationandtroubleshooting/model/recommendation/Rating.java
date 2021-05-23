@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 @Entity
 @Table(name = "ratings")
@@ -21,5 +20,13 @@ public class Rating {
 
     @Column(name="rate", nullable = false)
     private Double rate;
+
+    public Long getId() {
+        return id;
+    }
+
+    public Double getRate() {
+        return rate;
+    }
 }
 

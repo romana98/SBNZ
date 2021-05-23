@@ -1,0 +1,27 @@
+package project;
+
+import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.InputRecommendation;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
+import project.recommendationandtroubleshooting.model.recommendation.Budget;
+import project.recommendationandtroubleshooting.model.recommendation.Mobility;
+import project.recommendationandtroubleshooting.model.recommendation.Output;
+import project.recommendationandtroubleshooting.enums.ConfigurationType
+import java.util.List;
+
+rule "Recommendation" 
+	agenda-group "recommendation"
+	salience (6) 
+    when
+        $o: Output(recommendedConfigurations.isEmpty(), usage == "done", characteristics == "done", budget == "done", type == "done")
+        $configurations: List() from collect(Configuration(considered == true))
+        $winner: Configuration($maxScore : score, $id : id) from $configurations
+		not Configuration(score < $maxScore, id < $id)
+    then
+        modify($o) { addWinner($winner) }
+end
+
+
+
+

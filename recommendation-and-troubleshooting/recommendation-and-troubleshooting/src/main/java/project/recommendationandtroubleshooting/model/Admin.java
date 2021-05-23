@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @AllArgsConstructor
-@Getter
 @Setter
 @Entity
 @Table(name = "admins")

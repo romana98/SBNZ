@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 @Entity
 @Table(name = "solutions")
@@ -21,4 +20,12 @@ public class Solution {
 
     @Column(name = "solution", unique = true, nullable = false)
     private String solution;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getSolution() {
+        return solution;
+    }
 }

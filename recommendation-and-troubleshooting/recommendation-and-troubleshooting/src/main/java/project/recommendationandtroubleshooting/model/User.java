@@ -13,7 +13,6 @@ import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
 @Entity
 @Table(name = "users")
@@ -27,4 +26,11 @@ public class User extends Person {
     @JoinColumn(name = "favoriteId")
     private Set<Favorite> favorites = new HashSet<>();
 
+    public Set<BugHistory> getBugHistory() {
+        return bugHistory;
+    }
+
+    public Set<Favorite> getFavorites() {
+        return favorites;
+    }
 }

@@ -23,6 +23,18 @@ public class BugHistory {
     @Column(name = "date_of_bug", nullable = false)
     private Date dateOfBug;
 
+    public Long getId() {
+        return id;
+    }
+
+    public Date getDateOfBug() {
+        return dateOfBug;
+    }
+
+    public Bug getBug() {
+        return bug;
+    }
+
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Bug bug;
 }

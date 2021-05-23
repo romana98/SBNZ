@@ -1,7 +1,6 @@
 package project.recommendationandtroubleshooting.model.recommendation;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.recommendationandtroubleshooting.enums.ConfigurationType;
@@ -12,7 +11,6 @@ import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 @Entity
 @Table(name = "configurations")
@@ -80,12 +78,95 @@ public class Configuration {
     private Set<Rating> ratings;
 
     private Boolean considered = true;
-    
-    /*private int score = 0;
-    
+
+    private int score = 0;
+
     public void increaseScore(int score) {
-    	this.score += score;
-    }*/
+        this.score += score;
+    }
 
 
+    public Long getId() {
+        return id;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public ConfigurationType getType() {
+        return type;
+    }
+
+    public String getCPU() {
+        return CPU;
+    }
+
+    public String getGPU() {
+        return GPU;
+    }
+
+    public String getRAM() {
+        return RAM;
+    }
+
+    public String getOS() {
+        return OS;
+    }
+
+    public String getPSU() {
+        return PSU;
+    }
+
+    public DiscType getDiscType() {
+        return discType;
+    }
+
+    public String getDiscSize() {
+        return discSize;
+    }
+
+    public String getMotherboard() {
+        return motherboard;
+    }
+
+    public String getScreenSize() {
+        return screenSize;
+    }
+
+    public String getScreenResolution() {
+        return screenResolution;
+    }
+
+    public String getMusicCard() {
+        return musicCard;
+    }
+
+    public boolean isTouchscreen() {
+        return touchscreen;
+    }
+
+    public boolean isMicrophone() {
+        return microphone;
+    }
+
+    public boolean isCamera() {
+        return camera;
+    }
+
+    public boolean isErgonomic() {
+        return ergonomic;
+    }
+
+    public Set<Rating> getRatings() {
+        return ratings;
+    }
+
+    public Boolean getConsidered() {
+        return considered;
+    }
+
+    public int getScore() {
+        return score;
+    }
 }

@@ -10,7 +10,6 @@ import javax.persistence.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -31,4 +30,24 @@ public abstract class Person {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

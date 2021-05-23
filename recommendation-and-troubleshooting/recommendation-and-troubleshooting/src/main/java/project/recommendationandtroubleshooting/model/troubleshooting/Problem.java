@@ -10,7 +10,6 @@ import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 public class Problem {
 
@@ -20,4 +19,15 @@ public class Problem {
 
     private Solution currentSolution;
 
+    public Set<Description> getProblems() {
+        return problems;
+    }
+
+    public Set<Solution> getTriedSolutions() {
+        return triedSolutions;
+    }
+
+    public Solution getCurrentSolution() {
+        return currentSolution;
+    }
 }

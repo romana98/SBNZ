@@ -12,7 +12,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
-@Getter
 @Entity
 @Table(name = "bugs")
 public class Bug {
@@ -28,4 +27,15 @@ public class Bug {
     @JoinColumn(name = "solutionId")
     private Set<Solution> solutions = new HashSet<>();
 
+    public Long getId() {
+        return id;
+    }
+
+    public Description getDescription() {
+        return description;
+    }
+
+    public Set<Solution> getSolutions() {
+        return solutions;
+    }
 }

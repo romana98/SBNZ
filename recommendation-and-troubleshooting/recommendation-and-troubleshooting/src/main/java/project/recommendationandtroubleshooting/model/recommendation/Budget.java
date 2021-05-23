@@ -7,9 +7,16 @@ import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 public class Budget {
     private Long minPrice;
     private Long maxPrice;
+
+    public Long getMinPrice() {
+        return minPrice;
+    }
+
+    public Long getMaxPrice() {
+        return maxPrice;
+    }
 }

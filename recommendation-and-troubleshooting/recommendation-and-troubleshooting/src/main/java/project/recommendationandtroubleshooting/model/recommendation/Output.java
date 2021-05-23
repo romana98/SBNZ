@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 public class Output {
 
@@ -22,5 +21,25 @@ public class Output {
 
     public void addWinner(Configuration configuration) {
         this.recommendedConfigurations.add(configuration);
+    }
+
+    public ArrayList<Configuration> getRecommendedConfigurations() {
+        return recommendedConfigurations;
+    }
+
+    public String getBudget() {
+        return budget;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getUsage() {
+        return usage;
+    }
+
+    public String getCharacteristics() {
+        return characteristics;
     }
 }

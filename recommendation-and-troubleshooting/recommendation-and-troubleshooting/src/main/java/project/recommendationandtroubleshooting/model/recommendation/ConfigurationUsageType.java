@@ -9,7 +9,6 @@ import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Setter
 @Entity
 @Table(name = "configuration_usages")
@@ -21,4 +20,12 @@ public class ConfigurationUsageType {
 
     @Column(name = "usage", unique = true, nullable = false)
     String usage;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsage() {
+        return usage;
+    }
 }
