@@ -1,4 +1,4 @@
-package project.recommendationandtroubleshooting.model;
+package project.recommendationandtroubleshooting.model.troubleshooting;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,10 +21,11 @@ public class Bug {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "problem", unique = true, nullable = false)
-    private String problem;
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private Description description;
 
-    @ElementCollection
-    private Set<String> solutions = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "solutionId")
+    private Set<Solution> solutions = new HashSet<>();
 
 }

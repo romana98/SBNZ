@@ -1,4 +1,4 @@
-package project.recommendationandtroubleshooting.model.input_model.recommendation;
+package project.recommendationandtroubleshooting.model.recommendation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

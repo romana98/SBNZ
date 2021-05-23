@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import project.recommendationandtroubleshooting.model.BugHistory;
+import project.recommendationandtroubleshooting.model.troubleshooting.BugHistory;
 import project.recommendationandtroubleshooting.service.BugHistoryService;
 
 public class BugHistoryServiceImpl implements BugHistoryService {

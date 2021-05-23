@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import project.recommendationandtroubleshooting.model.input_model.recommendation.ConfigurationCharacteristicType;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
 import project.recommendationandtroubleshooting.service.ConfigurationCharacteristicTypeService;
 
 public class ConfigurationCharacteristicTypeServiceImpl implements ConfigurationCharacteristicTypeService {

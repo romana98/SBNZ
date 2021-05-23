@@ -1,4 +1,4 @@
-package project.recommendationandtroubleshooting.model.input_model.recommendation;
+package project.recommendationandtroubleshooting.model.recommendation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,13 +12,13 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "configuration_characteristics")
-public class ConfigurationCharacteristicType {
+@Table(name = "configuration_usages")
+public class ConfigurationUsageType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "characteristic", unique = true, nullable = false)
-    String characteristic;
+    @Column(name = "usage", unique = true, nullable = false)
+    String usage;
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import project.recommendationandtroubleshooting.model.Favorite;
+import project.recommendationandtroubleshooting.model.recommendation.Favorite;
 
 public interface FavoriteService {
 

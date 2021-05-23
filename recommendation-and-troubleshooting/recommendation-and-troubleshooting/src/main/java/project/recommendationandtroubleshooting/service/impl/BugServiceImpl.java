@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import project.recommendationandtroubleshooting.model.Bug;
+import project.recommendationandtroubleshooting.model.troubleshooting.Bug;
 import project.recommendationandtroubleshooting.service.BugService;
 
 public class BugServiceImpl implements BugService {

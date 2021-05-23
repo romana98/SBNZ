@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import project.recommendationandtroubleshooting.model.Rating;
+import project.recommendationandtroubleshooting.model.recommendation.Rating;
 
 public interface RatingService {
 

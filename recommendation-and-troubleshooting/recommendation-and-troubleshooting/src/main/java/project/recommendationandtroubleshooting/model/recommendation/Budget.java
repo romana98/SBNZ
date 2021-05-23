@@ -1,4 +1,4 @@
-package project.recommendationandtroubleshooting.model.input_model.troubleshooting;
+package project.recommendationandtroubleshooting.model.recommendation;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class InputBug {
-    String problem;
-    Integer indexOfRequest = 0;
+public class Budget {
+    private Long minPrice;
+    private Long maxPrice;
 }
