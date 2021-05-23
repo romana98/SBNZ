@@ -1,4 +1,4 @@
-package rules;
+package project;
 
 import project.recommendationandtroubleshooting.model.TestModel
 

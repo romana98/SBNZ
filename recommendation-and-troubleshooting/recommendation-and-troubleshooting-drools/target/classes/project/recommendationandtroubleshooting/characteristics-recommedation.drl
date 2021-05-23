@@ -1,0 +1,105 @@
+package project;
+
+import project.recommendationandtroubleshooting.model.Configuration
+import project.recommendationandtroubleshooting.model.input_model.recommendation.InputRecommendation;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.ConfigurationUsageType;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.ConfigurationCharacteristicType;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.Budget;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.Mobility;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.Output;
+
+rule "Presenatations" 
+	agenda-group "characteristic-recommendation"
+	salience (7) 
+    when
+        $i: InputRecommendation($configurationCharacteristicType: configurationCharacteristicType)
+        $ch: ConfigurationCharacteristicType(characteristic == "Presenatations") from $configurationCharacteristicType
+        $o: Output(recommendedConfiguration.isEmpty(), usage == "done", characteristics == null, budget == "done", type == "done")
+        $configurations: List() from collect(Configuration(considered == true))
+        c1$: Configuration(CPU == "Intel® Core™ i3 Processor", RAM == "8GB DDR4 2666 MHz") from $configurations
+        c2$: Configuration(CPU == "Intel® Core™ i5 Processor") from $configurations
+    then
+    	modify($o) { setCharacteristics("done") }
+    	modify($c1) { $c1.increaseScore(10) }
+    	modify($c2) { $c2.increaseScore(5) }
+end
+
+rule "Touchscreen" 
+	agenda-group "characteristic-recommendation"
+	salience (7) 
+    when
+        $i: InputRecommendation($configurationCharacteristicType: configurationCharacteristicType)
+        $ch: ConfigurationCharacteristicType(characteristic == "Touchscreen") from $configurationCharacteristicType
+        $o: Output(recommendedConfiguration.isEmpty(), usage == "done", characteristics == null, budget == "done", type == "done")
+        $configurations: List() from collect(Configuration(considered == true))
+        c1$: Configuration(CPU == "Intel® Core™ i3 Processor", RAM == "8GB DDR4 2666 MHz") from $configurations
+        c2$: Configuration(CPU == "Intel® Core™ i5 Processor") from $configurations
+    then
+    	modify($o) { setCharacteristics("done") }
+    	modify($c1) { $c1.increaseScore(10) }
+    	modify($c2) { $c2.increaseScore(5) }
+end
+
+rule "LowBrightness" 
+	agenda-group "characteristic-recommendation"
+	salience (7) 
+    when
+        $i: InputRecommendation($configurationCharacteristicType: configurationCharacteristicType)
+        $ch: ConfigurationCharacteristicType(characteristic == "LowBrightness") from $configurationCharacteristicType
+        $o: Output(recommendedConfiguration.isEmpty(), usage == "done", characteristics == null, budget == "done", type == "done")
+        $configurations: List() from collect(Configuration(considered == true))
+        c1$: Configuration(CPU == "Intel® Core™ i3 Processor", RAM == "8GB DDR4 2666 MHz") from $configurations
+        c2$: Configuration(CPU == "Intel® Core™ i5 Processor") from $configurations
+    then
+    	modify($o) { setCharacteristics("done") }
+    	modify($c1) { $c1.increaseScore(10) }
+    	modify($c2) { $c2.increaseScore(5) }
+end
+
+rule "OnlineMeeting" 
+	agenda-group "characteristic-recommendation"
+	salience (7) 
+    when
+        $i: InputRecommendation($configurationCharacteristicType: configurationCharacteristicType)
+        $ch: ConfigurationCharacteristicType(characteristic == "OnlineMeeting") from $configurationCharacteristicType
+        $o: Output(recommendedConfiguration.isEmpty(), usage == "done", characteristics == null, budget == "done", type == "done")
+        $configurations: List() from collect(Configuration(considered == true))
+        c1$: Configuration(CPU == "Intel® Core™ i3 Processor", RAM == "8GB DDR4 2666 MHz") from $configurations
+        c2$: Configuration(CPU == "Intel® Core™ i5 Processor") from $configurations
+    then
+    	modify($o) { setCharacteristics("done") }
+    	modify($c1) { $c1.increaseScore(10) }
+    	modify($c2) { $c2.increaseScore(5) }
+end
+
+rule "LowPowerConsupmtion" 
+	agenda-group "characteristic-recommendation"
+	salience (7) 
+    when
+        $i: InputRecommendation($configurationCharacteristicType: configurationCharacteristicType)
+        $ch: ConfigurationCharacteristicType(characteristic == "LowPowerConsupmtion") from $configurationCharacteristicType
+        $o: Output(recommendedConfiguration.isEmpty(), usage == "done", characteristics == null, budget == "done", type == "done")
+        $configurations: List() from collect(Configuration(considered == true))
+        c1$: Configuration(CPU == "Intel® Core™ i3 Processor", RAM == "8GB DDR4 2666 MHz") from $configurations
+        c2$: Configuration(CPU == "Intel® Core™ i5 Processor") from $configurations
+    then
+    	modify($o) { setCharacteristics("done") }
+    	modify($c1) { $c1.increaseScore(10) }
+    	modify($c2) { $c2.increaseScore(5) }
+end
+
+rule "DamagedEyesight" 
+	agenda-group "characteristic-recommendation"
+	salience (7) 
+    when
+        $i: InputRecommendation($configurationCharacteristicType: configurationCharacteristicType)
+        $ch: ConfigurationCharacteristicType(characteristic == "DamagedEyesight") from $configurationCharacteristicType
+        $o: Output(recommendedConfiguration.isEmpty(), usage == "done", characteristics == null, budget == "done", type == "done")
+        $configurations: List() from collect(Configuration(considered == true))
+        c1$: Configuration(CPU == "Intel® Core™ i3 Processor", RAM == "8GB DDR4 2666 MHz") from $configurations
+        c2$: Configuration(CPU == "Intel® Core™ i5 Processor") from $configurations
+    then
+    	modify($o) { setCharacteristics("done") }
+    	modify($c1) { $c1.increaseScore(10) }
+    	modify($c2) { $c2.increaseScore(5) }
+

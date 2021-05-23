@@ -1,0 +1,25 @@
+package project;
+
+import project.recommendationandtroubleshooting.model.Configuration
+import project.recommendationandtroubleshooting.model.input_model.recommendation.InputRecommendation;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.ConfigurationUsageType;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.ConfigurationCharacteristicType;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.Budget;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.Mobility;
+import project.recommendationandtroubleshooting.model.input_model.recommendation.Output;
+import project.recommendationandtroubleshooting.enums.ConfigurationType
+
+
+rule "Budget" 
+	agenda-group "budget-recommendation"
+	salience (10) 
+    when
+        $i: InputRecommendation($max: budget.getMaxPrice(), $min: budget.getMinPrice()))
+        $o: Output(recommendedConfiguration.isEmpty(), usage == null, characteristics == null, budget == null, type == null)
+        $configurations: List() from collect(Configuration(considered == true))
+        c$: Configuration(price < $min || price > $max) from $configurations
+    then
+    	modify($c) { setConsidered(false) }
+    	modify($o) { setBudget("done") }
+end
+

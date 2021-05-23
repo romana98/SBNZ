@@ -78,6 +78,14 @@ public class Configuration {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ratingId")
     private Set<Rating> ratings;
+    
+    private Boolean considered = true;
+    
+    /*private int score = 0;
+    
+    public void increaseScore(int score) {
+    	this.score += score;
+    }*/
 
 
 }
