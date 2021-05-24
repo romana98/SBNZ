@@ -8,7 +8,7 @@ import project.recommendationandtroubleshooting.model.recommendation.Budget;
 import project.recommendationandtroubleshooting.model.recommendation.Mobility;
 import project.recommendationandtroubleshooting.model.recommendation.Output;
 import java.util.List;
-
+/*
 rule "Software Development" 
 	agenda-group "usage-recommendation"
 	salience (8) 
@@ -101,4 +101,4 @@ rule "PersonalUse"
     then
     	modify($o) { setUsage("done") }
     	modify($c) { $c.increaseScore(10) }
-end
+end*/

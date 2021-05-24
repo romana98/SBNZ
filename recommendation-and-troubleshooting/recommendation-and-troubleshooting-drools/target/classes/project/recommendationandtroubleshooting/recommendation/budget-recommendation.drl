@@ -8,9 +8,9 @@ import project.recommendationandtroubleshooting.model.recommendation.Budget;
 import project.recommendationandtroubleshooting.model.recommendation.Mobility;
 import project.recommendationandtroubleshooting.model.recommendation.Output;
 import project.recommendationandtroubleshooting.enums.ConfigurationType;
-import java.util.List();
+import java.util.List;
 
-
+/*
 rule "Budget" 
 	agenda-group "budget-recommendation"
 	salience (10) 
@@ -24,3 +24,4 @@ rule "Budget"
     	modify($o) { setBudget("done") }
 end
 
+*/

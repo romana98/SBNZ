@@ -1,13 +1,12 @@
 package project.recommendationandtroubleshooting.model.troubleshooting;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.lang.reflect.Array;
+import java.util.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,22 +19,34 @@ public class Bug {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    private Description description;
+    @ElementCollection
+    private Set<String> descriptions;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "solutionId")
-    private Set<Solution> solutions = new HashSet<>();
+    @ElementCollection
+    private Set<String> solutions = new HashSet<>();
+
+    public Bug(Set<String> descriptions, Set<String> solutions) {
+        this.descriptions = descriptions;
+        this.solutions = solutions;
+    }
 
     public Long getId() {
         return id;
     }
 
-    public Description getDescription() {
-        return description;
+    public Set<String> getDescriptions() {
+        return descriptions;
     }
 
-    public Set<Solution> getSolutions() {
+    public Set<String> getSolutions() {
         return solutions;
+    }
+
+    public List<String> getSortedSolutions(){
+        List<String> solutions = new ArrayList<>();
+        solutions.addAll(this.solutions);
+        Collections.sort(solutions);
+        return solutions;
+
     }
 }
