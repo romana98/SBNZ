@@ -79,11 +79,11 @@ public class Configuration {
 
     private Boolean considered = true;
 
-    private int score = 0;
+    /*private int score = 0;
 
     public void increaseScore(int score) {
         this.score += score;
-    }
+    }*/
 
 
     public Long getId() {
@@ -166,7 +166,18 @@ public class Configuration {
         return considered;
     }
 
-    public int getScore() {
+	@Override
+	public String toString() {
+		return "Configuration [id=" + id + ", price=" + price + ", type=" + type + ", CPU=" + CPU + ", GPU=" + GPU
+				+ ", RAM=" + RAM + ", OS=" + OS + ", PSU=" + PSU + ", discType=" + discType + ", discSize=" + discSize
+				+ ", motherboard=" + motherboard + ", screenSize=" + screenSize + ", screenResolution="
+				+ screenResolution + ", musicCard=" + musicCard + ", touchscreen=" + touchscreen + ", microphone="
+				+ microphone + ", camera=" + camera + ", ergonomic=" + ergonomic + "]";
+	}
+
+    /*public int getScore() {
         return score;
-    }
+    }*/
+    
+    
 }

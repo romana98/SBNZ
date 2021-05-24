@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 public class Output {
 
 
-    private ArrayList<Configuration> recommendedConfigurations = new ArrayList<Configuration>();
+    private List<Configuration> recommendedConfigurations = new ArrayList<Configuration>();
     private String budget;
     private String type;
     private String usage;
@@ -23,7 +24,7 @@ public class Output {
         this.recommendedConfigurations.add(configuration);
     }
 
-    public ArrayList<Configuration> getRecommendedConfigurations() {
+    public List<Configuration> getRecommendedConfigurations() {
         return recommendedConfigurations;
     }
 

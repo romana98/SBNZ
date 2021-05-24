@@ -1,0 +1,18 @@
+package project;
+
+import project.recommendationandtroubleshooting.model.TestModel
+
+rule "Response for Hello"
+	when
+		productObject: TestModel(incomeMessage=="Hello!")
+	then
+		productObject.setResponseMessage("Hello back!");
+	end
+
+rule "Response for GoodBye"
+	when
+		productObject: TestModel(incomeMessage=="GoodBye!")
+	then
+		productObject.setResponseMessage("Have a nice day!");
+	end
+
