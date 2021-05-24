@@ -1,7 +1,6 @@
 package project.recommendationandtroubleshooting.model.troubleshooting;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -13,21 +12,37 @@ import java.util.Set;
 @Setter
 public class Problem {
 
-    private Set<Description> problems = new HashSet<>();
+    private Set<String> problems = new HashSet<>();
 
-    private Set<Solution> triedSolutions = new HashSet<>();
+    private Set<String> triedSolutions = new HashSet<>();
 
-    private Solution currentSolution;
+    private String currentSolution;
 
-    public Set<Description> getProblems() {
+    public Problem(Set<String> problems) {
+        this.problems = problems;
+    }
+
+    public void addSolution(String solution) {
+        this.triedSolutions.add(solution);
+    }
+
+    public Set<String> getProblems() {
         return problems;
     }
 
-    public Set<Solution> getTriedSolutions() {
+    public Set<String> getTriedSolutions() {
         return triedSolutions;
     }
 
-    public Solution getCurrentSolution() {
+    public String getCurrentSolution() {
         return currentSolution;
+    }
+
+    public Set<String> moveCurrentSolution() {
+        if(this.currentSolution != null){
+            this.triedSolutions.add(this.currentSolution);
+            this.currentSolution = null;
+        }
+        return this.triedSolutions;
     }
 }

@@ -6,6 +6,7 @@ rule "Response for Hello"
 	when
 		productObject: TestModel(incomeMessage=="Hello!")
 	then
+	    System.out.println("Hello back!");
 		productObject.setResponseMessage("Hello back!");
 	end
 

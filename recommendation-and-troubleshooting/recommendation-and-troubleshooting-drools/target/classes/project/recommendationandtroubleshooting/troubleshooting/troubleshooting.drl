@@ -1,0 +1,25 @@
+package project.recommendationandtroubleshooting.troubleshooting;
+import project.recommendationandtroubleshooting.model.troubleshooting.*;
+import java.util.List;
+import java.util.Collections;
+
+rule "Troubleshooting"
+	    agenda-group "troubleshooting"
+        salience($val)
+        no-loop
+    when
+    $b: Bug($desc: descriptions, $solutions: getSortedSolutions());
+    $p: Problem($problems: problems, $triedSolutions: moveCurrentSolution());
+    Number($val: intValue >= $desc.size()) from accumulate(
+        String($t: this, $desc contains $t) from $problems,
+        count($t)
+    )
+    $s: String($th: this, $th not memberOf $triedSolutions) from $solutions
+    then
+    System.out.println("Solution:");
+    System.out.println($s);
+    System.out.println($triedSolutions);
+    modify($p){
+    setCurrentSolution($s)
+    }
+end

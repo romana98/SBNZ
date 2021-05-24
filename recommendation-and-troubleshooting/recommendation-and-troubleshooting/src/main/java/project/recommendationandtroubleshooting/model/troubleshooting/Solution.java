@@ -21,6 +21,10 @@ public class Solution {
     @Column(name = "solution", unique = true, nullable = false)
     private String solution;
 
+    public Solution(String solution){
+        this.solution = solution;
+    }
+
     public Long getId() {
         return id;
     }
