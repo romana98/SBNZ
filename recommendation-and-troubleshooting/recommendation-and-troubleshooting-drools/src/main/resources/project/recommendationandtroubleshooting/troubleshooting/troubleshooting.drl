@@ -6,10 +6,9 @@ import java.util.Collections;
 rule "Troubleshooting"
 	    agenda-group "troubleshooting"
         salience($val)
-        no-loop
     when
     $b: Bug($desc: descriptions, $solutions: getSortedSolutions());
-    $p: Problem($problems: problems, $triedSolutions: moveCurrentSolution());
+    $p: Problem($problems: problems, $triedSolutions: moveCurrentSolution(), solutionWorked == false);
     Number($val: intValue >= $desc.size()) from accumulate(
         String($t: this, $desc contains $t) from $problems,
         count($t)
@@ -20,6 +19,7 @@ rule "Troubleshooting"
     System.out.println($s);
     System.out.println($triedSolutions);
     modify($p){
-    setCurrentSolution($s)
+    setCurrentSolution($s),
+    setSolutionWorked(true)
     }
 end

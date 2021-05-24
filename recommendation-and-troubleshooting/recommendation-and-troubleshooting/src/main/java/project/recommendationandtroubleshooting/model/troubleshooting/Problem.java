@@ -18,6 +18,8 @@ public class Problem {
 
     private String currentSolution;
 
+    private boolean solutionWorked = false;
+
     public Problem(Set<String> problems) {
         this.problems = problems;
     }
@@ -36,6 +38,10 @@ public class Problem {
 
     public String getCurrentSolution() {
         return currentSolution;
+    }
+
+    public boolean isSolutionWorked() {
+        return solutionWorked;
     }
 
     public Set<String> moveCurrentSolution() {
