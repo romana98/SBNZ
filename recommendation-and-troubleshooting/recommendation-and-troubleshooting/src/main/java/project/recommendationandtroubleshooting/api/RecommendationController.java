@@ -3,12 +3,9 @@ package project.recommendationandtroubleshooting.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import project.recommendationandtroubleshooting.model.TestModel;
-import project.recommendationandtroubleshooting.model.recommendation.Output;
+import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
 import project.recommendationandtroubleshooting.service.RecommendationService;
-import project.recommendationandtroubleshooting.service.TestService;
 
 @RestController
 public class RecommendationController {
@@ -21,9 +18,9 @@ public class RecommendationController {
     }
 
     @RequestMapping(value = "/getRecommendation", method = RequestMethod.GET, produces = "application/json")
-    public Output getResponse() {
+    public Recommendations getResponse() {
 
-    	recommendationService.getRecommendation();
+        recommendationService.getRecommendation();
         return null;
     }
 }

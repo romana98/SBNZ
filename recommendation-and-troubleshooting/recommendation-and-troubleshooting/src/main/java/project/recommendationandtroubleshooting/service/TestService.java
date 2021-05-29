@@ -10,7 +10,9 @@ import project.recommendationandtroubleshooting.model.troubleshooting.Descriptio
 import project.recommendationandtroubleshooting.model.troubleshooting.Problem;
 import project.recommendationandtroubleshooting.model.troubleshooting.Solution;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -33,27 +35,28 @@ public class TestService {
 
     public Problem testTroubleshooting() {
 
-        Set<String> desc1 = new HashSet<>();
-        desc1.add("Računar ne može da se upali.");
-        desc1.add("Računar ne reaguje na power dugme.");
-        Set<String> sol1 = new HashSet<>();
-        sol1.add("2.Proveriti da li je računar uključen u struju i proveriti ispravnost power dugmeta.");
-        sol1.add("1.Odneti na dalju dijagnostiku u servis.");
+        Set<Description> desc1 = new HashSet<>();
+        desc1.add(new Description("Računar ne može da se upali."));
+        desc1.add(new Description("Računar ne reaguje na power dugme."));
+        Map<Integer, Solution> sol1 = new HashMap<>();
+        sol1.put(1, new Solution("Proveriti da li je računar uključen u struju i proveriti ispravnost power dugmeta."));
+        sol1.put(2, new Solution("Odneti na dalju dijagnostiku u servis."));
         Bug bug1 = new Bug(desc1, sol1);
 
-        Set<String> desc2 = new HashSet<>();
-        desc2.add("Računar ne može da se upali.");
-        desc2.add("Računar ne prolazi POST.");
-        Set<String> sol2 = new HashSet<>();
-        sol2.add("3.Neka periferija računara je blokirana, proveriti priključene uređaje.");
-        sol2.add("2.Izvaditi RAM iz memorije da bi se NV-RAM ponovo napunio i zatim ponovo resetovati računar.");
-        sol2.add("1.Neka komponenta računara crkava i daje loš napon, odneti na dijagnostiku u servis.");
+        Set<Description> desc2 = new HashSet<>();
+        desc2.add(new Description("Računar ne može da se upali."));
+        desc2.add(new Description("Računar ne prolazi POST."));
+        Map<Integer, Solution> sol2 = new HashMap<>();
+        sol2.put(1, new Solution("Neka periferija računara je blokirana, proveriti priključene uređaje."));
+        sol2.put(2, new Solution("Izvaditi RAM iz memorije da bi se NV-RAM ponovo napunio i zatim ponovo resetovati računar."));
+        sol2.put(3, new Solution("Neka komponenta računara crkava i daje loš napon, odneti na dijagnostiku u servis."));
         Bug bug2 = new Bug(desc2, sol2);
 
-        Set<String> desc3 = new HashSet<>();
-        desc3.add("Računar ne može da se upali.");
-        desc3.add("Računar ne reaguje na power dugme.");
+        Set<Description> desc3 = new HashSet<>();
+        desc3.add(new Description("Računar ne može da se upali."));
+        desc3.add(new Description("Računar ne reaguje na power dugme."));
         Problem problem = new Problem(desc3);
+        problem.getTriedSolutions().add(new Solution("Proveriti da li je računar uključen u struju i proveriti ispravnost power dugmeta."));
 
         KieSession kieSession = kieContainer.newKieSession();
         kieSession.insert(bug1);

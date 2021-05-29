@@ -1,16 +1,10 @@
 package project.recommendationandtroubleshooting.model.troubleshooting;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
 @Entity
 @Table(name = "bugs")
 public class Bug {
@@ -19,13 +13,27 @@ public class Bug {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ElementCollection
-    private Set<String> descriptions;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "descriptionId")
+    private Set<Description> descriptions;
 
-    @ElementCollection
-    private Set<String> solutions = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "order_solution_mapping",
+            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "solutionId", referencedColumnName = "id")})
+    private Map<Integer, Solution> solutions = new HashMap<>();
 
-    public Bug(Set<String> descriptions, Set<String> solutions) {
+    public Bug() {
+
+    }
+
+    public Bug(Long id, Set<Description> descriptions, Map<Integer, Solution> solutions) {
+        this.id = id;
+        this.descriptions = descriptions;
+        this.solutions = solutions;
+    }
+
+    public Bug(Set<Description> descriptions, Map<Integer, Solution> solutions) {
         this.descriptions = descriptions;
         this.solutions = solutions;
     }
@@ -34,19 +42,32 @@ public class Bug {
         return id;
     }
 
-    public Set<String> getDescriptions() {
+    public Set<Description> getDescriptions() {
         return descriptions;
     }
 
-    public Set<String> getSolutions() {
+    public Map<Integer, Solution> getSolutions() {
         return solutions;
     }
 
-    public List<String> getSortedSolutions(){
-        List<String> solutions = new ArrayList<>();
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDescriptions(Set<Description> descriptions) {
+        this.descriptions = descriptions;
+    }
+
+    public void setSolutions(Map<Integer, Solution> solutions) {
+        this.solutions = solutions;
+    }
+
+    /*
+    public List<Solution> getSortedSolutions(){
+        List<Solution> solutions = new ArrayList<>();
         solutions.addAll(this.solutions);
-        Collections.sort(solutions);
+        solutions.sort(Comparator.comparing(Solution::getSolution));
         return solutions;
-
     }
+    */
 }

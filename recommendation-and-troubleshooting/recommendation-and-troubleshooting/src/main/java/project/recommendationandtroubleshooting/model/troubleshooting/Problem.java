@@ -1,42 +1,46 @@
 package project.recommendationandtroubleshooting.model.troubleshooting;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.HashSet;
 import java.util.Set;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
 public class Problem {
 
-    private Set<String> problems = new HashSet<>();
+    private Set<Description> problems = new HashSet<>();
 
-    private Set<String> triedSolutions = new HashSet<>();
+    private Set<Solution> triedSolutions = new HashSet<>();
 
-    private String currentSolution;
+    private Solution currentSolution;
 
     private boolean solutionWorked = false;
 
-    public Problem(Set<String> problems) {
+    public Problem() {
+
+    }
+
+    public Problem(Set<Description> problems, Set<Solution> triedSolutions, Solution currentSolution, boolean solutionWorked) {
+        this.problems = problems;
+        this.triedSolutions = triedSolutions;
+        this.currentSolution = currentSolution;
+        this.solutionWorked = solutionWorked;
+    }
+
+    public Problem(Set<Description> problems) {
         this.problems = problems;
     }
 
-    public void addSolution(String solution) {
+    public void addSolution(Solution solution) {
         this.triedSolutions.add(solution);
     }
 
-    public Set<String> getProblems() {
+    public Set<Description> getProblems() {
         return problems;
     }
 
-    public Set<String> getTriedSolutions() {
+    public Set<Solution> getTriedSolutions() {
         return triedSolutions;
     }
 
-    public String getCurrentSolution() {
+    public Solution getCurrentSolution() {
         return currentSolution;
     }
 
@@ -44,8 +48,24 @@ public class Problem {
         return solutionWorked;
     }
 
-    public Set<String> moveCurrentSolution() {
-        if(this.currentSolution != null){
+    public void setProblems(Set<Description> problems) {
+        this.problems = problems;
+    }
+
+    public void setTriedSolutions(Set<Solution> triedSolutions) {
+        this.triedSolutions = triedSolutions;
+    }
+
+    public void setCurrentSolution(Solution currentSolution) {
+        this.currentSolution = currentSolution;
+    }
+
+    public void setSolutionWorked(boolean solutionWorked) {
+        this.solutionWorked = solutionWorked;
+    }
+
+    public Set<Solution> moveCurrentSolution() {
+        if (this.currentSolution != null) {
             this.triedSolutions.add(this.currentSolution);
             this.currentSolution = null;
         }

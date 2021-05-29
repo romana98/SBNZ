@@ -1,19 +1,64 @@
-package project;
-
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
-import project.recommendationandtroubleshooting.model.recommendation.InputRecommendation;
-import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
-import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
-import project.recommendationandtroubleshooting.model.recommendation.Budget;
-import project.recommendationandtroubleshooting.model.recommendation.Mobility;
-import project.recommendationandtroubleshooting.model.recommendation.Output;
+package project.recommendationandtroubleshooting.recommendation;
+import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
+import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageTypeRequirements;
-import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicTypeRequirements;
+import project.recommendationandtroubleshooting.model.recommendation.Configuration;
 import java.util.List;
 
+rule "Usage"
+        agenda-group "recommendation"
+	    salience (3)
+    when
+        $r: Recommendations(configurations.isEmpty())
+        $i: InputRequirements($usageType: configurationUsageType);
+        $usage: String() from $usageType.getUsage();
+        $requirements: ConfigurationUsageTypeRequirements($u: usage, $u.getUsage() == $usage,
+        $reqCPU: CPU, $reqGPU: GPU, $reqRAM: RAM, $reqOS: OS, $reqPSU: PSU, $reqDiscType: discType,
+        $reqDiscSize: discSize, $reqMotherboard: motherboard, $reqScreenSize: screenSize,
+        $reqScreenResolution: screenResolution, $reqMusicCard: musicCard,
+        $reqTouchScreen: touchscreen, $reqMicrophone: microphone, $reqCamera: camera, $reqEgronomic: ergonomic);
 
-rule "Usage" 
-	salience (8) 
+        $configurations: List() from collect(Configuration(considered == true));
+        $c: Configuration(
+    		(CPU not memberOf $reqCPU && !$reqCPU.isEmpty())
+    		||
+            (GPU not memberOf $reqGPU && !$reqGPU.isEmpty())
+            ||
+            (RAM not memberOf $reqRAM && !$reqRAM.isEmpty())
+            ||
+            (OS not memberOf $reqOS && !$reqOS.isEmpty())
+            ||
+            (PSU not memberOf $reqPSU && !$reqPSU.isEmpty())
+            ||
+            (discType not memberOf $reqDiscType && !$reqDiscType.isEmpty())
+            ||
+            (discSize not memberOf $reqDiscSize && !$reqDiscSize.isEmpty())
+            ||
+            (motherboard not memberOf $reqMotherboard && !$reqMotherboard.isEmpty())
+            ||
+            (screenSize not memberOf $reqScreenSize && !$reqScreenSize.isEmpty())
+            ||
+            (screenResolution not memberOf $reqScreenResolution && !$reqScreenResolution.isEmpty())
+            ||
+            (musicCard not memberOf $reqMusicCard && !$reqMusicCard.isEmpty())
+            ||
+            (touchscreen not memberOf $reqTouchScreen && !$reqTouchScreen.isEmpty())
+            ||
+            (microphone memberOf $reqMicrophone && !$reqMicrophone.isEmpty())
+            ||
+            (camera not memberOf $reqCamera && !$reqCamera.isEmpty())
+            ||
+            (ergonomic not memberOf $reqEgronomic && !$reqEgronomic.isEmpty())
+    	)
+    	from $configurations
+    then
+        System.out.println("Rule: Usage");
+    	modify($c) { setConsidered(false) }
+end
+
+/*
+rule "Usage"
+	salience (8)
     when
         $i: InputRecommendation($usage: configurationUsageType.getUsage())
         $o: Output(recommendedConfigurations.isEmpty(), usage == null, characteristics == null, budget == "done", type == "done")
@@ -28,8 +73,8 @@ rule "Usage"
     	modify($c) { setConsidered(false) }
 end
 
-rule "UsagePass" 
-	salience (8) 
+rule "UsagePass"
+	salience (8)
     when
         $i: InputRecommendation($usage: configurationUsageType.getUsage())
         $o: Output(recommendedConfigurations.isEmpty(), usage == null, characteristics == null, budget == "done", type == "done")
@@ -45,3 +90,4 @@ end
 
 
 
+*/

@@ -1,17 +1,9 @@
 package project.recommendationandtroubleshooting.model.recommendation;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import java.util.Date;
 
 import javax.persistence.*;
+import java.util.Date;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
 @Entity
 @Table(name = "favorites")
 public class Favorite {
@@ -25,9 +17,25 @@ public class Favorite {
 
     @Column(name = "put_to_favorite", nullable = false)
     private Long putToFavorite;
-    
+
     @Column(name = "date_of_favorite", nullable = false)
     private Date dateOfFavorite;
+
+    public Favorite() {
+    }
+
+    public Favorite(Configuration configuration, Long putToFavorite, Date dateOfFavorite) {
+        this.configuration = configuration;
+        this.putToFavorite = putToFavorite;
+        this.dateOfFavorite = dateOfFavorite;
+    }
+
+    public Favorite(Long id, Configuration configuration, Long putToFavorite, Date dateOfFavorite) {
+        this.id = id;
+        this.configuration = configuration;
+        this.putToFavorite = putToFavorite;
+        this.dateOfFavorite = dateOfFavorite;
+    }
 
     public Long getId() {
         return id;
@@ -41,9 +49,23 @@ public class Favorite {
         return putToFavorite;
     }
 
-	public Date getDateOfFavorite() {
-		return dateOfFavorite;
-	}
-    
-    
+    public Date getDateOfFavorite() {
+        return dateOfFavorite;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
+    public void setPutToFavorite(Long putToFavorite) {
+        this.putToFavorite = putToFavorite;
+    }
+
+    public void setDateOfFavorite(Date dateOfFavorite) {
+        this.dateOfFavorite = dateOfFavorite;
+    }
 }

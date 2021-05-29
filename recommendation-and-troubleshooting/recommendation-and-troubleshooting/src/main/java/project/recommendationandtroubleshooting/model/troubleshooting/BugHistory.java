@@ -1,17 +1,8 @@
 package project.recommendationandtroubleshooting.model.troubleshooting;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.Date;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
 @Entity
 @Table(name = "bug_histories")
 public class BugHistory {
@@ -22,6 +13,24 @@ public class BugHistory {
 
     @Column(name = "date_of_bug", nullable = false)
     private Date dateOfBug;
+
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
+    private Bug bug;
+
+    public BugHistory() {
+
+    }
+
+    public BugHistory(Date dateOfBug, Bug bug) {
+        this.dateOfBug = dateOfBug;
+        this.bug = bug;
+    }
+
+    public BugHistory(Long id, Date dateOfBug, Bug bug) {
+        this.id = id;
+        this.dateOfBug = dateOfBug;
+        this.bug = bug;
+    }
 
     public Long getId() {
         return id;
@@ -35,6 +44,15 @@ public class BugHistory {
         return bug;
     }
 
-    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    private Bug bug;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDateOfBug(Date dateOfBug) {
+        this.dateOfBug = dateOfBug;
+    }
+
+    public void setBug(Bug bug) {
+        this.bug = bug;
+    }
 }

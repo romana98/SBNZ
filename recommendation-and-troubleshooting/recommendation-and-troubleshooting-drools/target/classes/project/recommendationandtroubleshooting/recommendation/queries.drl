@@ -1,4 +1,4 @@
-package project;
+/*package project;
 
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
 import project.recommendationandtroubleshooting.model.recommendation.InputRecommendation;
@@ -42,3 +42,4 @@ end;
 
 
 //fali broj korisnika koji su ocijenili konfiguraciju - to je samo duzina liste ratings?
+*/
