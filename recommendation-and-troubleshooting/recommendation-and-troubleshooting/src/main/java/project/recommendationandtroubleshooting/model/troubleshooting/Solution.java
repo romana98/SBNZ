@@ -56,7 +56,6 @@ public class Solution {
             return false;
         }
         Solution s = (Solution) obj;
-
         return this.solution.equals(s.solution);
     }
 }

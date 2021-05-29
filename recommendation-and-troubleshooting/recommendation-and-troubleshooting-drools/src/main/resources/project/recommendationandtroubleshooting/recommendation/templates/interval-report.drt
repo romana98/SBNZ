@@ -17,28 +17,36 @@ import project.recommendationandtroubleshooting.enums.ConfigurationType
 import project.recommendationandtroubleshooting.model.User;
 import java.util.List;
 
-global List<Configuration> intervalPopular;
-
 //ovo treba preko queries
 //fali uslov da je najmanje 6 puta ubacen, cemu ce nam to?
 //dodala sam datum kod Favorite
 template "interval-report"
 
 rule "Popular in given interval - put to favorite at least 6 times by 4 different users in the given interval_@{row.rowNumber}" 
-no-loop true
-when
-	$c: Configuration($idConf: id)
-    accumulate(
-     	User($user: this, $favorites: favorites) and
-     	List(size > 0) from collect(
-     		Favorite($f: this, f.getConfiguration().getId() = $idConf, dateOfFavorite.isAfter(@{minDate}), dateOfFavorite.isBefore(@{maxDate})) from $favorites
-     	)
-     	$users: collectSet($user)
-    )
-    eval($users.size() >= 4)
-then
-    System.out.println("Konfiguracija: " + $c.getId());
-    intervalPopular.add($c);
+        agenda-group "interval_popular"
+        lock-on-active true
+    when
+        $pc: Configurations();
+        $confs: List() from collect (Configuration());
+        $users: List() from collect (User());
+
+        $res: List() from accumulate(
+            	    Configuration($c: this, $confId: id) from $confs and
+
+            	    Number($num: intValue() >= 4) from accumulate(
+                             	User($user: this, $favorites: favorites) from $users and
+                             		Favorite($f: this, $conf: configuration, $conf.id == $confId, putToFavorite >= 6,
+                             		dateOfFavorite.after(@{minDate}) == true,
+                             		dateOfFavorite.before(@{maxDate}) == true
+                             		) from $favorites,
+                             	count($user)
+                            ),
+                    collectList($c)
+            	)
+    then
+        System.out.println("Rule: Popular configurations in given interval");
+        modify($pc){setConfigurations($res)};
+        System.out.println($pc.getConfigurations());
 
 end template
 

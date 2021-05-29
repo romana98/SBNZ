@@ -1,44 +1,117 @@
-/*package project.recommendationandtroubleshooting.troubleshooting;
-import project.recommendationandtroubleshooting.model.troubleshooting.*;
+package project.recommendationandtroubleshooting.troubleshooting;
+import project.recommendationandtroubleshooting.model.User;
+import project.recommendationandtroubleshooting.model.troubleshooting.Bug;
+import project.recommendationandtroubleshooting.model.troubleshooting.BugHistory;
+import project.recommendationandtroubleshooting.model.troubleshooting.Bugs;
+import project.recommendationandtroubleshooting.model.troubleshooting.Solution;
 import java.util.List;
+import java.util.Set;
 import java.util.Collections;
+import java.sql.Date;
+import java.time.LocalDate;
 
-
-global List<Bug> frequentBugs;
-global List<Bug> unsolvedBugs;
-global Long userIdParameter;
-
+global Long userId;
 
 rule "Bug frequency"
+        agenda-group "bug_frequency"
+        lock-on-active true
     when
-    	$b: Bug($bugId: id)
-    	$u: User(id == userIdParameter)
-        accumulate(
-         	List(size > 10) from collect(
-         		BugHistory($bh: this, bh.getBg().getId() == $idBug, bh.getDateOfBug().isAfter(LocalDate.now().minusMonths(12)) from $u.getBugHistory()
-         	)
-        )
+        $fb: Bugs();
+        $bs: List() from collect (Bug());
+    	$u: User(id == userId, $userHistory: bugHistory);
+
+    	$res: List() from accumulate(
+                Bug($b: this) from $bs and
+                $bugHistories: List( size >= 10 ) from accumulate(
+                            BugHistory($bh: this, bug == $b,  dateOfBug.after(Date.valueOf(LocalDate.now().minusMonths(12))) == true) from $userHistory,
+                            collectList($bh)
+                       ) and
+                $bugs: Set() from accumulate(
+                                  BugHistory($bhb: bug) from $bugHistories,
+                                  collectSet($bhb)
+                             ),
+
+                collectList($b)
+                );
     then
-        System.out.println("Bug: " + $b.getId());
-        frequentBugs.add($b);
+        System.out.println("Rule: Bug frequency");
+        modify($fb){setBugs($res)};
+        System.out.println($fb.getBugs());
 end
 
 
-//fali uslov da je bug nerijesen
 rule "Unsolved bugs"
-    when
-    	$b: Bug($bugId: id)
-    	$u: User(id == userIdParameter)
-        accumulate(
-         	List(size > 5) from collect(
-         		BugHistory($bh: this, bh.getBg().getId() == $idBug, bh.getDateOfBug().isAfter(LocalDate.now().minusMonths(3)) from $u.getBugHistory()
-         	)
-        )
-    then
-        System.out.println("Bug: " + $b.getId());
-        unsolvedBugs.add($b);
+            agenda-group "unsolved_bugs"
+            lock-on-active true
+        when
+            $ub: Bugs();
+            $bs: List() from collect (Bug());
+        	$u: User(id == userId, $userHistory: bugHistory);
+
+        	$res: List() from accumulate(
+        	    Bug($b: this) from $bs and
+        	    $bugHistories: List( size >= 5 ) from accumulate(
+                                BugHistory($bh: this, bug == $b,  dateOfBug.after(Date.valueOf(LocalDate.now().minusMonths(3))) == true) from $userHistory,
+                                collectList($bh)
+                            ) and
+                $bugs: List(size >= 3) from accumulate(
+                                      BugHistory($bhb: bug, $solution: solution, $solution == $b.solutions.get($b.solutions.size())) from $bugHistories,
+                                      collectList($bhb)
+                                 ),
+                collectList($b)
+        	)
+        then
+            System.out.println("Rule: Unsolved bugs");
+            modify($ub){setBugs($res)};
+            System.out.println($ub.getBugs());
 end
 
 
+/*
+rule "Bug frequency"
+        agenda-group "bug_frequency"
+        lock-on-active true
+    when
+        $fb: Bugs();
+        $b: Bug($bug: this);
+    	$u: User(id == userId, $userHistory: bugHistory);
+    	$bugHistories: List( size >= 10 ) from accumulate(
+            BugHistory($bh: this, bug == $bug,  dateOfBug.after(Date.valueOf(LocalDate.now().minusMonths(12))) == true) from $userHistory,
+            collectList($bh)
+       );
+      $bugs: Set() from accumulate(
+                  BugHistory($bhb: bug) from $bugHistories,
+                  collectSet($bhb)
+             );
+      $resBug: Bug() from $bugs;
+    then
+        System.out.println("Rule: Bug frequency");
+        modify($fb){addBug($resBug)};
+        System.out.println($fb.getBugs());
+end
 
+
+rule "Unsolved bugs"
+            agenda-group "unsolved_bugs"
+            lock-on-active true
+        when
+            $ub: Bugs();
+            $b: Bug($bug: this);
+        	$u: User(id == userId, $userHistory: bugHistory);
+        	$bugHistories: List( size >= 5 ) from accumulate(
+                BugHistory($bh: this, bug == $bug,  dateOfBug.after(Date.valueOf(LocalDate.now().minusMonths(3))) == true) from $userHistory,
+                collectList($bh)
+            );
+            $bugs: List() from accumulate(
+                      BugHistory($bhb: bug, $solution: solution, $solution == $b.solutions.get($b.solutions.size())) from $bugHistories,
+                      collectList($bhb)
+                 );
+            eval($bugs.size() >= 3)
+
+            $resBug: Bug() from $bugs.get(0);
+        then
+            System.out.println("Rule: Unsolved bugs");
+            modify($ub){addBug($resBug)};
+            System.out.println($ub.getBugs());
+end
 */

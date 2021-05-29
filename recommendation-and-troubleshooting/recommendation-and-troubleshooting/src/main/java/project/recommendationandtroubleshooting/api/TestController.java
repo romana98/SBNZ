@@ -33,4 +33,10 @@ public class TestController {
 
         return testService.testTroubleshooting();
     }
+
+    @RequestMapping(value = "/testTroubleshootingReport", method = RequestMethod.GET, produces = "application/json")
+    public Problem testTroubleshootingReport() {
+
+        return testService.testTroubleshootingReport();
+    }
 }

@@ -62,6 +62,32 @@ public class Bug {
         this.solutions = solutions;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Bug)) {
+            return false;
+        }
+        Bug b = (Bug) obj;
+        for (Description desc : this.descriptions) {
+            for (Description descB : b.getDescriptions()) {
+                if (!desc.equals(descB)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Bug [id=" + id + " descriptions=" + descriptions.toString();
+    }
+
     /*
     public List<Solution> getSortedSolutions(){
         List<Solution> solutions = new ArrayList<>();

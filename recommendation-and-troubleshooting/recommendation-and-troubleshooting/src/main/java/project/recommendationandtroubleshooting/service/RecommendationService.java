@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.enums.DiscType;
+import project.recommendationandtroubleshooting.model.User;
 import project.recommendationandtroubleshooting.model.recommendation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -91,6 +93,59 @@ public class RecommendationService {
         for (Configuration cc : output.getConfigurations()) {
             System.out.println(cc.toString());
         }
+
+        kieSession.dispose();
+        return null;
+    }
+
+    public Configurations getCurrentlyPopular() {
+        KieSession kieSession = kieContainer.newKieSession();
+
+        Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
+        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+
+        kieSession.insert(c1);
+        kieSession.insert(c2);
+        kieSession.insert(c3);
+
+        User u1 = new User();
+        u1.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u1.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+        User u2 = new User();
+        u2.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u2.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+        User u3 = new User();
+        u3.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u3.getFavorites().add(new Favorite(c3, 1L, new Date()));
+
+        User u4 = new User();
+        u4.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u4.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+        User u5 = new User();
+        u5.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u5.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+        User u6 = new User();
+        u6.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u6.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+
+        Configurations output = new Configurations();
+
+        kieSession.insert(output);
+        kieSession.insert(u1);
+        kieSession.insert(u2);
+        kieSession.insert(u3);
+        kieSession.insert(u4);
+        kieSession.insert(u5);
+        kieSession.insert(u6);
+
+        kieSession.getAgenda().getAgendaGroup("currently_popular").setFocus();
+        kieSession.fireAllRules();
 
         kieSession.dispose();
         return null;
