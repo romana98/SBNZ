@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 import javax.persistence.*;
 
 @AllArgsConstructor
@@ -23,6 +25,9 @@ public class Favorite {
 
     @Column(name = "put_to_favorite", nullable = false)
     private Long putToFavorite;
+    
+    @Column(name = "date_of_favorite", nullable = false)
+    private Date dateOfFavorite;
 
     public Long getId() {
         return id;
@@ -35,4 +40,10 @@ public class Favorite {
     public Long getPutToFavorite() {
         return putToFavorite;
     }
+
+	public Date getDateOfFavorite() {
+		return dateOfFavorite;
+	}
+    
+    
 }

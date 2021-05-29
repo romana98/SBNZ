@@ -1,0 +1,43 @@
+package project.recommendationandtroubleshooting.troubleshooting;
+import project.recommendationandtroubleshooting.model.troubleshooting.*;
+import java.util.List;
+import java.util.Collections;
+
+
+global List<Bug> frequentBugs;
+global List<Bug> unsolvedBugs;
+global Long userIdParameter;
+
+
+rule "Bug frequency"
+    when
+    	$b: Bug($bugId: id)
+    	$u: User(id == userIdParameter)
+        accumulate(
+         	List(size > 10) from collect(
+         		BugHistory($bh: this, bh.getBg().getId() == $idBug, bh.getDateOfBug().isAfter(LocalDate.now().minusMonths(12)) from $u.getBugHistory()
+         	)
+        )
+    then
+        System.out.println("Bug: " + $b.getId());
+        frequentBugs.add($b);
+end
+
+
+//fali uslov da je bug nerijesen
+rule "Unsolved bugs"
+    when
+    	$b: Bug($bugId: id)
+    	$u: User(id == userIdParameter)
+        accumulate(
+         	List(size > 5) from collect(
+         		BugHistory($bh: this, bh.getBg().getId() == $idBug, bh.getDateOfBug().isAfter(LocalDate.now().minusMonths(3)) from $u.getBugHistory()
+         	)
+        )
+    then
+        System.out.println("Bug: " + $b.getId());
+        unsolvedBugs.add($b);
+end
+
+
+
