@@ -1,15 +1,7 @@
 package project.recommendationandtroubleshooting.model.troubleshooting;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
 @Entity
 @Table(name = "solutions")
 public class Solution {
@@ -21,7 +13,15 @@ public class Solution {
     @Column(name = "solution", unique = true, nullable = false)
     private String solution;
 
-    public Solution(String solution){
+    public Solution() {
+    }
+
+    public Solution(Long id, String solution) {
+        this.id = id;
+        this.solution = solution;
+    }
+
+    public Solution(String solution) {
         this.solution = solution;
     }
 
@@ -31,5 +31,32 @@ public class Solution {
 
     public String getSolution() {
         return solution;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setSolution(String solution) {
+        this.solution = solution;
+    }
+
+    @Override
+    public String toString() {
+        return this.getSolution();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+
+        if (!(obj instanceof Solution)) {
+            return false;
+        }
+        Solution s = (Solution) obj;
+
+        return this.solution.equals(s.solution);
     }
 }

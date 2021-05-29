@@ -1,15 +1,8 @@
 package project.recommendationandtroubleshooting.model.recommendation;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
 @Entity
 @Table(name = "favorites")
 public class Favorite {
@@ -24,6 +17,20 @@ public class Favorite {
     @Column(name = "put_to_favorite", nullable = false)
     private Long putToFavorite;
 
+    public Favorite() {
+    }
+
+    public Favorite(Configuration configuration, Long putToFavorite) {
+        this.configuration = configuration;
+        this.putToFavorite = putToFavorite;
+    }
+
+    public Favorite(Long id, Configuration configuration, Long putToFavorite) {
+        this.id = id;
+        this.configuration = configuration;
+        this.putToFavorite = putToFavorite;
+    }
+
     public Long getId() {
         return id;
     }
@@ -34,5 +41,17 @@ public class Favorite {
 
     public Long getPutToFavorite() {
         return putToFavorite;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
+    public void setPutToFavorite(Long putToFavorite) {
+        this.putToFavorite = putToFavorite;
     }
 }

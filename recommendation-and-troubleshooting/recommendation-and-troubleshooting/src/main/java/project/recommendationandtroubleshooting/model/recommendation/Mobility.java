@@ -1,17 +1,22 @@
 package project.recommendationandtroubleshooting.model.recommendation;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
 public class Mobility {
+
+    public Mobility() {
+    }
+
+
+    public Mobility(Double mobility) {
+        this.mobility = mobility;
+    }
 
     private Double mobility;
 
     public Double getMobility() {
         return mobility;
+    }
+
+    public void setMobility(Double mobility) {
+        this.mobility = mobility;
     }
 }

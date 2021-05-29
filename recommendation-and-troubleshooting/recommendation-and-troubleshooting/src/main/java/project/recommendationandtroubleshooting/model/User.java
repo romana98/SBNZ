@@ -1,9 +1,5 @@
 package project.recommendationandtroubleshooting.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import project.recommendationandtroubleshooting.model.recommendation.Favorite;
 import project.recommendationandtroubleshooting.model.troubleshooting.BugHistory;
 
@@ -11,9 +7,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
 @Entity
 @Table(name = "users")
 public class User extends Person {
@@ -32,5 +25,13 @@ public class User extends Person {
 
     public Set<Favorite> getFavorites() {
         return favorites;
+    }
+
+    public void setBugHistory(Set<BugHistory> bugHistory) {
+        this.bugHistory = bugHistory;
+    }
+
+    public void setFavorites(Set<Favorite> favorites) {
+        this.favorites = favorites;
     }
 }

@@ -1,17 +1,31 @@
 package project;
 
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
-import project.recommendationandtroubleshooting.model.recommendation.InputRecommendation;
+import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
 import project.recommendationandtroubleshooting.model.recommendation.Budget;
 import project.recommendationandtroubleshooting.model.recommendation.Mobility;
-import project.recommendationandtroubleshooting.model.recommendation.Output;
+import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
 import project.recommendationandtroubleshooting.enums.ConfigurationType
-import java.util.List;
+import java.util.Set;
 
-rule "Recommendation" 
-	salience (6) 
+
+rule "Recommendation"
+        agenda-group "recommendation"
+	    salience (1)
+    when
+        $r: Recommendations(configurations.isEmpty());
+        $configurations: Set() from collect(Configuration(considered == true));
+    then
+        System.out.println("Rule: Recommendation");
+        modify($r) { setConfigurations($configurations) };
+end
+
+
+/*
+rule "Recommendation"
+	salience (6)
     when
         $o: Output(recommendedConfigurations.isEmpty(), usage == "done", characteristics == "done", budget == "done", type == "done")
         $configurations: List() from collect(Configuration(considered == true))
@@ -20,6 +34,5 @@ rule "Recommendation"
         modify($o) { setRecommendedConfigurations($configurations) }
 end
 
-
-
+*/
 

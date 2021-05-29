@@ -1,17 +1,11 @@
 package project.recommendationandtroubleshooting.model.recommendation;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.enums.DiscType;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
 @Entity
 @Table(name = "configurations")
 public class Configuration {
@@ -77,14 +71,57 @@ public class Configuration {
     @JoinColumn(name = "ratingId")
     private Set<Rating> ratings;
 
+    @Column(name = "considered", nullable = false)
     private Boolean considered = true;
 
-    /*private int score = 0;
+    public Configuration() {
 
-    public void increaseScore(int score) {
-        this.score += score;
-    }*/
+    }
 
+    public Configuration(Long price, ConfigurationType type, String CPU, String GPU, String RAM, String OS, String PSU, DiscType discType, String discSize, String motherboard, String screenSize, String screenResolution, String musicCard, boolean touchscreen, boolean microphone, boolean camera, boolean ergonomic, Set<Rating> ratings, Boolean considered) {
+        this.price = price;
+        this.type = type;
+        this.CPU = CPU;
+        this.GPU = GPU;
+        this.RAM = RAM;
+        this.OS = OS;
+        this.PSU = PSU;
+        this.discType = discType;
+        this.discSize = discSize;
+        this.motherboard = motherboard;
+        this.screenSize = screenSize;
+        this.screenResolution = screenResolution;
+        this.musicCard = musicCard;
+        this.touchscreen = touchscreen;
+        this.microphone = microphone;
+        this.camera = camera;
+        this.ergonomic = ergonomic;
+        this.ratings = ratings;
+        this.considered = considered;
+    }
+
+    public Configuration(Long id, Long price, ConfigurationType type, String CPU, String GPU, String RAM, String OS, String PSU, DiscType discType, String discSize, String motherboard, String screenSize, String screenResolution, String musicCard, boolean touchscreen, boolean microphone, boolean camera, boolean ergonomic, Set<Rating> ratings, Boolean considered) {
+        this.id = id;
+        this.price = price;
+        this.type = type;
+        this.CPU = CPU;
+        this.GPU = GPU;
+        this.RAM = RAM;
+        this.OS = OS;
+        this.PSU = PSU;
+        this.discType = discType;
+        this.discSize = discSize;
+        this.motherboard = motherboard;
+        this.screenSize = screenSize;
+        this.screenResolution = screenResolution;
+        this.musicCard = musicCard;
+        this.touchscreen = touchscreen;
+        this.microphone = microphone;
+        this.camera = camera;
+        this.ergonomic = ergonomic;
+        this.ratings = ratings;
+        this.considered = considered;
+    }
 
     public Long getId() {
         return id;
@@ -166,18 +203,92 @@ public class Configuration {
         return considered;
     }
 
-	@Override
-	public String toString() {
-		return "Configuration [id=" + id + ", price=" + price + ", type=" + type + ", CPU=" + CPU + ", GPU=" + GPU
-				+ ", RAM=" + RAM + ", OS=" + OS + ", PSU=" + PSU + ", discType=" + discType + ", discSize=" + discSize
-				+ ", motherboard=" + motherboard + ", screenSize=" + screenSize + ", screenResolution="
-				+ screenResolution + ", musicCard=" + musicCard + ", touchscreen=" + touchscreen + ", microphone="
-				+ microphone + ", camera=" + camera + ", ergonomic=" + ergonomic + "]";
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    /*public int getScore() {
-        return score;
-    }*/
-    
-    
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public void setType(ConfigurationType type) {
+        this.type = type;
+    }
+
+    public void setCPU(String CPU) {
+        this.CPU = CPU;
+    }
+
+    public void setGPU(String GPU) {
+        this.GPU = GPU;
+    }
+
+    public void setRAM(String RAM) {
+        this.RAM = RAM;
+    }
+
+    public void setOS(String OS) {
+        this.OS = OS;
+    }
+
+    public void setPSU(String PSU) {
+        this.PSU = PSU;
+    }
+
+    public void setDiscType(DiscType discType) {
+        this.discType = discType;
+    }
+
+    public void setDiscSize(String discSize) {
+        this.discSize = discSize;
+    }
+
+    public void setMotherboard(String motherboard) {
+        this.motherboard = motherboard;
+    }
+
+    public void setScreenSize(String screenSize) {
+        this.screenSize = screenSize;
+    }
+
+    public void setScreenResolution(String screenResolution) {
+        this.screenResolution = screenResolution;
+    }
+
+    public void setMusicCard(String musicCard) {
+        this.musicCard = musicCard;
+    }
+
+    public void setTouchscreen(boolean touchscreen) {
+        this.touchscreen = touchscreen;
+    }
+
+    public void setMicrophone(boolean microphone) {
+        this.microphone = microphone;
+    }
+
+    public void setCamera(boolean camera) {
+        this.camera = camera;
+    }
+
+    public void setErgonomic(boolean ergonomic) {
+        this.ergonomic = ergonomic;
+    }
+
+    public void setRatings(Set<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    public void setConsidered(Boolean considered) {
+        this.considered = considered;
+    }
+
+    @Override
+    public String toString() {
+        return "Configuration [id=" + id + ", price=" + price + ", type=" + type + ", CPU=" + CPU + ", GPU=" + GPU
+                + ", RAM=" + RAM + ", OS=" + OS + ", PSU=" + PSU + ", discType=" + discType + ", discSize=" + discSize
+                + ", motherboard=" + motherboard + ", screenSize=" + screenSize + ", screenResolution="
+                + screenResolution + ", musicCard=" + musicCard + ", touchscreen=" + touchscreen + ", microphone="
+                + microphone + ", camera=" + camera + ", ergonomic=" + ergonomic + "]";
+    }
 }

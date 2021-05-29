@@ -1,13 +1,5 @@
 package project.recommendationandtroubleshooting.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
 public class TestModel {
 
     private String incomeMessage;
@@ -19,5 +11,13 @@ public class TestModel {
 
     public String getResponseMessage() {
         return responseMessage;
+    }
+
+    public void setIncomeMessage(String incomeMessage) {
+        this.incomeMessage = incomeMessage;
+    }
+
+    public void setResponseMessage(String responseMessage) {
+        this.responseMessage = responseMessage;
     }
 }

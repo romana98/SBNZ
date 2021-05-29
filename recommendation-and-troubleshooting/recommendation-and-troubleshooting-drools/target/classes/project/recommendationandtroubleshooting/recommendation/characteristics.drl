@@ -1,19 +1,72 @@
-package project;
+package project.recommendationandtroubleshooting.recommendation;
 
+import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
-import project.recommendationandtroubleshooting.model.recommendation.InputRecommendation;
+import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
 import project.recommendationandtroubleshooting.model.recommendation.Budget;
 import project.recommendationandtroubleshooting.model.recommendation.Mobility;
-import project.recommendationandtroubleshooting.model.recommendation.Output;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageTypeRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicTypeRequirements;
+import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
 import java.util.List;
 
+rule "Characteristics"
+        agenda-group "recommendation"
+        salience (2)
+    when
+        $r: Recommendations(configurations.empty)
+        $i: InputRequirements($configurationCharacteristicType: configurationCharacteristicType);
+        $cct: ConfigurationCharacteristicType($characteristic: characteristic) from $configurationCharacteristicType;
 
-rule "Characteristics" 
-	salience (7) 
+        $requirements: ConfigurationCharacteristicTypeRequirements($char: characteristic, $char.getCharacteristic() == $characteristic,
+        $reqCPU: CPU, $reqGPU: GPU, $reqRAM: RAM, $reqOS: OS, $reqPSU: PSU, $reqDiscType: discType,
+                $reqDiscSize: discSize, $reqMotherboard: motherboard, $reqScreenSize: screenSize,
+                $reqScreenResolution: screenResolution, $reqMusicCard: musicCard,
+                $reqTouchScreen: touchscreen, $reqMicrophone: microphone, $reqCamera: camera, $reqEgronomic: ergonomic);
+
+        $configurations: List() from collect(Configuration(considered == true))
+        $c: Configuration(
+           (CPU not memberOf $reqCPU && !$reqCPU.isEmpty())
+           ||
+           (GPU not memberOf $reqGPU && !$reqGPU.isEmpty())
+           ||
+           (RAM not memberOf $reqRAM && !$reqRAM.isEmpty())
+           ||
+           (OS not memberOf $reqOS && !$reqOS.isEmpty())
+           ||
+           (PSU not memberOf $reqPSU && !$reqPSU.isEmpty())
+           ||
+           (discType not memberOf $reqDiscType && !$reqDiscType.isEmpty())
+           ||
+           (discSize not memberOf $reqDiscSize && !$reqDiscSize.isEmpty())
+           ||
+           (motherboard not memberOf $reqMotherboard && !$reqMotherboard.isEmpty())
+           ||
+           (screenSize not memberOf $reqScreenSize && !$reqScreenSize.isEmpty())
+           ||
+           (screenResolution not memberOf $reqScreenResolution && !$reqScreenResolution.isEmpty())
+           ||
+           (musicCard not memberOf $reqMusicCard && !$reqMusicCard.isEmpty())
+           ||
+           (touchscreen not memberOf $reqTouchScreen && !$reqTouchScreen.isEmpty())
+           ||
+           (microphone not memberOf $reqMicrophone && !$reqMicrophone.isEmpty())
+           ||
+           (camera not memberOf $reqCamera && !$reqCamera.isEmpty())
+           ||
+           (ergonomic not memberOf $reqEgronomic && !$reqEgronomic.isEmpty())
+        )
+        from $configurations
+    then
+        System.out.println("Rule: Characteristics");
+        modify($c) { setConsidered(false) }
+end
+
+/*
+rule "Characteristics"
+	salience (7)
     when
         $i: InputRecommendation($configurationCharacteristicType: configurationCharacteristicType)
         $ch: ConfigurationCharacteristicType($characteristic: characteristic) from $configurationCharacteristicType
@@ -29,8 +82,8 @@ rule "Characteristics"
     	modify($c) { setConsidered(false) }
 end
 
-rule "CharacteristicsPass" 
-	salience (7) 
+rule "CharacteristicsPass"
+	salience (7)
     when
         $i: InputRecommendation($configurationCharacteristicType: configurationCharacteristicType)
         $ch: ConfigurationCharacteristicType($characteristic: characteristic) from $configurationCharacteristicType
@@ -44,7 +97,4 @@ rule "CharacteristicsPass"
     then
     	modify($o) { setCharacteristics("done") }
 end
-
-
-
-
+*/

@@ -1,17 +1,43 @@
-package project;
-
+package project.recommendationandtroubleshooting.recommendation;
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
-import project.recommendationandtroubleshooting.model.recommendation.InputRecommendation;
+import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
 import project.recommendationandtroubleshooting.model.recommendation.Budget;
 import project.recommendationandtroubleshooting.model.recommendation.Mobility;
-import project.recommendationandtroubleshooting.model.recommendation.Output;
+import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
 import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import java.util.List;
 
-rule "Desktop" 
-	salience (9) 
+rule "Desktop"
+        agenda-group "recommendation"
+	    salience (4)
+    when
+        $r: Recommendations(configurations.isEmpty())
+        $i: InputRequirements($mobility: mobility, $mobility.getMobility() < 50)
+        $configurations: List() from collect(Configuration(considered == true))
+        $c: Configuration(type == ConfigurationType.LAPTOP) from $configurations
+    then
+        System.out.println("Rule: Desktop");
+    	modify($c) { setConsidered(false) }
+end
+
+rule "Laptop"
+        agenda-group "recommendation"
+	    salience (4)
+    when
+        $r: Recommendations(configurations.isEmpty())
+        $i: InputRequirements($mobility: mobility, $mobility.getMobility() >= 50)
+        $configurations: List() from collect(Configuration(considered == true))
+        $c: Configuration(type == ConfigurationType.DESKTOP) from $configurations
+    then
+        System.out.println("Rule: Laptop");
+    	modify($c) { setConsidered(false) }
+end
+
+/*
+rule "Desktop"
+	salience (9)
     when
         $i: InputRecommendation(mobility.getMobility() < 50)
         $o: Output(recommendedConfigurations.isEmpty(), usage == null, characteristics == null, budget == "done", type == null)
@@ -22,8 +48,8 @@ rule "Desktop"
     	modify($o) { setType("done") }
 end
 
-rule "Laptop" 
-	salience (9) 
+rule "Laptop"
+	salience (9)
     when
         $i: InputRecommendation(mobility.getMobility() >= 50)
         $o: Output(recommendedConfigurations.isEmpty(), usage == null, characteristics == null, budget == "done", type == null)
@@ -32,4 +58,4 @@ rule "Laptop"
     then
     	modify($c) { setConsidered(false) }
     	modify($o) { setType("done") }
-end
+end*/
