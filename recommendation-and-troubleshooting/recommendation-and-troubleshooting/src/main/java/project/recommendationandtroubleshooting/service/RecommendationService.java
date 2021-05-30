@@ -1,16 +1,33 @@
 package project.recommendationandtroubleshooting.service;
 
+import org.drools.template.ObjectDataCompiler;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import project.recommendationandtroubleshooting.dto.IntervalDTO;
 import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.enums.DiscType;
+import project.recommendationandtroubleshooting.model.User;
 import project.recommendationandtroubleshooting.model.recommendation.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.apache.maven.shared.invoker.DefaultInvocationRequest;
+import org.apache.maven.shared.invoker.DefaultInvoker;
+import org.apache.maven.shared.invoker.InvocationRequest;
+import org.apache.maven.shared.invoker.Invoker;
 
 
 @Service
@@ -95,6 +112,144 @@ public class RecommendationService {
         kieSession.dispose();
         return null;
     }
+
+    public Configurations getCurrentlyPopular() {
+        KieSession kieSession = kieContainer.newKieSession();
+
+        Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
+        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+
+        kieSession.insert(c1);
+        kieSession.insert(c2);
+        kieSession.insert(c3);
+
+        User u1 = new User();
+        u1.getFavorites().add(new Favorite(c1, 6L, new Date()));
+        u1.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+        User u2 = new User();
+        u2.getFavorites().add(new Favorite(c1, 6L, new Date()));
+        u2.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+        User u3 = new User();
+        u3.getFavorites().add(new Favorite(c1, 6L, new Date()));
+        u3.getFavorites().add(new Favorite(c3, 1L, new Date()));
+
+        User u4 = new User();
+        u4.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u4.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+        User u5 = new User();
+        u5.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u5.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+        User u6 = new User();
+        u6.getFavorites().add(new Favorite(c1, 6L, new Date()));
+        u6.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+
+        Configurations output = new Configurations();
+
+        kieSession.insert(output);
+        kieSession.insert(u1);
+        kieSession.insert(u2);
+        kieSession.insert(u3);
+        kieSession.insert(u4);
+        kieSession.insert(u5);
+        kieSession.insert(u6);
+
+        kieSession.getAgenda().getAgendaGroup("interval_popular1").setFocus();
+        kieSession.fireAllRules();
+
+        kieSession.dispose();
+        return null;
+    }
+    
+    public Configurations getIntervalPopular() {
+    	KieSession kieSession = kieContainer.newKieSession();
+    
+		try {
+			InputStream template = new FileInputStream(
+					"..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\templates\\interval-report.drt");
+
+			List<IntervalDTO> arguments = new ArrayList<>();
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm");
+            arguments.add(new IntervalDTO("2021-05-28", "2021-05-31"));
+			ObjectDataCompiler compiler = new ObjectDataCompiler();
+			String drl = compiler.compile(arguments, template);
+
+			FileOutputStream drlFile = new FileOutputStream(new File(
+					"..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\interval-report.drl"));
+			drlFile.write(drl.getBytes());
+			drlFile.close();
+
+			InvocationRequest request = new DefaultInvocationRequest();
+			request.setPomFile(new File("../recommendation-and-troibleshooting/pom.xml"));
+			request.setGoals(Arrays.asList("clean", "install"));
+
+			Invoker invoker = new DefaultInvoker();
+			invoker.setMavenHome(new File(System.getenv("M2_HOME")));
+			invoker.execute(request);
+			
+			// Fire new rule
+				
+			Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+	        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
+	        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+
+	        kieSession.insert(c1);
+	        kieSession.insert(c2);
+	        kieSession.insert(c3);
+
+	        User u1 = new User();
+	        u1.getFavorites().add(new Favorite(c1, 1L, new Date()));
+	        u1.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+	        User u2 = new User();
+	        u2.getFavorites().add(new Favorite(c1, 1L, new Date()));
+	        u2.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+	        User u3 = new User();
+	        u3.getFavorites().add(new Favorite(c1, 1L, new Date()));
+	        u3.getFavorites().add(new Favorite(c3, 1L, new Date()));
+
+	        User u4 = new User();
+	        u4.getFavorites().add(new Favorite(c1, 1L, new Date()));
+	        u4.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+	        User u5 = new User();
+	        u5.getFavorites().add(new Favorite(c1, 1L, new Date()));
+	        u5.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+	        User u6 = new User();
+	        u6.getFavorites().add(new Favorite(c1, 1L, new Date()));
+	        u6.getFavorites().add(new Favorite(c2, 1L, new Date()));
+
+
+	        Configurations output = new Configurations();
+
+	        kieSession.insert(output);
+	        kieSession.insert(u1);
+	        kieSession.insert(u2);
+	        kieSession.insert(u3);
+	        kieSession.insert(u4);
+	        kieSession.insert(u5);
+	        kieSession.insert(u6);
+
+	        kieSession.getAgenda().getAgendaGroup("currently_popular").setFocus();
+	        kieSession.fireAllRules();
+
+	        kieSession.dispose();
+	        return null;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+    }
+    
+    
     /*ConfigurationUsageType usage3 = new ConfigurationUsageType(3L, "Editing");
         ConfigurationUsageType usage4 = new ConfigurationUsageType(4L, "Bookkeeping");
         ConfigurationUsageType usage5 = new ConfigurationUsageType(5L, "3DDesign");

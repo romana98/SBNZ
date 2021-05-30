@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import project.recommendationandtroubleshooting.model.recommendation.Configurations;
 import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
 import project.recommendationandtroubleshooting.service.RecommendationService;
 
@@ -21,6 +22,20 @@ public class RecommendationController {
     public Recommendations getResponse() {
 
         recommendationService.getRecommendation();
+        return null;
+    }
+
+    @RequestMapping(value = "/getCurrentlyPopular", method = RequestMethod.GET, produces = "application/json")
+    public Configurations getCurrentlyPopular() {
+
+        recommendationService.getCurrentlyPopular();
+        return null;
+    }
+    
+    @RequestMapping(value = "/getIntervalPopular", method = RequestMethod.GET, produces = "application/json")
+    public Configurations getIntervalPopular() {
+
+        recommendationService.getIntervalPopular();
         return null;
     }
 }

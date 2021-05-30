@@ -1,0 +1,50 @@
+template header
+
+minRate
+maxRate
+
+package project;
+
+import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.InputRecommendation;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
+import project.recommendationandtroubleshooting.model.recommendation.Budget;
+import project.recommendationandtroubleshooting.model.recommendation.Mobility;
+import project.recommendationandtroubleshooting.model.recommendation.Output;
+import project.recommendationandtroubleshooting.model.recommendation.Favorite;
+import project.recommendationandtroubleshooting.enums.ConfigurationType
+import project.recommendationandtroubleshooting.model.User;
+import java.util.List;
+
+
+//ovo mozda treba preko query
+template "interval-rating"
+
+global List<Configuration> intervalRated;
+
+query getAverage(Long configurationId, $average)
+	$c: Configuration(id == configurationId);
+	$average: Number() from accumulate (
+		Rating($rate: rate) from $c.getRatings(),
+		avg($rate));
+end;
+
+
+rule "Get configurations rated between minRate and maxRate_@{row.rowNumber}" 
+no-loop true
+when
+	$c: Configuration($idConf: id)
+	?getAverage(Long $c.getId(), $average)
+    accumulate(
+     	User($user: this, $favorites: favorites) and
+     	List(size > 0) from collect(
+     		Favorite($f: this, f.getConfiguration().getId() = $idConf, $average >= @{minRate}, $average <= @{maxRate}) from $favorites
+     	)
+    )
+then
+    System.out.println("Konfiguracija: " + $c.getId());
+    intervalRated.add($c);
+
+end template
+

@@ -2,6 +2,7 @@ package project.recommendationandtroubleshooting.model.recommendation;
 
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "favorites")
@@ -17,18 +18,41 @@ public class Favorite {
     @Column(name = "put_to_favorite", nullable = false)
     private Long putToFavorite;
 
+    @Column(name = "date_of_favorite", nullable = false)
+    private Date dateOfFavorite;
+
+    @Column(name = "active", nullable = false)
+    private boolean active = true;
+
     public Favorite() {
     }
 
-    public Favorite(Configuration configuration, Long putToFavorite) {
+    public Favorite(Configuration configuration, Long putToFavorite, Date dateOfFavorite) {
         this.configuration = configuration;
         this.putToFavorite = putToFavorite;
+        this.dateOfFavorite = dateOfFavorite;
     }
 
-    public Favorite(Long id, Configuration configuration, Long putToFavorite) {
+    public Favorite(Long id, Configuration configuration, Long putToFavorite, Date dateOfFavorite) {
         this.id = id;
         this.configuration = configuration;
         this.putToFavorite = putToFavorite;
+        this.dateOfFavorite = dateOfFavorite;
+    }
+
+    public Favorite(Long id, Configuration configuration, Long putToFavorite, Date dateOfFavorite, boolean active) {
+        this.id = id;
+        this.configuration = configuration;
+        this.putToFavorite = putToFavorite;
+        this.dateOfFavorite = dateOfFavorite;
+        this.active = active;
+    }
+
+    public Favorite(Configuration configuration, Long putToFavorite, Date dateOfFavorite, boolean active) {
+        this.configuration = configuration;
+        this.putToFavorite = putToFavorite;
+        this.dateOfFavorite = dateOfFavorite;
+        this.active = active;
     }
 
     public Long getId() {
@@ -43,6 +67,10 @@ public class Favorite {
         return putToFavorite;
     }
 
+    public Date getDateOfFavorite() {
+        return dateOfFavorite;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -53,5 +81,17 @@ public class Favorite {
 
     public void setPutToFavorite(Long putToFavorite) {
         this.putToFavorite = putToFavorite;
+    }
+
+    public void setDateOfFavorite(Date dateOfFavorite) {
+        this.dateOfFavorite = dateOfFavorite;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
