@@ -1,0 +1,60 @@
+package project;
+
+import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.Configurations;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
+import project.recommendationandtroubleshooting.model.recommendation.Budget;
+import project.recommendationandtroubleshooting.model.recommendation.Mobility;
+import project.recommendationandtroubleshooting.model.recommendation.Favorite;
+import project.recommendationandtroubleshooting.enums.ConfigurationType
+import project.recommendationandtroubleshooting.model.User;
+
+import java.util.List;
+
+rule "Currently popular configurations - put to favorite by at least 5 users"
+        agenda-group "currently_popular"
+        lock-on-active true
+    when
+        $pc: Configurations();
+    	$confs: List() from collect (Configuration());
+    	$users: List() from collect (User());
+
+    	$res: List() from accumulate(
+    	    Configuration($c: this, $confId: id) from $confs and
+
+    	    Number($num: intValue() >= 5) from accumulate(
+                     	User($user: this, $favorites: favorites) from $users and
+                     		Favorite($f: this, $conf: configuration, $conf.id == $confId) from $favorites,
+                     	count($user)
+                    ),
+            collectList($c)
+    	)
+    then
+        System.out.println("Rule: Currently popular configurations");
+        modify($pc){setConfigurations($res)};
+        System.out.println($pc.getConfigurations());
+end
+
+/*
+rule "Currently popular configurations - put to favorite by at least 5 users"
+        agenda-group "currently_popular"
+        lock-on-active true
+    when
+        $pc: Configurations();
+    	$c: Configuration($confId: id)
+    	$users: List() from collect (User());
+
+        Number($num: intValue()) from accumulate(
+         	User($user: this, $favorites: favorites) from $users and
+         		Favorite($f: this, $conf: configuration, $conf.id == $confId) from $favorites,
+         	count($user)
+        )
+        eval($num >= 5)
+    then
+        System.out.println("Rule: Unsolved bugs");
+        modify($pc){addConfiguration($c)};
+        System.out.println($pc.getConfigurations());
+end
+
+*/

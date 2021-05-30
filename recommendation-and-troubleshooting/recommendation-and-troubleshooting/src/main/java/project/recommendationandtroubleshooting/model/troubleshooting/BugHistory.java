@@ -14,6 +14,10 @@ public class BugHistory {
     @Column(name = "date_of_bug", nullable = false)
     private Date dateOfBug;
 
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "solution_id", referencedColumnName = "id")
+    private Solution solution;
+
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Bug bug;
 
@@ -21,14 +25,16 @@ public class BugHistory {
 
     }
 
-    public BugHistory(Date dateOfBug, Bug bug) {
+    public BugHistory(Date dateOfBug, Solution solution, Bug bug) {
         this.dateOfBug = dateOfBug;
+        this.solution = solution;
         this.bug = bug;
     }
 
-    public BugHistory(Long id, Date dateOfBug, Bug bug) {
+    public BugHistory(Long id, Date dateOfBug, Solution solution, Bug bug) {
         this.id = id;
         this.dateOfBug = dateOfBug;
+        this.solution = solution;
         this.bug = bug;
     }
 
@@ -36,23 +42,36 @@ public class BugHistory {
         return id;
     }
 
-    public Date getDateOfBug() {
-        return dateOfBug;
-    }
-
-    public Bug getBug() {
-        return bug;
-    }
-
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDateOfBug() {
+        return dateOfBug;
     }
 
     public void setDateOfBug(Date dateOfBug) {
         this.dateOfBug = dateOfBug;
     }
 
+    public Solution getSolution() {
+        return solution;
+    }
+
+    public void setSolution(Solution solution) {
+        this.solution = solution;
+    }
+
+    public Bug getBug() {
+        return bug;
+    }
+
     public void setBug(Bug bug) {
         this.bug = bug;
+    }
+
+    @Override
+    public String toString() {
+        return solution.toString();
     }
 }

@@ -16,7 +16,7 @@ rule "Characteristics"
         agenda-group "recommendation"
         salience (2)
     when
-        $r: Recommendations(configurations.empty)
+        $r: Recommendations(configurations.isEmpty())
         $i: InputRequirements($configurationCharacteristicType: configurationCharacteristicType);
         $cct: ConfigurationCharacteristicType($characteristic: characteristic) from $configurationCharacteristicType;
 
