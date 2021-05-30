@@ -13,12 +13,14 @@ import org.kie.api.runtime.KieSession;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import project.recommendationandtroubleshooting.dto.IntervalDTO;
+import project.recommendationandtroubleshooting.dto.RateDTO;
 import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.enums.DiscType;
 import project.recommendationandtroubleshooting.model.User;
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
 import project.recommendationandtroubleshooting.model.recommendation.Configurations;
 import project.recommendationandtroubleshooting.model.recommendation.Favorite;
+import project.recommendationandtroubleshooting.model.recommendation.Rating;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -117,6 +120,73 @@ public class TemplateTest {
             kieSession.fireAllRules();
 
             assertEquals(1, output.getConfigurations().size());
+
+            kieSession.dispose();
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+    
+    
+    @Test
+    public void testSearchByRateTemplateRule() {
+
+        KieServices kieServices = KieServices.Factory.get();
+        KieContainer kieContainer = kieServices.getKieClasspathContainer();
+        KieSession kieSession = kieContainer.newKieSession();
+
+        try {
+            InputStream template = new FileInputStream(
+                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\templates\\search-by-rate.drt");
+
+            List<RateDTO> arguments = new ArrayList<RateDTO>();
+            arguments.add(new RateDTO(2.0, 5.0));
+            ObjectDataCompiler compiler = new ObjectDataCompiler();
+            System.out.println("++++++++++++++++++++++++++++++++");
+            String drl = compiler.compile(arguments, template);
+
+            FileOutputStream drlFile = new FileOutputStream(new File(
+                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\search-by-rate.drl"), false);
+            drlFile.write(drl.getBytes());
+            drlFile.close();
+
+            InvocationRequest request = new DefaultInvocationRequest();
+            //request.setInputStream(InputStream.nullInputStream());
+            request.setPomFile(new File("../recommendation-and-troibleshooting/pom.xml"));
+            request.setGoals(Arrays.asList("clean", "install"));
+
+            Invoker invoker = new DefaultInvoker();
+            invoker.setMavenHome(new File(System.getenv("M2_HOME")));
+            invoker.execute(request);
+
+            // Fire new rule
+
+            Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+            Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
+            Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+
+            c1.setRatings(new HashSet<Rating>());
+    	    c2.setRatings(new HashSet<Rating>());
+    	    c3.setRatings(new HashSet<Rating>());
+    	    c1.getRatings().add(new Rating(1L, 1.0));
+    	    c2.getRatings().add(new Rating(2L, 3.0));
+    	    c3.getRatings().add(new Rating(3L, 5.0));
+    	    
+            kieSession.insert(c1);
+            kieSession.insert(c2);
+            kieSession.insert(c3);
+
+            Configurations output = new Configurations();
+            output.setConfigurations(new ArrayList<Configuration>());
+            kieSession.insert(output);
+
+            kieSession.getAgenda().getAgendaGroup("search-by-rate").setFocus();
+            kieSession.fireAllRules();
+
+            assertEquals(2, output.getConfigurations().size());
 
             kieSession.dispose();
 

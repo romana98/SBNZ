@@ -3,48 +3,44 @@ template header
 minRate
 maxRate
 
-package project;
-
+package project.recommendationandtroubleshooting.recommendation;
+import project.recommendationandtroubleshooting.model.recommendation.Configurations;
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
-import project.recommendationandtroubleshooting.model.recommendation.InputRecommendation;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
 import project.recommendationandtroubleshooting.model.recommendation.Budget;
 import project.recommendationandtroubleshooting.model.recommendation.Mobility;
-import project.recommendationandtroubleshooting.model.recommendation.Output;
 import project.recommendationandtroubleshooting.model.recommendation.Favorite;
+import project.recommendationandtroubleshooting.model.recommendation.Rating;
 import project.recommendationandtroubleshooting.enums.ConfigurationType
 import project.recommendationandtroubleshooting.model.User;
 import java.util.List;
 
 
-//ovo mozda treba preko query
 template "interval-rating"
 
-global List<Configuration> intervalRated;
 
-query getAverage(Long configurationId, $average)
-	$c: Configuration(id == configurationId);
-	$average: Number() from accumulate (
-		Rating($rate: rate) from $c.getRatings(),
-		avg($rate));
+query getAverageRating(Long configurationId, double $average)
+	$c: Configuration(id == configurationId, $ratings: ratings);
+	$average:= Number() from accumulate (
+		Rating($rate: rate) from $ratings,
+		average($rate));
 end;
 
 
 rule "Get configurations rated between minRate and maxRate_@{row.rowNumber}" 
-no-loop true
-when
-	$c: Configuration($idConf: id)
-	?getAverage(Long $c.getId(), $average)
-    accumulate(
-     	User($user: this, $favorites: favorites) and
-     	List(size > 0) from collect(
-     		Favorite($f: this, f.getConfiguration().getId() = $idConf, $average >= @{minRate}, $average <= @{maxRate}) from $favorites
-     	)
-    )
+	agenda-group "search-by-rate"
+when	
+	$pc: Configurations();
+	$c: Configuration($idConf: id);
+	?getAverageRating($idConf, $average;)
+	eval($average >= @{minRate} && $average <= @{maxRate})
 then
-    System.out.println("Konfiguracija: " + $c.getId());
-    intervalRated.add($c);
+    System.out.println("Average: " + $average);
+    modify($pc){getConfigurations().add($c)};
+    System.out.println($pc.getConfigurations());
+    System.out.println($pc.getConfigurations().size());
+end
 
 end template
 

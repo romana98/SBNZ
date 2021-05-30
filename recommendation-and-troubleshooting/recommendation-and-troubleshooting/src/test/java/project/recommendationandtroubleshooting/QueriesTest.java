@@ -52,15 +52,13 @@ public class QueriesTest {
         
         kieSession.insert(c1);
 
-        Double sum = 0.0;
-        Long num = 0L;
+        Double average = 0.0;
         QueryResults results = kieSession.getQueryResults("Average rating", 1L);
         for (QueryResultsRow queryResult: results) {
-        	sum = (Double) queryResult.get("$sum");
-        	num = (Long) queryResult.get("$num");
+        	average = (Double) queryResult.get("$average");
         }
         
-        assertTrue(sum/num == 4);
+        assertTrue(average == 4);
         
         kieSession.dispose();
 

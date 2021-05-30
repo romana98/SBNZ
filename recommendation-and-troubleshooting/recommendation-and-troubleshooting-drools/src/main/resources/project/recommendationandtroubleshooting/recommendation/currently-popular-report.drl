@@ -39,7 +39,7 @@ rule "Currently popular configurations - put to favorite by at least 5 users"
 end
 
 
-rule "Popular in given interval - put to favorite at least 6 times by 4 different users in the given interval1"
+/*rule "Popular in given interval - put to favorite at least 6 times by 4 different users in the given interval1"
         agenda-group "interval_popular1"
         lock-on-active true
     when
@@ -64,7 +64,7 @@ rule "Popular in given interval - put to favorite at least 6 times by 4 differen
         modify($pc){setConfigurations($res)};
         System.out.println($pc.getConfigurations());
 end
-
+*/
 /*
 rule "Currently popular configurations - put to favorite by at least 5 users"
         agenda-group "currently_popular"
