@@ -125,15 +125,15 @@ public class RecommendationService {
         kieSession.insert(c3);
 
         User u1 = new User();
-        u1.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u1.getFavorites().add(new Favorite(c1, 6L, new Date()));
         u1.getFavorites().add(new Favorite(c2, 1L, new Date()));
 
         User u2 = new User();
-        u2.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u2.getFavorites().add(new Favorite(c1, 6L, new Date()));
         u2.getFavorites().add(new Favorite(c2, 1L, new Date()));
 
         User u3 = new User();
-        u3.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u3.getFavorites().add(new Favorite(c1, 6L, new Date()));
         u3.getFavorites().add(new Favorite(c3, 1L, new Date()));
 
         User u4 = new User();
@@ -145,7 +145,7 @@ public class RecommendationService {
         u5.getFavorites().add(new Favorite(c2, 1L, new Date()));
 
         User u6 = new User();
-        u6.getFavorites().add(new Favorite(c1, 1L, new Date()));
+        u6.getFavorites().add(new Favorite(c1, 6L, new Date()));
         u6.getFavorites().add(new Favorite(c2, 1L, new Date()));
 
 
@@ -159,7 +159,7 @@ public class RecommendationService {
         kieSession.insert(u5);
         kieSession.insert(u6);
 
-        kieSession.getAgenda().getAgendaGroup("currently_popular").setFocus();
+        kieSession.getAgenda().getAgendaGroup("interval_popular1").setFocus();
         kieSession.fireAllRules();
 
         kieSession.dispose();
@@ -175,7 +175,7 @@ public class RecommendationService {
 
 			List<IntervalDTO> arguments = new ArrayList<>();
 			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm");
-			arguments.add(new IntervalDTO(sdf.parse("27-05-2021 10:00"), new Date()));
+            arguments.add(new IntervalDTO("2021-05-28", "2021-05-31"));
 			ObjectDataCompiler compiler = new ObjectDataCompiler();
 			String drl = compiler.compile(arguments, template);
 

@@ -21,6 +21,9 @@ public class Favorite {
     @Column(name = "date_of_favorite", nullable = false)
     private Date dateOfFavorite;
 
+    @Column(name = "active", nullable = false)
+    private boolean active = true;
+
     public Favorite() {
     }
 
@@ -35,6 +38,21 @@ public class Favorite {
         this.configuration = configuration;
         this.putToFavorite = putToFavorite;
         this.dateOfFavorite = dateOfFavorite;
+    }
+
+    public Favorite(Long id, Configuration configuration, Long putToFavorite, Date dateOfFavorite, boolean active) {
+        this.id = id;
+        this.configuration = configuration;
+        this.putToFavorite = putToFavorite;
+        this.dateOfFavorite = dateOfFavorite;
+        this.active = active;
+    }
+
+    public Favorite(Configuration configuration, Long putToFavorite, Date dateOfFavorite, boolean active) {
+        this.configuration = configuration;
+        this.putToFavorite = putToFavorite;
+        this.dateOfFavorite = dateOfFavorite;
+        this.active = active;
     }
 
     public Long getId() {
@@ -67,5 +85,13 @@ public class Favorite {
 
     public void setDateOfFavorite(Date dateOfFavorite) {
         this.dateOfFavorite = dateOfFavorite;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

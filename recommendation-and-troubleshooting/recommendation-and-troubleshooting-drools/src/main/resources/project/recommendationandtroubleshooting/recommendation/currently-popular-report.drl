@@ -1,4 +1,4 @@
-package project;
+package project.recommendationandtroubleshooting.recommendation;
 
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
 import project.recommendationandtroubleshooting.model.recommendation.Configurations;
@@ -11,6 +11,8 @@ import project.recommendationandtroubleshooting.enums.ConfigurationType
 import project.recommendationandtroubleshooting.model.User;
 
 import java.util.List;
+import java.sql.Date;
+import java.time.LocalDate;
 
 rule "Currently popular configurations - put to favorite by at least 5 users"
         agenda-group "currently_popular"
@@ -25,13 +27,40 @@ rule "Currently popular configurations - put to favorite by at least 5 users"
 
     	    Number($num: intValue() >= 5) from accumulate(
                      	User($user: this, $favorites: favorites) from $users and
-                     		Favorite($f: this, $conf: configuration, $conf.id == $confId) from $favorites,
+                     		Favorite($f: this, $conf: configuration, $conf.id == $confId, active == true) from $favorites,
                      	count($user)
                     ),
             collectList($c)
     	)
     then
         System.out.println("Rule: Currently popular configurations");
+        modify($pc){setConfigurations($res)};
+        System.out.println($pc.getConfigurations());
+end
+
+
+rule "Popular in given interval - put to favorite at least 6 times by 4 different users in the given interval1"
+        agenda-group "interval_popular1"
+        lock-on-active true
+    when
+        $pc: Configurations();
+        $confs: List() from collect (Configuration());
+        $users: List() from collect (User());
+        $res: List() from accumulate(
+            	    Configuration($c: this, $confId: id) from $confs and
+            	    Number($num: intValue() >= 4) from accumulate(
+                             	User($user: this, $favorites: favorites) from $users and
+                             		Favorite($f: this, $conf: configuration, $conf.id == $confId, putToFavorite >= 6,
+                             		$date: dateOfFavorite,
+                                    $date.after(Date.valueOf(LocalDate.parse("2021-05-28"))) == true,
+                                    $date.before(Date.valueOf(LocalDate.parse("2021-05-31"))) == true
+                             		) from $favorites,
+                             	count($user)
+                            ),
+                    collectList($c)
+            	)
+    then
+        System.out.println("Rule: Popular configurations in given interval");
         modify($pc){setConfigurations($res)};
         System.out.println($pc.getConfigurations());
 end

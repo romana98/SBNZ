@@ -1,5 +1,6 @@
-package project;
+package project.recommendationandtroubleshooting.recommendation;
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.Configurations;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
 import project.recommendationandtroubleshooting.model.recommendation.Budget;
@@ -8,10 +9,10 @@ import project.recommendationandtroubleshooting.model.recommendation.Favorite;
 import project.recommendationandtroubleshooting.enums.ConfigurationType
 import project.recommendationandtroubleshooting.model.User;
 import java.util.List;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.*;
 
-rule "Popular in given interval - put to favorite at least 6 times by 4 different users in the given interval_0" 
+rule "Popular in given interval - put to favorite at least 6 times by 4 different users in the given interval"
         agenda-group "interval_popular"
         lock-on-active true
     when
@@ -23,8 +24,9 @@ rule "Popular in given interval - put to favorite at least 6 times by 4 differen
             	    Number($num: intValue() >= 4) from accumulate(
                              	User($user: this, $favorites: favorites) from $users and
                              		Favorite($f: this, $conf: configuration, $conf.id == $confId, putToFavorite >= 6,
-                             		dateOfFavorite.after(new Date("Fri May 28 10:00:00 CEST 2021")) == true,
-                             		dateOfFavorite.before(new Date("Sun May 30 11:05:24 CEST 2021")) == true
+                                    $date: dateOfFavorite,
+                                    $date.after(Date.valueOf(LocalDate.parse("2021-05-28"))) == true,
+                                    $date.before(Date.valueOf(LocalDate.parse("2021-05-31"))) == true
                              		) from $favorites,
                              	count($user)
                             ),
