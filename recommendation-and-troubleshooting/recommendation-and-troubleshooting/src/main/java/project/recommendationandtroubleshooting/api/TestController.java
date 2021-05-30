@@ -19,15 +19,6 @@ public class TestController {
         this.testService = testService;
     }
 
-    @RequestMapping(value = "/getResponse", method = RequestMethod.GET, produces = "application/json")
-    public TestModel getResponse(@RequestParam String message) {
-
-        TestModel model = new TestModel();
-        model.setIncomeMessage(message);
-        testService.getResponse(model);
-        return model;
-    }
-
     @RequestMapping(value = "/testTroubleshooting", method = RequestMethod.GET, produces = "application/json")
     public Problem testTroubleshooting() {
 
@@ -38,5 +29,12 @@ public class TestController {
     public Problem testTroubleshootingReport() {
 
         return testService.testTroubleshootingReport();
+    }
+
+    @RequestMapping(value = "/cpuEventTest", method = RequestMethod.GET, produces = "application/json")
+    public Problem cpuEventTest() {
+
+        testService.cpuEventTest();
+        return null;
     }
 }

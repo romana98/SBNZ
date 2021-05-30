@@ -1,47 +1,36 @@
 package project.recommendationandtroubleshooting;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.enums.DiscType;
-import project.recommendationandtroubleshooting.model.recommendation.Budget;
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
-import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
-import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicTypeRequirements;
-import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
-import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageTypeRequirements;
-import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
-import project.recommendationandtroubleshooting.model.recommendation.Mobility;
-import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
+import project.recommendationandtroubleshooting.model.recommendation.*;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.Assert.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.*;
-
-
-import java.util.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RecommendationTest {
-	
-	@Test
+
+    @Test
     public void testBudgetRule() {
-		KieServices kieServices = KieServices.Factory.get();
+        KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
-        
+
         Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
         Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
         Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
@@ -49,7 +38,7 @@ public class RecommendationTest {
         kieSession.insert(c1);
         kieSession.insert(c2);
         kieSession.insert(c3);
-        
+
         Budget b1 = new Budget(1000L, 80000L);
         ConfigurationUsageType usage1 = new ConfigurationUsageType(1L, "SoftwareDevelopment");
         ConfigurationUsageType usage2 = new ConfigurationUsageType(2L, "Gaming");
@@ -72,24 +61,23 @@ public class RecommendationTest {
 
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
         kieSession.fireAllRules();
-        
+
         assertTrue(c1.getConsidered());
         assertFalse(c2.getConsidered());
         assertFalse(c3.getConsidered());
-        
+
         kieSession.dispose();
 
     }
-	
-	
-	
-	@Test
+
+
+    @Test
     public void testCharacteristicRule() {
-		KieServices kieServices = KieServices.Factory.get();
+        KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
-        
+
         Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
         Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
         Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
@@ -97,7 +85,7 @@ public class RecommendationTest {
         kieSession.insert(c1);
         kieSession.insert(c2);
         kieSession.insert(c3);
-        
+
         Budget b1 = new Budget(1000L, 100000L);
         ConfigurationUsageType usage1 = new ConfigurationUsageType(1L, "SoftwareDevelopment");
         ConfigurationUsageType usage2 = new ConfigurationUsageType(2L, "Gaming");
@@ -128,22 +116,22 @@ public class RecommendationTest {
 
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
         kieSession.fireAllRules();
-        
+
         assertTrue(c1.getConsidered());
         assertTrue(c2.getConsidered());
         assertTrue(c3.getConsidered());
-        
+
         kieSession.dispose();
 
     }
-	
-	@Test
+
+    @Test
     public void testUsageRule() {
-		KieServices kieServices = KieServices.Factory.get();
+        KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
-        
+
         Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
         Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
         Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
@@ -151,7 +139,7 @@ public class RecommendationTest {
         kieSession.insert(c1);
         kieSession.insert(c2);
         kieSession.insert(c3);
-        
+
         Budget b1 = new Budget(1000L, 100000L);
         ConfigurationUsageType usage1 = new ConfigurationUsageType(1L, "SoftwareDevelopment");
         ConfigurationUsageType usage2 = new ConfigurationUsageType(2L, "Gaming");
@@ -177,7 +165,7 @@ public class RecommendationTest {
 
         kieSession.insert(reqSD);
         kieSession.insert(reqG);
-        
+
         InputRequirements input1 = new InputRequirements(b1, usage1, characteristicsList1, m1);
 
         kieSession.insert(input1);
@@ -188,22 +176,22 @@ public class RecommendationTest {
 
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
         kieSession.fireAllRules();
-        
+
         assertTrue(c1.getConsidered());
         assertTrue(c2.getConsidered());
         assertFalse(c3.getConsidered());
-        
+
         kieSession.dispose();
 
     }
-	
-	@Test
+
+    @Test
     public void testMobilityRule() {
-		KieServices kieServices = KieServices.Factory.get();
+        KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
-        
+
         Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
         Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
         Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
@@ -211,7 +199,7 @@ public class RecommendationTest {
         kieSession.insert(c1);
         kieSession.insert(c2);
         kieSession.insert(c3);
-        
+
         Budget b1 = new Budget(1000L, 80000L);
         ConfigurationUsageType usage1 = new ConfigurationUsageType(1L, "SoftwareDevelopment");
         ConfigurationUsageType usage2 = new ConfigurationUsageType(2L, "Gaming");
@@ -234,23 +222,23 @@ public class RecommendationTest {
 
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
         kieSession.fireAllRules();
-        
+
         assertTrue(c1.getConsidered());
         assertFalse(c2.getConsidered());
         assertFalse(c3.getConsidered());
-        
+
         kieSession.dispose();
 
     }
-	
-	
-	@Test
+
+
+    @Test
     public void testRecommendationRule() {
-		KieServices kieServices = KieServices.Factory.get();
+        KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
-        
+
         Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
         Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, false);
         Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, false);
@@ -265,13 +253,13 @@ public class RecommendationTest {
 
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
         kieSession.fireAllRules();
-        
+
         assertTrue(c1.getConsidered());
         assertFalse(c2.getConsidered());
         assertFalse(c3.getConsidered());
         assertFalse(output.getConfigurations().isEmpty());
         assertEquals(output.getConfigurations().size(), 1);
-        
+
         kieSession.dispose();
 
     }

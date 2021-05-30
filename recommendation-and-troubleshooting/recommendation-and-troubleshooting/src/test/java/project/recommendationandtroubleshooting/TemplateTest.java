@@ -45,7 +45,7 @@ public class TemplateTest {
 
         KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
 
         try {
             InputStream template = new FileInputStream(
