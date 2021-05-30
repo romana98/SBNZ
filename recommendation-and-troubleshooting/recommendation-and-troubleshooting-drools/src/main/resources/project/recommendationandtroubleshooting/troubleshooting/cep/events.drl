@@ -1,15 +1,83 @@
 package project.recommendationandtroubleshooting.troubleshooting.cep;
 
 import project.recommendationandtroubleshooting.model.troubleshooting.cep.CPUEvent;
+import project.recommendationandtroubleshooting.model.troubleshooting.cep.TemperatureEvent;
+import project.recommendationandtroubleshooting.model.troubleshooting.cep.RAMEvent;
+import project.recommendationandtroubleshooting.model.troubleshooting.cep.DiscEvent;
+import project.recommendationandtroubleshooting.model.troubleshooting.cep.Limit;
+import project.recommendationandtroubleshooting.model.troubleshooting.cep.Warning;
+import project.recommendationandtroubleshooting.enums.LimitType;
 
 rule "5 times max capacity usage of CPU in 10 seconds"
+        agenda-group "max_cpu_usage"
 	when
+	    $l: Limit(type == LimitType.CPU, $limit: limit)
 		Number(intValue > 5) from accumulate (
 			$cpu: CPUEvent(
-				50 <= currentCapacityUsage)
+				$limit <= currentCapacityUsage)
 			over window:time(10s),
 			count($cpu)
 		)
 	then
         System.out.println("CPU management problem - max capacity usage error!");
+        insert(new Warning("CPU management problem - max capacity usage error!"));
+end;
+
+rule "In last 5min temperature didn't go down"
+        agenda-group "max_temperature"
+	when
+	    $l: Limit(type == LimitType.TEMPERATURE, $limit: limit)
+	    $t: TemperatureEvent(currentTemperature >= $limit) from entry-point "entry-temp"
+        Number(intValue == 0) from accumulate (
+            $t1: TemperatureEvent(this != $t,
+                $limit >= currentTemperature, this meets[5m] $t)  from entry-point "entry-temp",
+            count($t1)
+        )
+
+	then
+        System.out.println("Temperature management problem - max temperature error!");
+        insert(new Warning("Temperature management problem - max temperature error!"));
+end;
+
+rule "In last 60s ram usage didn't go down"
+        agenda-group "max_ram"
+	when
+	    $l: Limit(type == LimitType.RAM, $limit: limit)
+	    $r: RAMEvent(currentMemoryUsage >= $limit) from entry-point "entry-ram"
+		Number(intValue == 0) from accumulate (
+			$r1: RAMEvent(this != $r,
+				9*$limit/10 > currentMemoryUsage, this meets[60s] $r) from entry-point "entry-ram",
+			count($r1)
+		)
+	then
+        System.out.println("RAM management problem - max ram usage error!");
+        insert(new Warning("RAM management problem - max ram usage error!"));
+end;
+
+rule "In last 1h disc free memory didn't go up"
+        agenda-group "max_disc"
+	when
+	    $l: Limit(type == LimitType.DISC, $limit: limit)
+	    $d: DiscEvent(currentMemoryUsage >= $limit)  from entry-point "entry-disc"
+		Number(intValue == 0) from accumulate (
+			$d1: DiscEvent(
+				$limit > currentMemoryUsage, this meets[1h] $d) from entry-point "entry-disc",
+			count($d1)
+		)
+	then
+        System.out.println("Disc management problem - max disc memory usage error!");
+        insert(new Warning("Disc management problem - max disc memory usage error!"));
+end;
+
+rule "In last 15h average disc free memory low"
+        agenda-group "avg_disc"
+	when
+	    $l: Limit(type == LimitType.DISC, $limit: limit)
+		Number(doubleValue() > $limit) from accumulate (
+			DiscEvent($current: currentMemoryUsage) over window:time(15h),
+			average($current)
+		)
+	then
+        System.out.println("Disc management problem - average disc memory usage high error!");
+        insert(new Warning("Disc management problem - average disc memory usage high error!"));
 end;

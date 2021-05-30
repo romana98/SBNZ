@@ -9,5 +9,6 @@
     </kbase>
     <kbase name="cepKbase" eventProcessingMode="stream" packages="project.recommendationandtroubleshooting.troubleshooting.cep">
         <ksession name="eventsSession"/>
+        <ksession name="eventsPseudoSession" clockType="pseudo"/>
     </kbase>
 </kmodule>

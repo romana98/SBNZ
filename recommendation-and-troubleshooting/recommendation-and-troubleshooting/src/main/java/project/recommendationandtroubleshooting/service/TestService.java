@@ -1,15 +1,25 @@
 package project.recommendationandtroubleshooting.service;
 
+import org.drools.core.time.SessionPseudoClock;
+import org.kie.api.KieServices;
+import org.kie.api.runtime.ClassObjectFilter;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.KieSessionConfiguration;
+import org.kie.api.runtime.conf.ClockTypeOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.recommendationandtroubleshooting.enums.LimitType;
 import project.recommendationandtroubleshooting.model.TestModel;
 import project.recommendationandtroubleshooting.model.User;
 import project.recommendationandtroubleshooting.model.troubleshooting.*;
 import project.recommendationandtroubleshooting.model.troubleshooting.cep.CPUEvent;
+import project.recommendationandtroubleshooting.model.troubleshooting.cep.Limit;
+import project.recommendationandtroubleshooting.model.troubleshooting.cep.TemperatureEvent;
+import project.recommendationandtroubleshooting.model.troubleshooting.cep.Warning;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class TestService {
@@ -119,19 +129,33 @@ public class TestService {
         return problem;
     }
 
-    public void cpuEventTest(){
-        KieSession kieSession = kieContainer.newKieSession("eventsSession");
-        for (int i = 0; i < 6; i++){
-            kieSession.insert(new CPUEvent(10L, 61L));
-            /*try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
+    public void cpuEventTest() {
+        KieServices kieServices = KieServices.Factory.get();
+        KieContainer kieContainer = kieServices.getKieClasspathContainer();
+        KieSessionConfiguration conf = KieServices.Factory.get().newKieSessionConfiguration();
+        conf.setOption(ClockTypeOption.get("pseudo"));
+        KieSession kieSession = kieContainer.newKieSession("eventsPseudoSession", conf);
 
-        }
-        kieSession.getAgenda().getAgendaGroup("max_cpu_usage").setFocus();
-        kieSession.fireAllRules();
+        Limit limit = new Limit(75L, LimitType.TEMPERATURE);
+        kieSession.insert(limit);
+        kieSession.getEntryPoint("entry-temp").insert(new TemperatureEvent(90L));
+
+        SessionPseudoClock clock = kieSession.getSessionClock();
+        clock.advanceTime(6, TimeUnit.MINUTES);
+        /*try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        kieSession.getEntryPoint("entry-temp").insert(new TemperatureEvent(60L));
+
+
+        kieSession.getAgenda().getAgendaGroup("max_temperature").setFocus();
+        long ruleFireCount = kieSession.fireAllRules();
+
+
+        Collection<?> newEvents = kieSession.getObjects(new ClassObjectFilter(Warning.class));
+
         kieSession.dispose();
     }
 }
