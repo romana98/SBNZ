@@ -31,4 +31,11 @@ public class RecommendationController {
         recommendationService.getCurrentlyPopular();
         return null;
     }
+    
+    @RequestMapping(value = "/getIntervalPopular", method = RequestMethod.GET, produces = "application/json")
+    public Configurations getIntervalPopular() {
+
+        recommendationService.getIntervalPopular();
+        return null;
+    }
 }
