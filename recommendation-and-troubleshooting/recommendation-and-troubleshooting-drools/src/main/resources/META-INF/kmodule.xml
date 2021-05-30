@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xmlns="http://jboss.org/kie/6.0.0/kmodule">
-	<!--<kbase name="template-simple-KBase" packages="template-dtable">
-        <ksession name="templateSimpleKsession"/>
-    </kbase>-->
-	<!--<kbase name="rules" packages="rules">
-		<ksession name="rulesSession"/>
-	</kbase>>-->
+         xmlns="http://jboss.org/kie/6.0.0/kmodule">
+   <kbase name="recommendationKbase" packages="project.recommendationandtroubleshooting.recommendation">
+        <ksession name="recommendationSession"/>
+    </kbase>
+    <kbase name="TroubleshootingKbase" packages="project.recommendationandtroubleshooting.troubleshooting">
+        <ksession name="troubleshootingSession"/>
+    </kbase>
+    <kbase name="cepKbase" eventProcessingMode="stream" packages="project.recommendationandtroubleshooting.troubleshooting.cep">
+        <ksession name="eventsSession"/>
+    </kbase>
 </kmodule>

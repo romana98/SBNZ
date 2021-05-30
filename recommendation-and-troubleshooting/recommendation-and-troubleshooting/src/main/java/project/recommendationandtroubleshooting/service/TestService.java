@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import project.recommendationandtroubleshooting.model.TestModel;
 import project.recommendationandtroubleshooting.model.User;
 import project.recommendationandtroubleshooting.model.troubleshooting.*;
+import project.recommendationandtroubleshooting.model.troubleshooting.cep.CPUEvent;
 
 import java.util.*;
 
@@ -18,14 +19,6 @@ public class TestService {
     @Autowired
     public TestService(KieContainer kieContainer) {
         this.kieContainer = kieContainer;
-    }
-
-    public TestModel getResponse(TestModel model) {
-        KieSession kieSession = kieContainer.newKieSession();
-        kieSession.insert(model);
-        kieSession.fireAllRules();
-        kieSession.dispose();
-        return model;
     }
 
     public Problem testTroubleshooting() {
@@ -53,7 +46,7 @@ public class TestService {
         Problem problem = new Problem(desc3);
         problem.getTriedSolutions().add(new Solution("Proveriti da li je računar uključen u struju i proveriti ispravnost power dugmeta."));
 
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("troubleshootingSession");
         kieSession.insert(bug1);
         kieSession.insert(bug2);
         kieSession.insert(problem);
@@ -112,7 +105,7 @@ public class TestService {
         user.getBugHistory().add(new BugHistory(2L, new Date(), sol2.get(2), bug2));
 
 
-        KieSession kieSession = kieContainer.newKieSession();
+        KieSession kieSession = kieContainer.newKieSession("troubleshootingSession");
         kieSession.insert(bug1);
         kieSession.insert(bug2);
         kieSession.insert(problem);
@@ -124,5 +117,21 @@ public class TestService {
         kieSession.fireAllRules();
         kieSession.dispose();
         return problem;
+    }
+
+    public void cpuEventTest(){
+        KieSession kieSession = kieContainer.newKieSession("eventsSession");
+        for (int i = 0; i < 6; i++){
+            kieSession.insert(new CPUEvent(10L, 61L));
+            /*try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+
+        }
+        kieSession.getAgenda().getAgendaGroup("max_cpu_usage").setFocus();
+        kieSession.fireAllRules();
+        kieSession.dispose();
     }
 }

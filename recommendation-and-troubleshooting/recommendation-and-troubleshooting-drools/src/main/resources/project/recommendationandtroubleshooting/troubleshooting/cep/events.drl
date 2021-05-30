@@ -1,0 +1,15 @@
+package project.recommendationandtroubleshooting.troubleshooting.cep;
+
+import project.recommendationandtroubleshooting.model.troubleshooting.cep.CPUEvent;
+
+rule "5 times max capacity usage of CPU in 10 seconds"
+	when
+		Number(intValue > 5) from accumulate (
+			$cpu: CPUEvent(
+				50 <= currentCapacityUsage)
+			over window:time(10s),
+			count($cpu)
+		)
+	then
+        System.out.println("CPU management problem - max capacity usage error!");
+end;
