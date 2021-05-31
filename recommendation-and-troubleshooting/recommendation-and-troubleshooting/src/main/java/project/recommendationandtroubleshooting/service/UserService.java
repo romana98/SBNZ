@@ -18,7 +18,7 @@ public interface UserService {
 
 	User findByEmail(String email);
 	
-	User saveOne(User admin);
+	User saveOne(User user);
 	
 	boolean delete(Integer id);
 

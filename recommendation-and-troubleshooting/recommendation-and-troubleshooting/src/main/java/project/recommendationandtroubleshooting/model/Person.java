@@ -28,7 +28,7 @@ public abstract class Person implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "verified", unique = false, nullable = true)
+    @Column(name = "verified")
     private boolean verified;
 
     @Column(name = "last_password_reset_date")
