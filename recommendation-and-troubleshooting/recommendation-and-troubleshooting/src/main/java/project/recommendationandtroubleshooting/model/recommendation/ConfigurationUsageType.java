@@ -8,7 +8,7 @@ public class ConfigurationUsageType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Integer id;
 
     @Column(name = "usage", unique = true, nullable = false)
     String usage;
@@ -21,12 +21,12 @@ public class ConfigurationUsageType {
         this.usage = usage;
     }
 
-    public ConfigurationUsageType(Long id, String usage) {
+    public ConfigurationUsageType(Integer id, String usage) {
         this.id = id;
         this.usage = usage;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -34,7 +34,7 @@ public class ConfigurationUsageType {
         return usage;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

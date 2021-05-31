@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import project.recommendationandtroubleshooting.model.troubleshooting.Bug;
 
 @Repository
-public interface BugRepository extends JpaRepository<Bug, Long> {
+public interface BugRepository extends JpaRepository<Bug, Integer> {
 
 }

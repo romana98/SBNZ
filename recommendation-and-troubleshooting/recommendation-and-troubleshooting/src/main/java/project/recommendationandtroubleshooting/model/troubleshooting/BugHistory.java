@@ -9,7 +9,7 @@ public class BugHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "date_of_bug", nullable = false)
     private Date dateOfBug;
@@ -31,18 +31,18 @@ public class BugHistory {
         this.bug = bug;
     }
 
-    public BugHistory(Long id, Date dateOfBug, Solution solution, Bug bug) {
+    public BugHistory(Integer id, Date dateOfBug, Solution solution, Bug bug) {
         this.id = id;
         this.dateOfBug = dateOfBug;
         this.solution = solution;
         this.bug = bug;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

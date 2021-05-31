@@ -19,6 +19,18 @@ public class User extends Person {
     @JoinColumn(name = "favoriteId")
     private Set<Favorite> favorites = new HashSet<>();
 
+    public User() {
+
+    }
+
+    public User(String firstName, String lastName, String email) {
+        super(firstName, lastName, email);
+    }
+
+    public User(Integer id, String firstName, String lastName, String email) {
+        super(id, firstName, lastName, email);
+    }
+
     public Set<BugHistory> getBugHistory() {
         return bugHistory;
     }
@@ -33,5 +45,25 @@ public class User extends Person {
 
     public void setFavorites(Set<Favorite> favorites) {
         this.favorites = favorites;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return super.isVerified();
     }
 }

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import project.recommendationandtroubleshooting.model.troubleshooting.BugHistory;
 
 @Repository
-public interface BugHistoryRepository extends JpaRepository<BugHistory, Long> {
+public interface BugHistoryRepository extends JpaRepository<BugHistory, Integer> {
 
 }

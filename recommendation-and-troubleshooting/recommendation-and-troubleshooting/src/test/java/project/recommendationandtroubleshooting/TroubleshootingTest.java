@@ -27,7 +27,7 @@ public class TroubleshootingTest {
     public void testTroubleshootingRule() {
         KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession("troubleshootingSession");
+        KieSession kieSession = kieContainer.newKieSession("rulesSession");
         kieSession.getAgenda().getAgendaGroup("troubleshooting").setFocus();
 
         Set<Description> desc1 = new HashSet<>();

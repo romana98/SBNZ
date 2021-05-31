@@ -11,7 +11,7 @@ public class Bug {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "descriptionId")
@@ -27,7 +27,7 @@ public class Bug {
 
     }
 
-    public Bug(Long id, Set<Description> descriptions, Map<Integer, Solution> solutions) {
+    public Bug(Integer id, Set<Description> descriptions, Map<Integer, Solution> solutions) {
         this.id = id;
         this.descriptions = descriptions;
         this.solutions = solutions;
@@ -38,7 +38,7 @@ public class Bug {
         this.solutions = solutions;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -50,7 +50,7 @@ public class Bug {
         return solutions;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

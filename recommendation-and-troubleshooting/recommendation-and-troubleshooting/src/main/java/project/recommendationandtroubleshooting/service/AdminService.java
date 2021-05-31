@@ -13,11 +13,13 @@ public interface AdminService {
 
 	Page<Admin> findAll(Pageable pageable);
 	
-	Admin findOne(int id);
+	Admin findOne(Integer id);
+
+	Admin findByEmail(String email);
 	
 	Admin saveOne(Admin admin);
 	
-	boolean delete(int id);
+	boolean delete(Integer id);
 
 	Admin update(Admin admin);
 

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
 
 @Repository
-public interface ConfigurationRepository extends JpaRepository<Configuration, Long> {
+public interface ConfigurationRepository extends JpaRepository<Configuration, Integer> {
 
 }

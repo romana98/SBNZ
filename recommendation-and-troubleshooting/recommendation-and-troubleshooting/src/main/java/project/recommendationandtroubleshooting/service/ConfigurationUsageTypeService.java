@@ -13,11 +13,11 @@ public interface ConfigurationUsageTypeService {
 
 	Page<ConfigurationUsageType> findAll(Pageable pageable);
 	
-	ConfigurationUsageType findOne(int id);
+	ConfigurationUsageType findOne(Integer id);
 	
 	ConfigurationUsageType saveOne(ConfigurationUsageType admin);
 	
-	boolean delete(int id);
+	boolean delete(Integer id);
 
 	ConfigurationUsageType update(ConfigurationUsageType admin);
 }

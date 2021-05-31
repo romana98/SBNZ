@@ -8,12 +8,12 @@ public class ConfigurationCharacteristicType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "characteristic", unique = true, nullable = false)
     private String characteristic;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -29,12 +29,12 @@ public class ConfigurationCharacteristicType {
         this.characteristic = characteristic;
     }
 
-    public ConfigurationCharacteristicType(Long id, String characteristic) {
+    public ConfigurationCharacteristicType(Integer id, String characteristic) {
         this.id = id;
         this.characteristic = characteristic;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

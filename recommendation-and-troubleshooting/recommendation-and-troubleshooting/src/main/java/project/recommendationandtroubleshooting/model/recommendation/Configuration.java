@@ -12,7 +12,7 @@ public class Configuration {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "price", nullable = false)
     private Long price;
@@ -100,7 +100,7 @@ public class Configuration {
         this.considered = considered;
     }
 
-    public Configuration(Long id, Long price, ConfigurationType type, String CPU, String GPU, String RAM, String OS, String PSU, DiscType discType, String discSize, String motherboard, String screenSize, String screenResolution, String musicCard, boolean touchscreen, boolean microphone, boolean camera, boolean ergonomic, Set<Rating> ratings, Boolean considered) {
+    public Configuration(Integer id, Long price, ConfigurationType type, String CPU, String GPU, String RAM, String OS, String PSU, DiscType discType, String discSize, String motherboard, String screenSize, String screenResolution, String musicCard, boolean touchscreen, boolean microphone, boolean camera, boolean ergonomic, Set<Rating> ratings, Boolean considered) {
         this.id = id;
         this.price = price;
         this.type = type;
@@ -123,7 +123,7 @@ public class Configuration {
         this.considered = considered;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -203,7 +203,7 @@ public class Configuration {
         return considered;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -1,38 +1,7 @@
 package project.recommendationandtroubleshooting.service;
 
-import org.drools.template.ObjectDataCompiler;
-import org.kie.api.runtime.KieContainer;
-import org.kie.api.runtime.KieSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import project.recommendationandtroubleshooting.dto.IntervalDTO;
-import project.recommendationandtroubleshooting.enums.ConfigurationType;
-import project.recommendationandtroubleshooting.enums.DiscType;
-import project.recommendationandtroubleshooting.model.User;
-import project.recommendationandtroubleshooting.model.recommendation.*;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.maven.shared.invoker.DefaultInvocationRequest;
-import org.apache.maven.shared.invoker.DefaultInvoker;
-import org.apache.maven.shared.invoker.InvocationRequest;
-import org.apache.maven.shared.invoker.Invoker;
-
-
-@Service
 public class RecommendationService {
-
+/*
     private final KieContainer kieContainer;
 
     @Autowired
@@ -249,7 +218,7 @@ public class RecommendationService {
 		}
     }
     
-    
+    */
     /*ConfigurationUsageType usage3 = new ConfigurationUsageType(3L, "Editing");
         ConfigurationUsageType usage4 = new ConfigurationUsageType(4L, "Bookkeeping");
         ConfigurationUsageType usage5 = new ConfigurationUsageType(5L, "3DDesign");
@@ -260,4 +229,5 @@ public class RecommendationService {
         ConfigurationCharacteristicType characteristic4 = new ConfigurationCharacteristicType(4L, "OnlineMeeting");
         ConfigurationCharacteristicType characteristic5 = new ConfigurationCharacteristicType(5L, "LowPowerConsumption");
         ConfigurationCharacteristicType characteristic6 = new ConfigurationCharacteristicType(6L, "DamagdEyesight");*/
+
 }

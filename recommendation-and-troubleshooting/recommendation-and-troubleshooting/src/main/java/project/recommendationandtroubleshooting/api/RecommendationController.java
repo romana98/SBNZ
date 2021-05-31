@@ -10,7 +10,7 @@ import project.recommendationandtroubleshooting.service.RecommendationService;
 
 @RestController
 public class RecommendationController {
-
+/*
     private final RecommendationService recommendationService;
 
     @Autowired
@@ -37,5 +37,5 @@ public class RecommendationController {
 
         recommendationService.getIntervalPopular();
         return null;
-    }
+    }*/
 }

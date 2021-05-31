@@ -13,11 +13,11 @@ public interface BugService {
 
 	Page<Bug> findAll(Pageable pageable);
 	
-	Bug findOne(int id);
+	Bug findOne(Integer id);
 	
 	Bug saveOne(Bug admin);
 	
-	boolean delete(int id);
+	boolean delete(Integer id);
 
 	Bug update(Bug admin);
 }

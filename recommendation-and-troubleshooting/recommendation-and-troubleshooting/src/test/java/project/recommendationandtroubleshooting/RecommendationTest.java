@@ -28,23 +28,23 @@ public class RecommendationTest {
     public void testBudgetRule() {
         KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
+        KieSession kieSession = kieContainer.newKieSession("rulesSession");
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
 
-        Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
-        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
-        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+        Configuration c1 = new Configuration(1, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+        Configuration c2 = new Configuration(2, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
+        Configuration c3 = new Configuration(3, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
 
         kieSession.insert(c1);
         kieSession.insert(c2);
         kieSession.insert(c3);
 
         Budget b1 = new Budget(1000L, 80000L);
-        ConfigurationUsageType usage1 = new ConfigurationUsageType(1L, "SoftwareDevelopment");
-        ConfigurationUsageType usage2 = new ConfigurationUsageType(2L, "Gaming");
+        ConfigurationUsageType usage1 = new ConfigurationUsageType(1, "SoftwareDevelopment");
+        ConfigurationUsageType usage2 = new ConfigurationUsageType(2, "Gaming");
 
-        ConfigurationCharacteristicType characteristic1 = new ConfigurationCharacteristicType(1L, "Presentations");
-        ConfigurationCharacteristicType characteristic2 = new ConfigurationCharacteristicType(2L, "Touchscreen");
+        ConfigurationCharacteristicType characteristic1 = new ConfigurationCharacteristicType(1, "Presentations");
+        ConfigurationCharacteristicType characteristic2 = new ConfigurationCharacteristicType(2, "Touchscreen");
 
         Mobility m1 = new Mobility(80.0);
         ArrayList<ConfigurationCharacteristicType> characteristicsList1 = new ArrayList<ConfigurationCharacteristicType>();
@@ -75,23 +75,23 @@ public class RecommendationTest {
     public void testCharacteristicRule() {
         KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
+        KieSession kieSession = kieContainer.newKieSession("rulesSession");
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
 
-        Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
-        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
-        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+        Configuration c1 = new Configuration(1, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+        Configuration c2 = new Configuration(2, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
+        Configuration c3 = new Configuration(3, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
 
         kieSession.insert(c1);
         kieSession.insert(c2);
         kieSession.insert(c3);
 
         Budget b1 = new Budget(1000L, 100000L);
-        ConfigurationUsageType usage1 = new ConfigurationUsageType(1L, "SoftwareDevelopment");
-        ConfigurationUsageType usage2 = new ConfigurationUsageType(2L, "Gaming");
+        ConfigurationUsageType usage1 = new ConfigurationUsageType(1, "SoftwareDevelopment");
+        ConfigurationUsageType usage2 = new ConfigurationUsageType(2, "Gaming");
 
-        ConfigurationCharacteristicType characteristic1 = new ConfigurationCharacteristicType(1L, "Presentations");
-        ConfigurationCharacteristicType characteristic2 = new ConfigurationCharacteristicType(2L, "Touchscreen");
+        ConfigurationCharacteristicType characteristic1 = new ConfigurationCharacteristicType(1, "Presentations");
+        ConfigurationCharacteristicType characteristic2 = new ConfigurationCharacteristicType(2, "Touchscreen");
 
         Mobility m1 = new Mobility(80.0);
         ArrayList<ConfigurationCharacteristicType> characteristicsList1 = new ArrayList<ConfigurationCharacteristicType>();
@@ -129,23 +129,23 @@ public class RecommendationTest {
     public void testUsageRule() {
         KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
+        KieSession kieSession = kieContainer.newKieSession("rulesSession");
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
 
-        Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
-        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
-        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+        Configuration c1 = new Configuration(1, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+        Configuration c2 = new Configuration(2, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
+        Configuration c3 = new Configuration(3, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
 
         kieSession.insert(c1);
         kieSession.insert(c2);
         kieSession.insert(c3);
 
         Budget b1 = new Budget(1000L, 100000L);
-        ConfigurationUsageType usage1 = new ConfigurationUsageType(1L, "SoftwareDevelopment");
-        ConfigurationUsageType usage2 = new ConfigurationUsageType(2L, "Gaming");
+        ConfigurationUsageType usage1 = new ConfigurationUsageType(1, "SoftwareDevelopment");
+        ConfigurationUsageType usage2 = new ConfigurationUsageType(2, "Gaming");
 
-        ConfigurationCharacteristicType characteristic1 = new ConfigurationCharacteristicType(1L, "Presentations");
-        ConfigurationCharacteristicType characteristic2 = new ConfigurationCharacteristicType(2L, "Touchscreen");
+        ConfigurationCharacteristicType characteristic1 = new ConfigurationCharacteristicType(1, "Presentations");
+        ConfigurationCharacteristicType characteristic2 = new ConfigurationCharacteristicType(2, "Touchscreen");
 
         Mobility m1 = new Mobility(80.0);
         ArrayList<ConfigurationCharacteristicType> characteristicsList1 = new ArrayList<ConfigurationCharacteristicType>();
@@ -189,23 +189,23 @@ public class RecommendationTest {
     public void testMobilityRule() {
         KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
+        KieSession kieSession = kieContainer.newKieSession("rulesSession");
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
 
-        Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
-        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
-        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+        Configuration c1 = new Configuration(1, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+        Configuration c2 = new Configuration(2, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
+        Configuration c3 = new Configuration(3, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
 
         kieSession.insert(c1);
         kieSession.insert(c2);
         kieSession.insert(c3);
 
         Budget b1 = new Budget(1000L, 80000L);
-        ConfigurationUsageType usage1 = new ConfigurationUsageType(1L, "SoftwareDevelopment");
-        ConfigurationUsageType usage2 = new ConfigurationUsageType(2L, "Gaming");
+        ConfigurationUsageType usage1 = new ConfigurationUsageType(1, "SoftwareDevelopment");
+        ConfigurationUsageType usage2 = new ConfigurationUsageType(2, "Gaming");
 
-        ConfigurationCharacteristicType characteristic1 = new ConfigurationCharacteristicType(1L, "Presentations");
-        ConfigurationCharacteristicType characteristic2 = new ConfigurationCharacteristicType(2L, "Touchscreen");
+        ConfigurationCharacteristicType characteristic1 = new ConfigurationCharacteristicType(1, "Presentations");
+        ConfigurationCharacteristicType characteristic2 = new ConfigurationCharacteristicType(2, "Touchscreen");
 
         Mobility m1 = new Mobility(80.0);
         ArrayList<ConfigurationCharacteristicType> characteristicsList1 = new ArrayList<ConfigurationCharacteristicType>();
@@ -236,12 +236,12 @@ public class RecommendationTest {
     public void testRecommendationRule() {
         KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
+        KieSession kieSession = kieContainer.newKieSession("rulesSession");
         kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
 
-        Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
-        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, false);
-        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, false);
+        Configuration c1 = new Configuration(1, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+        Configuration c2 = new Configuration(2, 99999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, false);
+        Configuration c3 = new Configuration(3, 89999L, ConfigurationType.LAPTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, false);
 
         kieSession.insert(c1);
         kieSession.insert(c2);

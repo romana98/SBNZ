@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.stereotype.Service;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.service.ConfigurationUsageTypeService;
 
+@Service
 public class ConfigurationUsageTypeServiceImpl implements ConfigurationUsageTypeService {
 
 	@Override
@@ -23,7 +25,7 @@ public class ConfigurationUsageTypeServiceImpl implements ConfigurationUsageType
 	}
 
 	@Override
-	public ConfigurationUsageType findOne(int id) {
+	public ConfigurationUsageType findOne(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -35,7 +37,7 @@ public class ConfigurationUsageTypeServiceImpl implements ConfigurationUsageType
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public boolean delete(Integer id) {
 		// TODO Auto-generated method stub
 		return false;
 	}

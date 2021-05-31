@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 
 @Repository
-public interface ConfigurationUsageTypeRepository extends JpaRepository<ConfigurationUsageType, Long> {
+public interface ConfigurationUsageTypeRepository extends JpaRepository<ConfigurationUsageType, Integer> {
 
 }

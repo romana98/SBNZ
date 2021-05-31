@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.stereotype.Service;
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
 import project.recommendationandtroubleshooting.service.ConfigurationService;
 
+@Service
 public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Override
@@ -23,7 +25,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	}
 
 	@Override
-	public Configuration findOne(int id) {
+	public Configuration findOne(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -35,7 +37,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public boolean delete(Integer id) {
 		// TODO Auto-generated method stub
 		return false;
 	}

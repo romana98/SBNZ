@@ -13,11 +13,11 @@ public interface BugHistoryService {
 
 	Page<BugHistory> findAll(Pageable pageable);
 	
-	BugHistory findOne(int id);
+	BugHistory findOne(Integer id);
 	
 	BugHistory saveOne(BugHistory admin);
 	
-	boolean delete(int id);
+	boolean delete(Integer id);
 
 	BugHistory update(BugHistory admin);
 }

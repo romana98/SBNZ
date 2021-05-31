@@ -13,11 +13,11 @@ public interface ConfigurationService {
 
 	Page<Configuration> findAll(Pageable pageable);
 	
-	Configuration findOne(int id);
+	Configuration findOne(Integer id);
 	
 	Configuration saveOne(Configuration admin);
 	
-	boolean delete(int id);
+	boolean delete(Integer id);
 
 	Configuration update(Configuration admin);
 

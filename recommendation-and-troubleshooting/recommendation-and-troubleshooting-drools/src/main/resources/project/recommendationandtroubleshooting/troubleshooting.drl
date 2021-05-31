@@ -16,9 +16,6 @@ rule "Troubleshooting"
             and Description(this == $description) from $desc,
             count($description)
         );
-        //Map.Entry( $key: key, $value: value ) from $solutions.entrySet()
-        //$startSolution: Solution() from $solutions.get(1);
-        //$ss: List() from collect (Solution(this != $value, $key == $triedSolutions.size() + 1) from $triedSolutions)
 
         $tuple:  Map.Entry( $key: key, $value: value ) from $solutions.entrySet() and
                  Solution(this != $value, $key == $triedSolutions.size() + 1) from $triedSolutions;
@@ -26,9 +23,7 @@ rule "Troubleshooting"
 
 
         $s: Solution() from $solutions.get($tuple.key);
-        //$s1: Solution($v: this) from $solutions.values() and Solution(this != $v, $key == $triedSolutions.size() + 1) from $triedSolutions
-        //$s: (Solution(this != $value, $key == $triedSolutions.size() + 1) from $triedSolutions or Solution() from $solutions.get(1)
-        //);
+
     then
         System.out.println("Rule: Troubleshooting");
         System.out.println("Solution:");
@@ -51,17 +46,12 @@ rule "Troubleshooting - first request"
             and Description(this == $description) from $desc,
             count($description)
         );
-        //Map.Entry( $key: key, $value: value ) from $solutions.entrySet()
-        //$startSolution: Solution() from $solutions.get(1);
-        //$ss: List() from collect (Solution(this != $value, $key == $triedSolutions.size() + 1) from $triedSolutions)
 
         $tuple:  Map.Entry( key == 1) from $solutions.entrySet();
 
 
         $s: Solution() from $solutions.get($tuple.key);
-        //$s1: Solution($v: this) from $solutions.values() and Solution(this != $v, $key == $triedSolutions.size() + 1) from $triedSolutions
-        //$s: (Solution(this != $value, $key == $triedSolutions.size() + 1) from $triedSolutions or Solution() from $solutions.get(1)
-        //);
+
     then
         System.out.println("Rule: Troubleshooting - first request");
         System.out.println("Solution:");
@@ -71,3 +61,12 @@ rule "Troubleshooting - first request"
             setSolutionWorked(true)
         };
 end
+
+  //Map.Entry( $key: key, $value: value ) from $solutions.entrySet()
+        //$startSolution: Solution() from $solutions.get(1);
+        //$ss: List() from collect (Solution(this != $value, $key == $triedSolutions.size() + 1) from $triedSolutions)
+
+        //$s1: Solution($v: this) from $solutions.values() and Solution(this != $v, $key == $triedSolutions.size() + 1) from $triedSolutions
+                //$s: (Solution(this != $value, $key == $triedSolutions.size() + 1) from $triedSolutions or Solution() from $solutions.get(1)
+                //);
+

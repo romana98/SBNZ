@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import project.recommendationandtroubleshooting.model.recommendation.Favorite;
 
 @Repository
-public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
+public interface FavoriteRepository extends JpaRepository<Favorite, Integer> {
 
 }

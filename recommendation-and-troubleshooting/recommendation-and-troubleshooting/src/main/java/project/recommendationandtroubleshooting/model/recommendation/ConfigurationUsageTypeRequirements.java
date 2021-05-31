@@ -10,7 +10,7 @@ public class ConfigurationUsageTypeRequirements {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "usage_id", referencedColumnName = "id")
@@ -84,7 +84,7 @@ public class ConfigurationUsageTypeRequirements {
         this.ergonomic = ergonomic;
     }
 
-    public ConfigurationUsageTypeRequirements(Long id, ConfigurationUsageType usage, Set<String> CPU, Set<String> GPU, Set<String> RAM, Set<String> OS, Set<String> PSU, Set<String> discType, Set<String> discSize, Set<String> motherboard, Set<String> screenSize, Set<String> screenResolution, Set<String> musicCard, Set<String> touchscreen, Set<String> microphone, Set<String> camera, Set<String> ergonomic) {
+    public ConfigurationUsageTypeRequirements(Integer id, ConfigurationUsageType usage, Set<String> CPU, Set<String> GPU, Set<String> RAM, Set<String> OS, Set<String> PSU, Set<String> discType, Set<String> discSize, Set<String> motherboard, Set<String> screenSize, Set<String> screenResolution, Set<String> musicCard, Set<String> touchscreen, Set<String> microphone, Set<String> camera, Set<String> ergonomic) {
         this.id = id;
         this.usage = usage;
         this.CPU = CPU;
@@ -104,7 +104,7 @@ public class ConfigurationUsageTypeRequirements {
         this.ergonomic = ergonomic;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -172,7 +172,7 @@ public class ConfigurationUsageTypeRequirements {
         return ergonomic;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

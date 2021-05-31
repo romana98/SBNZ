@@ -13,11 +13,11 @@ public interface ConfigurationCharacteristicTypeService {
 
 	Page<ConfigurationCharacteristicType> findAll(Pageable pageable);
 	
-	ConfigurationCharacteristicType findOne(int id);
+	ConfigurationCharacteristicType findOne(Integer id);
 	
 	ConfigurationCharacteristicType saveOne(ConfigurationCharacteristicType admin);
 	
-	boolean delete(int id);
+	boolean delete(Integer id);
 
 	ConfigurationCharacteristicType update(ConfigurationCharacteristicType admin);
 }

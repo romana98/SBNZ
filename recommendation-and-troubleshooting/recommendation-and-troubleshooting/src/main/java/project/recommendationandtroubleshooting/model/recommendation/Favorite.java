@@ -10,7 +10,7 @@ public class Favorite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
     private Configuration configuration;
@@ -33,14 +33,14 @@ public class Favorite {
         this.dateOfFavorite = dateOfFavorite;
     }
 
-    public Favorite(Long id, Configuration configuration, Long putToFavorite, Date dateOfFavorite) {
+    public Favorite(Integer id, Configuration configuration, Long putToFavorite, Date dateOfFavorite) {
         this.id = id;
         this.configuration = configuration;
         this.putToFavorite = putToFavorite;
         this.dateOfFavorite = dateOfFavorite;
     }
 
-    public Favorite(Long id, Configuration configuration, Long putToFavorite, Date dateOfFavorite, boolean active) {
+    public Favorite(Integer id, Configuration configuration, Long putToFavorite, Date dateOfFavorite, boolean active) {
         this.id = id;
         this.configuration = configuration;
         this.putToFavorite = putToFavorite;
@@ -55,7 +55,7 @@ public class Favorite {
         this.active = active;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -71,7 +71,7 @@ public class Favorite {
         return dateOfFavorite;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

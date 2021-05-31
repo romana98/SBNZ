@@ -27,11 +27,11 @@ public class ReportsTest {
     public void testRecommendationReportRule() {
         KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession("recommendationSession");
+        KieSession kieSession = kieContainer.newKieSession("rulesSession");
 
-        Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
-        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
-        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+        Configuration c1 = new Configuration(1, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+        Configuration c2 = new Configuration(2, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
+        Configuration c3 = new Configuration(3, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
 
         kieSession.insert(c1);
         kieSession.insert(c2);
@@ -85,7 +85,7 @@ public class ReportsTest {
     public void testTroubleshootingReportRuleBugFrequency() {
         KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession("troubleshootingSession");
+        KieSession kieSession = kieContainer.newKieSession("rulesSession");
 
         Set<Description> desc1 = new HashSet<>();
         desc1.add(new Description("Računar ne može da se upali."));
@@ -112,26 +112,26 @@ public class ReportsTest {
 
 
         User user = new User();
-        user.setId(1L);
+        user.setId(1);
 
         Calendar today = Calendar.getInstance();
         Calendar nextYearToday = today;
         nextYearToday.add(Calendar.YEAR, -2);
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(2), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(2), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(2), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(2L, new Date(), sol2.get(3), bug2));
-        user.getBugHistory().add(new BugHistory(2L, new Date(), sol2.get(3), bug2));
-        user.getBugHistory().add(new BugHistory(2L, new Date(), sol2.get(3), bug2));
-        user.getBugHistory().add(new BugHistory(2L, new Date(), sol2.get(2), bug2));
-        user.getBugHistory().add(new BugHistory(2L, new Date(), sol2.get(2), bug2));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(2), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(2), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(2), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(2, new Date(), sol2.get(3), bug2));
+        user.getBugHistory().add(new BugHistory(2, new Date(), sol2.get(3), bug2));
+        user.getBugHistory().add(new BugHistory(2, new Date(), sol2.get(3), bug2));
+        user.getBugHistory().add(new BugHistory(2, new Date(), sol2.get(2), bug2));
+        user.getBugHistory().add(new BugHistory(2, new Date(), sol2.get(2), bug2));
 
         Bugs output = new Bugs();
 
@@ -154,7 +154,7 @@ public class ReportsTest {
     public void testTroubleshootingReportRuleUnsolvedBugs() {
         KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kieSession = kieContainer.newKieSession("troubleshootingSession");
+        KieSession kieSession = kieContainer.newKieSession("rulesSession");
 
         Set<Description> desc1 = new HashSet<>();
         desc1.add(new Description("Računar ne može da se upali."));
@@ -181,26 +181,26 @@ public class ReportsTest {
 
 
         User user = new User();
-        user.setId(1L);
+        user.setId(1);
 
         Calendar today = Calendar.getInstance();
         Calendar nextYearToday = today;
         nextYearToday.add(Calendar.YEAR, -2);
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(2), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(2), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(2), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(1L, new Date(), sol1.get(1), bug1));
-        user.getBugHistory().add(new BugHistory(2L, new Date(), sol2.get(3), bug2));
-        user.getBugHistory().add(new BugHistory(2L, new Date(), sol2.get(3), bug2));
-        user.getBugHistory().add(new BugHistory(2L, new Date(), sol2.get(3), bug2));
-        user.getBugHistory().add(new BugHistory(2L, new Date(), sol2.get(2), bug2));
-        user.getBugHistory().add(new BugHistory(2L, new Date(), sol2.get(2), bug2));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(2), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(2), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(2), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(1, new Date(), sol1.get(1), bug1));
+        user.getBugHistory().add(new BugHistory(2, new Date(), sol2.get(3), bug2));
+        user.getBugHistory().add(new BugHistory(2, new Date(), sol2.get(3), bug2));
+        user.getBugHistory().add(new BugHistory(2, new Date(), sol2.get(3), bug2));
+        user.getBugHistory().add(new BugHistory(2, new Date(), sol2.get(2), bug2));
+        user.getBugHistory().add(new BugHistory(2, new Date(), sol2.get(2), bug2));
 
         Bugs output = new Bugs();
 

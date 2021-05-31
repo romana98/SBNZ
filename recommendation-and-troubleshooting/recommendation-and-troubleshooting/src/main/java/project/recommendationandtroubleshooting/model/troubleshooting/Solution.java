@@ -8,7 +8,7 @@ public class Solution {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "solution", unique = true, nullable = false)
     private String solution;
@@ -16,7 +16,7 @@ public class Solution {
     public Solution() {
     }
 
-    public Solution(Long id, String solution) {
+    public Solution(Integer id, String solution) {
         this.id = id;
         this.solution = solution;
     }
@@ -25,7 +25,7 @@ public class Solution {
         this.solution = solution;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -33,7 +33,7 @@ public class Solution {
         return solution;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

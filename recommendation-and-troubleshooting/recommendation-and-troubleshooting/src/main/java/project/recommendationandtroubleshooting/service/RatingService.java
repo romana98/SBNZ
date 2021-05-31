@@ -13,11 +13,11 @@ public interface RatingService {
 
 	Page<Rating> findAll(Pageable pageable);
 	
-	Rating findOne(int id);
+	Rating findOne(Integer id);
 	
 	Rating saveOne(Rating admin);
 	
-	boolean delete(int id);
+	boolean delete(Integer id);
 
 	Rating update(Rating admin);
 }

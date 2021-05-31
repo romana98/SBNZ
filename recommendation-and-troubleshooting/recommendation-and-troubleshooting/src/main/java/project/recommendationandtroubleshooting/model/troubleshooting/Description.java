@@ -8,7 +8,7 @@ public class Description {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "problem_description", unique = true, nullable = false)
     private String problemDescription;
@@ -17,7 +17,7 @@ public class Description {
 
     }
 
-    public Description(Long id, String problemDescription) {
+    public Description(Integer id, String problemDescription) {
         this.id = id;
         this.problemDescription = problemDescription;
     }
@@ -26,7 +26,7 @@ public class Description {
         this.problemDescription = problemDescription;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -34,7 +34,7 @@ public class Description {
         return problemDescription;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

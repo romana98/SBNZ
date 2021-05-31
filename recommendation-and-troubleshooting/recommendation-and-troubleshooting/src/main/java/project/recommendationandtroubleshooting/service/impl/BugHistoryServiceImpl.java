@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.stereotype.Service;
 import project.recommendationandtroubleshooting.model.troubleshooting.BugHistory;
 import project.recommendationandtroubleshooting.service.BugHistoryService;
 
+@Service
 public class BugHistoryServiceImpl implements BugHistoryService {
 
 	@Override
@@ -23,7 +25,7 @@ public class BugHistoryServiceImpl implements BugHistoryService {
 	}
 
 	@Override
-	public BugHistory findOne(int id) {
+	public BugHistory findOne(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -35,7 +37,7 @@ public class BugHistoryServiceImpl implements BugHistoryService {
 	}
 
 	@Override
-	public boolean delete(int id) {
+	public boolean delete(Integer id) {
 		// TODO Auto-generated method stub
 		return false;
 	}

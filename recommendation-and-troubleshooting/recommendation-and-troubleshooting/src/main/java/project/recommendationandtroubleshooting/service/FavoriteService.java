@@ -13,11 +13,11 @@ public interface FavoriteService {
 
 	Page<Favorite> findAll(Pageable pageable);
 	
-	Favorite findOne(int id);
+	Favorite findOne(Integer id);
 	
 	Favorite saveOne(Favorite admin);
 	
-	boolean delete(int id);
+	boolean delete(Integer id);
 
 	Favorite update(Favorite admin);
 }

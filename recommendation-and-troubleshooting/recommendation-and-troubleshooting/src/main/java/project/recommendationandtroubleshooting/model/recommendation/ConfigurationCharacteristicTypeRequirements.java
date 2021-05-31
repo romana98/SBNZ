@@ -10,7 +10,7 @@ public class ConfigurationCharacteristicTypeRequirements {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "characteristic_id", referencedColumnName = "id")
@@ -84,7 +84,7 @@ public class ConfigurationCharacteristicTypeRequirements {
         this.ergonomic = ergonomic;
     }
 
-    public ConfigurationCharacteristicTypeRequirements(Long id, ConfigurationCharacteristicType characteristic, Set<String> CPU, Set<String> GPU, Set<String> RAM, Set<String> OS, Set<String> PSU, Set<String> discType, Set<String> discSize, Set<String> motherboard, Set<String> screenSize, Set<String> screenResolution, Set<String> musicCard, Set<String> touchscreen, Set<String> microphone, Set<String> camera, Set<String> ergonomic) {
+    public ConfigurationCharacteristicTypeRequirements(Integer id, ConfigurationCharacteristicType characteristic, Set<String> CPU, Set<String> GPU, Set<String> RAM, Set<String> OS, Set<String> PSU, Set<String> discType, Set<String> discSize, Set<String> motherboard, Set<String> screenSize, Set<String> screenResolution, Set<String> musicCard, Set<String> touchscreen, Set<String> microphone, Set<String> camera, Set<String> ergonomic) {
         this.id = id;
         this.characteristic = characteristic;
         this.CPU = CPU;
@@ -104,7 +104,7 @@ public class ConfigurationCharacteristicTypeRequirements {
         this.ergonomic = ergonomic;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -172,7 +172,7 @@ public class ConfigurationCharacteristicTypeRequirements {
         return ergonomic;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

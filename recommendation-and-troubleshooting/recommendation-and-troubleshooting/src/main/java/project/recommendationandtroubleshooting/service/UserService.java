@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import project.recommendationandtroubleshooting.model.Admin;
 import project.recommendationandtroubleshooting.model.User;
 
 public interface UserService {
@@ -13,12 +14,18 @@ public interface UserService {
 
 	Page<User> findAll(Pageable pageable);
 	
-	User findOne(int id);
+	User findOne(Integer id);
+
+	User findByEmail(String email);
 	
 	User saveOne(User admin);
 	
-	boolean delete(int id);
+	boolean delete(Integer id);
 
-	User update(User admin);
+	User update(User user);
+
+	User registerUser(User user);
+
+	User activateAccount(Integer id);
 
 }
