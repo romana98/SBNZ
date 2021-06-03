@@ -7,11 +7,15 @@ public class UserMapper implements MapperInterface<User, UserDTO> {
 
     @Override
     public User toEntity(UserDTO dto) {
-        return new User(dto.getId(), dto.getEmail(), dto.getUsername(), dto.getPassword());
+        return new User(dto.getId(), dto.getFirstName(), dto.getLastName(), dto.getEmail());
+    }
+
+    public User toEntityWithPass(UserDTO dto) {
+        return new User(dto.getId(), dto.getFirstName(), dto.getLastName(), dto.getEmail());
     }
 
     @Override
     public UserDTO toDto(User entity) {
-        return new UserDTO(entity.getId(), entity.getUsername(), entity.getEmail());
+        return new UserDTO(entity.getId(), entity.getFirstName(), entity.getLastName(), entity.getEmail(), entity.isVerified());
     }
 }

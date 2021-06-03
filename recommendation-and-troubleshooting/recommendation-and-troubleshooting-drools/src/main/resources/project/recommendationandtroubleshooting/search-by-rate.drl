@@ -12,7 +12,7 @@ import project.recommendationandtroubleshooting.model.User;
 import java.util.List;
 
 
-query getAverageRating(Long configurationId, double $average)
+query getAverageRating(Integer configurationId, double $average)
 	$c: Configuration(id == configurationId, $ratings: ratings);
 	$average:= Number() from accumulate (
 		Rating($rate: rate) from $ratings,

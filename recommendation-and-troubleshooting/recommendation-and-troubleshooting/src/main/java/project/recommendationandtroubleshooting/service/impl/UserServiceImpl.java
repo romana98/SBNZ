@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import project.recommendationandtroubleshooting.exceptions.InvalidIdException;
+import project.recommendationandtroubleshooting.exceptions.UniqueConstraintException;
 import project.recommendationandtroubleshooting.model.User;
 import project.recommendationandtroubleshooting.repository.PersonRepository;
 import project.recommendationandtroubleshooting.repository.UserRepository;
@@ -35,7 +37,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findOne(Integer id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow(() -> new InvalidIdException("User with id " + id + " doesn't exists."));
     }
 
     @Override
@@ -45,20 +47,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveOne(User user) {
-        if (personRepository.findByEmail(user.getEmail()) == null) {
+        try {
             return userRepository.save(user);
+        } catch (Exception e) {
+            throw new UniqueConstraintException("User with email " + user.getEmail() + " already exists.");
         }
-        return null;
     }
 
     @Override
-    public boolean delete(Integer id) {
-        User found = userRepository.findById(id).orElse(null);
+    public void delete(Integer id) {
+        User found = userRepository.findById(id).orElseThrow(() -> new InvalidIdException("Admin with id " + id + " doesn't exists."));
         if (found != null) {
             userRepository.delete(found);
-            return true;
         }
-        return false;
+        throw new InvalidIdException("User with id " + id + " doesn't exists.");
     }
 
     @Override
@@ -68,15 +70,12 @@ public class UserServiceImpl implements UserService {
             user.setId(found.getId());
             return userRepository.save(user);
         }
-        return null;
+        throw new InvalidIdException("User with email " + user.getEmail() + " doesn't exists.");
     }
 
     @Override
     public User registerUser(User user) {
         User newUser = this.saveOne(user);
-        if(newUser == null)
-            return null;
-
         emailService.sendVerificationMail(newUser.getEmail(), newUser.getId());
 
         return newUser;
@@ -84,9 +83,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User activateAccount(Integer id) {
-        User found = userRepository.findById(id).orElse(null);
-        if (found == null)
-            return null;
+        User found = userRepository.findById(id).orElseThrow(() -> new InvalidIdException("Admin with id " + id + " doesn't exists."));
+
         found.setVerified(true);
         return userRepository.save(found);
     }

@@ -69,12 +69,17 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 // svim korisnicima dopusti da pristupe putanji /auth/**
                 .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .antMatchers("/v2/api-docs",
+                        "/swagger-resources",
+                        "/swagger-resources/**",
+                        "/configuration/ui",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        // -- Swagger UI v3 (OpenAPI)
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**").permitAll()
                 //.antMatchers(HttpMethod.POST,"/cultural-offers").permitAll()
-                .antMatchers(HttpMethod.GET,"/cultural-offers/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/cultural-offers/filter").permitAll()
-                .antMatchers(HttpMethod.GET,"/newsletter/cultural-offer/{id-offer}/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/comments/{culturalOfferId}/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/ratings/getRating/**").permitAll()
 
                 // umesto anotacija iynad svake metode, moze i ovde da se proveravaju prava pristupa ya odredjeni URL
                 //.antMatchers(HttpMethod.GET, "/categories").hasRole("ADMINISTRATOR")
@@ -97,5 +102,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.POST, "/auth/login", "/auth/sign-up", "/auth/activate");
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js");
+        web.ignoring().antMatchers(HttpMethod.GET, "/v2/api-docs",
+                "/configuration/ui",
+                "/swagger-resources",
+                "/swagger-resources/**",
+                "/configuration/security",
+                "/swagger-ui.html",
+                "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/webjars/**");
     }
 }

@@ -18,8 +18,8 @@ public interface AdminService {
 	Admin findByEmail(String email);
 	
 	Admin saveOne(Admin admin);
-	
-	boolean delete(Integer id);
+
+	void delete(Integer id);
 
 	Admin update(Admin admin);
 

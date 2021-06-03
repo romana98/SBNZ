@@ -20,7 +20,7 @@ public interface UserService {
 	
 	User saveOne(User user);
 	
-	boolean delete(Integer id);
+	void delete(Integer id);
 
 	User update(User user);
 

@@ -2,7 +2,6 @@ package project.recommendationandtroubleshooting.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserDTO {
@@ -10,14 +9,17 @@ public class UserDTO {
     private Integer id;
 
     @NotBlank
-    private String username;
+    private String firstName;
+
+    @NotBlank
+    private String lastName;
 
     @NotBlank
     @Email
     private String email;
 
     @NotBlank
-    @Size(min=8)
+    @Size(min = 8)
     private String password;
 
     private boolean verified;
@@ -25,23 +27,21 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(Integer id, String username, String email) {
+    public UserDTO(Integer id, String firstName, String lastName, String email, boolean verified) {
         this.id = id;
-        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
+        this.verified = verified;
     }
 
-    public UserDTO(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
-
-    public UserDTO(Integer id, String username, String email, String password) {
+    public UserDTO(Integer id, String firstName, String lastName, String email, String password, boolean verified) {
         this.id = id;
-        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.verified = verified;
     }
 
     public Integer getId() {
@@ -52,12 +52,20 @@ public class UserDTO {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {

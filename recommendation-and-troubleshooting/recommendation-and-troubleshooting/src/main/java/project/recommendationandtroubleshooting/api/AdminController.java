@@ -1,6 +1,8 @@
 package project.recommendationandtroubleshooting.api;
 
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -49,12 +51,16 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createAdministrator(@Valid @RequestBody UserDTO adminDTO) {
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully created admin."),
+            @ApiResponse(code = 400, message = "Admin with passed email already exists."),
+    })
+    @PostMapping()
+    public ResponseEntity<UserDTO> createAdministrator(@Valid @RequestBody UserDTO adminDTO) {
 
         adminDTO.setPassword(passwordEncoder.encode(adminDTO.getPassword()));
 
-        Admin verify = adminMapper.toEntity(adminDTO);
+        Admin verify = adminMapper.toEntityWithPass(adminDTO);
 
         int role = 1;
         List<Authority> auth = authorityService.findById(role);
@@ -62,14 +68,15 @@ public class AdminController {
         verify.setVerified(true);
 
         Admin savedAdmin = adminService.saveOne(verify);
-        if (savedAdmin == null) {
-            return new ResponseEntity<>("Email already exists.", HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>(adminMapper.toDto(savedAdmin), HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully deleted admin with passed id."),
+            @ApiResponse(code = 400, message = "Admin with passed id can not be found."),
+    })
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAdministrator(@PathVariable @Min(1) Integer id) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -78,15 +85,16 @@ public class AdminController {
         if (adminLogged.getId().equals(id)) {
             return new ResponseEntity<>("You are logged in.", HttpStatus.BAD_REQUEST);
         }
-        if (adminService.delete(id)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("Administrator not found.", HttpStatus.NOT_FOUND);
+        adminService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
-    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully updated admin with passed id."),
+            @ApiResponse(code = 400, message = "Admin with passed id can not be found."),
+    })
+    @PutMapping()
     public ResponseEntity<?> updateAdministrator(@Valid @RequestBody UserDTO adminDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -100,10 +108,6 @@ public class AdminController {
         adminDTO.setPassword(adminDTO.getPassword().equals("________") ? adminLogged.getPassword() : passwordEncoder.encode(adminDTO.getPassword()));
         Admin admin = adminService.update(adminMapper.toEntity(adminDTO));
 
-        if (admin == null) {
-            return new ResponseEntity<>("Email already exists.", HttpStatus.BAD_REQUEST);
-        }
-
         if (!password.equals("________")) {
             authController.updatedLoggedIn(admin.getUsername(), password);
         }
@@ -111,7 +115,11 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved admin with passed id."),
+            @ApiResponse(code = 400, message = "Admin with passed id can not be found."),
+    })
+    @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getAdministrator(@PathVariable Integer id) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -119,25 +127,38 @@ public class AdminController {
 
         Admin admin = adminService.findOne(id);
 
-        if (admin == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        } else if (admin.getEmail().equals(adminLogged.getEmail())) {
+        if (admin.getEmail().equals(adminLogged.getEmail())) {
             UserDTO adminDTO = adminMapper.toDto(admin);
             return new ResponseEntity<>(adminDTO, HttpStatus.OK);
         }
-
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
-    @RequestMapping(value = "/by-page", method = RequestMethod.GET)
-    public ResponseEntity<Page<UserDTO>> getAllAdministrators(Pageable pageable) {
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved admins page."),
+    })
+    @GetMapping("/by-page")
+    public ResponseEntity<Page<UserDTO>> getAllAdministratorsPage(Pageable pageable) {
         Page<Admin> page = adminService.findAll(pageable);
-        List<UserDTO> culturalContentCategoryDTOS = toAdminDTOList(page.toList());
-        Page<UserDTO> pageCulturalContentCategoryDTOS = new PageImpl<>(culturalContentCategoryDTOS, page.getPageable(), page.getTotalElements());
+        List<UserDTO> adminDTOS = toAdminDTOList(page.toList());
+        Page<UserDTO> pageAdminDTOS = new PageImpl<>(adminDTOS, page.getPageable(), page.getTotalElements());
 
-        return new ResponseEntity<>(pageCulturalContentCategoryDTOS, HttpStatus.OK);
+        return new ResponseEntity<>(pageAdminDTOS, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved all admins."),
+    })
+    @GetMapping()
+    public ResponseEntity<List<UserDTO>> getAllAdministrators() {
+        List<Admin> admins = adminService.findAll();
+        List<UserDTO> adminsDTOS = new ArrayList<>();
+        for (Admin admin : admins) {
+            adminsDTOS.add(adminMapper.toDto(admin));
+        }
+        return new ResponseEntity<>(adminsDTOS, HttpStatus.OK);
     }
 
     private List<UserDTO> toAdminDTOList(List<Admin> admins) {

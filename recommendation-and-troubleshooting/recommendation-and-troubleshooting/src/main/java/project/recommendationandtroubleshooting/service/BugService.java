@@ -1,23 +1,22 @@
 package project.recommendationandtroubleshooting.service;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import project.recommendationandtroubleshooting.model.troubleshooting.Bug;
+
+import java.util.List;
 
 public interface BugService {
 
-	List<Bug> findAll();
+    List<Bug> findAll();
 
-	Page<Bug> findAll(Pageable pageable);
-	
-	Bug findOne(Integer id);
-	
-	Bug saveOne(Bug admin);
-	
-	boolean delete(Integer id);
+    Page<Bug> findAll(Pageable pageable);
 
-	Bug update(Bug admin);
+    Bug findOne(Integer id);
+
+    Bug saveOne(Bug bug);
+
+    void delete(Integer id);
+
+    Bug update(Bug bug);
 }

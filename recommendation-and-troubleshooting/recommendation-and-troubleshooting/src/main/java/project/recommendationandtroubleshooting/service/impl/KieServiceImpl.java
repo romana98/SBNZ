@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.recommendationandtroubleshooting.service.KieService;
 
+// u sustini necemo ovo koristiti nego cemo za event-ove praviti kie sesiju bas pri ucitavanju
+// podataka iz fajla -> "na nivou request-a kie sesija"
 @Service
 public class KieServiceImpl implements KieService {
 

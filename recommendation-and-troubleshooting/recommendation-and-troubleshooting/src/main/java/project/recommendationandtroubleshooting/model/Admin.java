@@ -12,8 +12,8 @@ public class Admin extends Person {
 
     }
 
-    public Admin(String firstName, String lastName, String email) {
-        super(firstName, lastName, email);
+    public Admin(String firstName, String lastName, String email, String password) {
+        super(firstName, lastName, email, password);
     }
 
     public Admin(Integer id, String firstName, String lastName, String email) {

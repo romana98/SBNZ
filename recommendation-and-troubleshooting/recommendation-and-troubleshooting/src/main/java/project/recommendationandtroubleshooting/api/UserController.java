@@ -1,6 +1,8 @@
 package project.recommendationandtroubleshooting.api;
 
 
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -44,7 +46,11 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully deleted user with passed id."),
+            @ApiResponse(code = 400, message = "User with passed id can not be found."),
+    })
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable @Min(1) Integer id) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -53,15 +59,16 @@ public class UserController {
         if (userLogged.getId().equals(id)) {
             return new ResponseEntity<>("You are logged in.", HttpStatus.BAD_REQUEST);
         }
-        if (userService.delete(id)) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>("USer not found.", HttpStatus.NOT_FOUND);
+        userService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully updated user with passed id."),
+            @ApiResponse(code = 400, message = "User with passed id can not be found."),
+    })
+    @PutMapping()
     public ResponseEntity<?> updateUser(@Valid @RequestBody UserDTO userDTO) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -75,10 +82,6 @@ public class UserController {
         userDTO.setPassword(userDTO.getPassword().equals("________") ? userLogged.getPassword() : passwordEncoder.encode(userDTO.getPassword()));
         User user = userService.update(userMapper.toEntity(userDTO));
 
-        if (user == null) {
-            return new ResponseEntity<>("Email already exists.", HttpStatus.BAD_REQUEST);
-        }
-
         if (!password.equals("________")) {
             authController.updatedLoggedIn(user.getUsername(), password);
         }
@@ -86,7 +89,11 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved user with passed id."),
+            @ApiResponse(code = 400, message = "User with passed id can not be found."),
+    })
+    @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable Integer id) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -94,10 +101,7 @@ public class UserController {
 
         User user = userService.findOne(id);
 
-        if (user == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-
-        } else if (user.getEmail().equals(userLogged.getEmail())) {
+        if (user.getEmail().equals(userLogged.getEmail())) {
             UserDTO adminDTO = userMapper.toDto(user);
             return new ResponseEntity<>(adminDTO, HttpStatus.OK);
         }
@@ -106,13 +110,30 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
-    @RequestMapping(value = "/by-page", method = RequestMethod.GET)
-    public ResponseEntity<Page<UserDTO>> getAllUsers(Pageable pageable) {
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved users page."),
+    })
+    @GetMapping("/by-page")
+    public ResponseEntity<Page<UserDTO>> getAllAdministratorsPage(Pageable pageable) {
         Page<User> page = userService.findAll(pageable);
-        List<UserDTO> culturalContentCategoryDTOS = toUserDTOList(page.toList());
-        Page<UserDTO> pageCulturalContentCategoryDTOS = new PageImpl<>(culturalContentCategoryDTOS, page.getPageable(), page.getTotalElements());
+        List<UserDTO> userDTOS = toUserDTOList(page.toList());
+        Page<UserDTO> pageUserDTOS = new PageImpl<>(userDTOS, page.getPageable(), page.getTotalElements());
 
-        return new ResponseEntity<>(pageCulturalContentCategoryDTOS, HttpStatus.OK);
+        return new ResponseEntity<>(pageUserDTOS, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved all users."),
+    })
+    @GetMapping()
+    public ResponseEntity<List<UserDTO>> getAllAdministrators() {
+        List<User> users = userService.findAll();
+        List<UserDTO> usersDTOS = new ArrayList<>();
+        for (User user : users) {
+            usersDTOS.add(userMapper.toDto(user));
+        }
+        return new ResponseEntity<>(usersDTOS, HttpStatus.OK);
     }
 
     private List<UserDTO> toUserDTOList(List<User> users) {
