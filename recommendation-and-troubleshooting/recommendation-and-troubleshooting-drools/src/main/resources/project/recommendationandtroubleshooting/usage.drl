@@ -3,6 +3,99 @@ import project.recommendationandtroubleshooting.model.recommendation.InputRequir
 import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageTypeRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.SetString;
+import java.util.List;
+
+query checkIfSetIsEmpty(Set<String> reqCPU, boolean $notEmmptyCPU)
+	$notEmmptyCPU: eval(reqCPU.size() != 0)
+end;
+
+query "getConfigurationsByUsage" getConfigurationByUsage(Set<String> reqCPU, Set<String> reqGPU, Set<String> reqRAM, Set<String> reqOS, Set<String> reqPSU, 
+		Set<String> reqDiscType,
+        Set<String> reqDiscSize, Set<String> reqMotherboard, Set<String> reqScreenSize,
+        Set<String> reqScreenResolution, Set<String> reqMusicCard,
+        Set<String> reqTouchscreen, Set<String> reqMicrophone, Set<String> reqCamera, Set<String> reqErgonomic)
+    ?checkIfSetIsEmpty(reqCPU, $notEmmptyCPU;)
+    //?checkIfSetIsEmpty($reqGPU, $notEmmptyGPU;)
+    //?checkIfSetIsEmpty($reqRAM, $notEmmptyRAM;)
+    //?checkIfSetIsEmpty($reqOS, $notEmmptyOS;)
+    //?checkIfSetIsEmpty($reqPSU, $notEmmptyPSU;)
+    //?checkIfSetIsEmpty($reqDiscType, $notEmmptyDiscType;)
+    //?checkIfSetIsEmpty($reqDiscSize, $notEmmptyDiscSize;)
+    //?checkIfSetIsEmpty($reqMotherboard, $notEmmptyMotherboard;)
+    //?checkIfSetIsEmpty($reqScreenSize, $notEmmptyScreenSize;)
+    //?checkIfSetIsEmpty($reqScreenResolution, $notEmmptyScreenResolution;)
+    //?checkIfSetIsEmpty($reqMusicCard, $notEmmptyMusicCard;)
+    //?checkIfSetIsEmpty($reqTouchscreen, $notEmmptyTouchscreen;)
+    //?checkIfSetIsEmpty($reqMicrophone, $notEmmptyMicrophone;)
+    //?checkIfSetIsEmpty($reqCamera, $notEmmptyCamera;)
+    //?checkIfSetIsEmpty($reqErgonomic, $notEnotEmmptyErgonomicmpty;)
+	$configuraion: Configuration(considered == true && 
+			((CPU not memberOf reqCPU.getSetString() && $notEmmptyCPU)
+    		//||
+            //(GPU not memberOf reqGPU && $notEmmptyGPU)
+            //||
+            //(RAM not memberOf reqRAM && $notEmmptyRAM)
+            //||
+            //(OS not memberOf reqOS && $notEmmptyOS)
+            //||
+            //(PSU not memberOf reqPSU && $notEmmptyPSU)
+            //||
+            //(discType not memberOf reqDiscType && $notEmmptyDiscType)
+            //||
+            //(discSize not memberOf reqDiscSize && $notEmmptyDiscSize)
+            //||
+            //(motherboard not memberOf reqMotherboard && $notEmmptyMotherboard)
+            //||
+            //(screenSize not memberOf reqScreenSize && $notEmmptyScreenSize)
+            //||
+            //(screenResolution not memberOf reqScreenResolution && $notEmmptyScreenResolution)
+            //||
+            //(musicCard not memberOf reqMusicCard && $notEmmptyMusicCard)
+            //||
+            //(touchscreen not memberOf reqTouchScreen && $notEmmptyTouchscreen)
+            //||
+            //(microphone memberOf reqMicrophone && $notEmmptyMicrophone)
+            //||
+            //(camera not memberOf reqCamera && $notEmmptyCamera)
+            //||
+            //(ergonomic not memberOf reqEgronomic && $notEmmptyErgonomic)
+            ))
+end;
+
+rule "Usage"
+        agenda-group "recommendation"
+	    salience (3)
+    when
+        $r: Recommendations(configurations.isEmpty())
+        $i: InputRequirements($usageType: configurationUsageType);
+        $usage: String() from $usageType.getUsage();
+        $requirements: ConfigurationUsageTypeRequirements($u: usage, $u.getUsage() == $usage,
+        $reqCPU: CPU, $reqGPU: GPU, $reqRAM: RAM, $reqOS: OS, $reqPSU: PSU, $reqDiscType: discType,
+        $reqDiscSize: discSize, $reqMotherboard: motherboard, $reqScreenSize: screenSize,
+        $reqScreenResolution: screenResolution, $reqMusicCard: musicCard,
+        $reqTouchScreen: touchscreen, $reqMicrophone: microphone, $reqCamera: camera, $reqEgronomic: ergonomic);
+
+		$c: Configuration( $configurationId: id )
+        ?getConfigurationByUsage($reqCPU, $reqGPU, $reqRAM, $reqOS, $reqPSU, $reqDiscType,
+        $reqDiscSize, $reqMotherboard, $reqScreenSize,
+        $reqScreenResolution, $reqMusicCard,
+        $reqTouchScreen, $reqMicrophone, $reqCamera, $reqEgronomic)
+    then
+        System.out.println("Rule: Usage");
+    	modify($c) { setConsidered(false) }
+end
+
+
+
+
+
+/*
+package project.recommendationandtroubleshooting.recommendation;
+import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
+import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageTypeRequirements;
+import project.recommendationandtroubleshooting.model.recommendation.Configuration;
 import java.util.List;
 
 rule "Usage"
@@ -55,39 +148,8 @@ rule "Usage"
         System.out.println("Rule: Usage");
     	modify($c) { setConsidered(false) }
 end
-
-/*
-rule "Usage"
-	salience (8)
-    when
-        $i: InputRecommendation($usage: configurationUsageType.getUsage())
-        $o: Output(recommendedConfigurations.isEmpty(), usage == null, characteristics == null, budget == "done", type == "done")
-        $requirements: ConfigurationUsageTypeRequirements(usage.getUsage() == $usage)
-        $configurations: List() from collect(Configuration(considered == true))
-        Configuration(
-    		$c:this, this.getCPU() not memberOf $requirements.getCPU() && !$requirements.getCPU().isEmpty() || this.getGPU() not memberOf $requirements.getGPU() && !$requirements.getGPU().isEmpty() || this.getRAM() not memberOf $requirements.getRAM() && !$requirements.getRAM().isEmpty() || this.getOS() not memberOf $requirements.getOS() && !$requirements.getOS().isEmpty() || this.getPSU() not memberOf $requirements.getPSU() && !$requirements.getPSU().isEmpty() || this.getDiscType() not memberOf $requirements.getDiscType() && !$requirements.getDiscType().isEmpty() || this.getDiscSize() not memberOf $requirements.getDiscSize() && !$requirements.getDiscSize().isEmpty() || this.getMotherboard() not memberOf $requirements.getMotherboard() && !$requirements.getMotherboard().isEmpty() || this.getScreenSize() not memberOf $requirements.getScreenSize() && !$requirements.getScreenSize().isEmpty() || this.getScreenResolution() not memberOf $requirements.getScreenResolution() && !$requirements.getScreenResolution().isEmpty() || this.getMusicCard() not memberOf $requirements.getMusicCard() && !$requirements.getMusicCard().isEmpty() || this.isTouchscreen() not memberOf $requirements.getTouchscreen() && !$requirements.getTouchscreen().isEmpty() || this.isMicrophone() not memberOf $requirements.getMicrophone() && !$requirements.getMicrophone().isEmpty() || this.isCamera() not memberOf $requirements.getCamera() && !$requirements.getCamera().isEmpty() || this.isErgonomic() not memberOf $requirements.getErgonomic() && !$requirements.getErgonomic().isEmpty()
-    	)
-    	from $configurations
-    then
-    	modify($o) { setUsage("done") }
-    	modify($c) { setConsidered(false) }
-end
-
-rule "UsagePass"
-	salience (8)
-    when
-        $i: InputRecommendation($usage: configurationUsageType.getUsage())
-        $o: Output(recommendedConfigurations.isEmpty(), usage == null, characteristics == null, budget == "done", type == "done")
-        $requirements: ConfigurationUsageTypeRequirements(usage.getUsage() == $usage)
-        $configurations: List() from collect(Configuration(considered == true))
-        Configuration(
-    		$c:this, this.getCPU() memberOf $requirements.getCPU() || $requirements.getCPU().isEmpty(), this.getGPU() memberOf $requirements.getGPU() || $requirements.getGPU().isEmpty(), this.getRAM() memberOf $requirements.getRAM() || $requirements.getRAM().isEmpty(), this.getOS() memberOf $requirements.getOS() || $requirements.getOS().isEmpty(), this.getPSU() memberOf $requirements.getPSU() || $requirements.getPSU().isEmpty(), this.getDiscType() memberOf $requirements.getDiscType() || $requirements.getDiscType().isEmpty(), this.getDiscSize() memberOf $requirements.getDiscSize() || $requirements.getDiscSize().isEmpty(), this.getMotherboard() memberOf $requirements.getMotherboard() || $requirements.getMotherboard().isEmpty(), this.getScreenSize() memberOf $requirements.getScreenSize() || $requirements.getScreenSize().isEmpty(), this.getScreenResolution() memberOf $requirements.getScreenResolution() || $requirements.getScreenResolution().isEmpty(), this.getMusicCard() memberOf $requirements.getMusicCard() || $requirements.getMusicCard().isEmpty(), this.isTouchscreen() memberOf $requirements.getTouchscreen() || $requirements.getTouchscreen().isEmpty(), this.isMicrophone() memberOf $requirements.getMicrophone() || $requirements.getMicrophone().isEmpty(), this.isCamera() memberOf $requirements.getCamera() || $requirements.getCamera().isEmpty(), this.isErgonomic() memberOf $requirements.getErgonomic() || $requirements.getErgonomic().isEmpty()
-    	)
-    	from $configurations
-    then
-    	modify($o) { setUsage("done") }
-end
-
-
-
 */
+
+
+
+

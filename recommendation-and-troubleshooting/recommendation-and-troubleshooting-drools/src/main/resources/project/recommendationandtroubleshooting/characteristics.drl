@@ -64,37 +64,3 @@ rule "Characteristics"
         modify($c) { setConsidered(false) }
 end
 
-/*
-rule "Characteristics"
-	salience (7)
-    when
-        $i: InputRecommendation($configurationCharacteristicType: configurationCharacteristicType)
-        $ch: ConfigurationCharacteristicType($characteristic: characteristic) from $configurationCharacteristicType
-        $o: Output(recommendedConfigurations.isEmpty(), usage == "done", characteristics == null, budget == "done", type == "done")
-        $requirements: ConfigurationCharacteristicTypeRequirements(characteristic.getCharacteristic() == $characteristic)
-        $configurations: List() from collect(Configuration(considered == true))
-        Configuration(
-    		$c:this, this.getCPU() not memberOf $requirements.getCPU() && !$requirements.getCPU().isEmpty() || this.getGPU() not memberOf $requirements.getGPU() && !$requirements.getGPU().isEmpty() || this.getRAM() not memberOf $requirements.getRAM() && !$requirements.getRAM().isEmpty() || this.getOS() not memberOf $requirements.getOS() && !$requirements.getOS().isEmpty() || this.getPSU() not memberOf $requirements.getPSU() && !$requirements.getPSU().isEmpty() || this.getDiscType() not memberOf $requirements.getDiscType() && !$requirements.getDiscType().isEmpty() || this.getDiscSize() not memberOf $requirements.getDiscSize() && !$requirements.getDiscSize().isEmpty() || this.getMotherboard() not memberOf $requirements.getMotherboard() && !$requirements.getMotherboard().isEmpty() || this.getScreenSize() not memberOf $requirements.getScreenSize() && !$requirements.getScreenSize().isEmpty() || this.getScreenResolution() not memberOf $requirements.getScreenResolution() && !$requirements.getScreenResolution().isEmpty() || this.getMusicCard() not memberOf $requirements.getMusicCard() && !$requirements.getMusicCard().isEmpty() || this.isTouchscreen() not memberOf $requirements.getTouchscreen() && !$requirements.getTouchscreen().isEmpty() || this.isMicrophone() not memberOf $requirements.getMicrophone() && !$requirements.getMicrophone().isEmpty() || this.isCamera() not memberOf $requirements.getCamera() && !$requirements.getCamera().isEmpty() || this.isErgonomic() not memberOf $requirements.getErgonomic() && !$requirements.getErgonomic().isEmpty()
-    	)
-    	from $configurations
-    then
-    	modify($o) { setCharacteristics("done") }
-    	modify($c) { setConsidered(false) }
-end
-
-rule "CharacteristicsPass"
-	salience (7)
-    when
-        $i: InputRecommendation($configurationCharacteristicType: configurationCharacteristicType)
-        $ch: ConfigurationCharacteristicType($characteristic: characteristic) from $configurationCharacteristicType
-        $o: Output(recommendedConfigurations.isEmpty(), usage == "done", characteristics == null, budget == "done", type == "done")
-        $requirements: ConfigurationCharacteristicTypeRequirements(characteristic.getCharacteristic() == $characteristic)
-        $configurations: List() from collect(Configuration(considered == true))
-        Configuration(
-    		$c:this, this.getCPU() memberOf $requirements.getCPU() || $requirements.getCPU().isEmpty(), this.getGPU() memberOf $requirements.getGPU() || $requirements.getGPU().isEmpty(), this.getRAM() memberOf $requirements.getRAM() || $requirements.getRAM().isEmpty(), this.getOS() memberOf $requirements.getOS() || $requirements.getOS().isEmpty(), this.getPSU() memberOf $requirements.getPSU() || $requirements.getPSU().isEmpty(), this.getDiscType() memberOf $requirements.getDiscType() || $requirements.getDiscType().isEmpty(), this.getDiscSize() memberOf $requirements.getDiscSize() || $requirements.getDiscSize().isEmpty(), this.getMotherboard() memberOf $requirements.getMotherboard() || $requirements.getMotherboard().isEmpty(), this.getScreenSize() memberOf $requirements.getScreenSize() || $requirements.getScreenSize().isEmpty(), this.getScreenResolution() memberOf $requirements.getScreenResolution() || $requirements.getScreenResolution().isEmpty(), this.getMusicCard() memberOf $requirements.getMusicCard() || $requirements.getMusicCard().isEmpty(), this.isTouchscreen() memberOf $requirements.getTouchscreen() || $requirements.getTouchscreen().isEmpty(), this.isMicrophone() memberOf $requirements.getMicrophone() || $requirements.getMicrophone().isEmpty(), this.isCamera() memberOf $requirements.getCamera() || $requirements.getCamera().isEmpty(), this.isErgonomic() memberOf $requirements.getErgonomic() || $requirements.getErgonomic().isEmpty()
-    	)
-    	from $configurations
-    then
-    	modify($o) { setCharacteristics("done") }
-end
-*/

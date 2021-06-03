@@ -159,12 +159,13 @@ public class RecommendationTest {
         ConfigurationUsageTypeRequirements reqSD = new ConfigurationUsageTypeRequirements();
         reqSD.setUsage(usage1);
         reqSD.setCPU(sdCPU);
-        ConfigurationUsageTypeRequirements reqG = new ConfigurationUsageTypeRequirements();
+        //reqSD.setCPU(new SetString(sdCPU));
+        /*ConfigurationUsageTypeRequirements reqG = new ConfigurationUsageTypeRequirements();
         reqG.setUsage(usage2);
-        reqG.setGPU(gGPU);
+        reqG.setGPU(gGPU);*/
 
         kieSession.insert(reqSD);
-        kieSession.insert(reqG);
+        //kieSession.insert(reqG);
 
         InputRequirements input1 = new InputRequirements(b1, usage1, characteristicsList1, m1);
 

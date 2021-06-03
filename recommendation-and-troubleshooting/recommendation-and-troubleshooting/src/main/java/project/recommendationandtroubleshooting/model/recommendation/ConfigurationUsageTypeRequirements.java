@@ -17,7 +17,8 @@ public class ConfigurationUsageTypeRequirements {
     private ConfigurationUsageType usage;
 
     @ElementCollection
-    private Set<String> CPU = new HashSet<>();
+    private Set<String> CPU;
+    //private SetString CPU;
 
     @ElementCollection
     private Set<String> GPU = new HashSet<>();
@@ -62,7 +63,6 @@ public class ConfigurationUsageTypeRequirements {
     private Set<String> ergonomic = new HashSet<>();
 
     public ConfigurationUsageTypeRequirements() {
-
     }
 
     public ConfigurationUsageTypeRequirements(ConfigurationUsageType usage, Set<String> CPU, Set<String> GPU, Set<String> RAM, Set<String> OS, Set<String> PSU, Set<String> discType, Set<String> discSize, Set<String> motherboard, Set<String> screenSize, Set<String> screenResolution, Set<String> musicCard, Set<String> touchscreen, Set<String> microphone, Set<String> camera, Set<String> ergonomic) {
