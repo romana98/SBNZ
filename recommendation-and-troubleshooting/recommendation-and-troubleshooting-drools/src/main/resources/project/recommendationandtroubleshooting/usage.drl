@@ -5,17 +5,64 @@ import project.recommendationandtroubleshooting.model.recommendation.Configurati
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
 import project.recommendationandtroubleshooting.model.recommendation.SetString;
 import java.util.List;
+import java.util.Set;
 
-query checkIfSetIsEmpty(Set<String> reqCPU, boolean $notEmmptyCPU)
-	$notEmmptyCPU: eval(reqCPU.size() != 0)
+
+query checkIfSetIsEmpty(Set entity)
+	eval(entity.size() != 0)
 end;
 
-query "getConfigurationsByUsage" getConfigurationByUsage(Set<String> reqCPU, Set<String> reqGPU, Set<String> reqRAM, Set<String> reqOS, Set<String> reqPSU, 
-		Set<String> reqDiscType,
-        Set<String> reqDiscSize, Set<String> reqMotherboard, Set<String> reqScreenSize,
-        Set<String> reqScreenResolution, Set<String> reqMusicCard,
-        Set<String> reqTouchscreen, Set<String> reqMicrophone, Set<String> reqCamera, Set<String> reqErgonomic)
-    ?checkIfSetIsEmpty(reqCPU, $notEmmptyCPU;)
+
+
+query getConfigurationsByUsage(Set reqCPU, Set reqGPU, Set reqRAM, Set reqOS, Set reqPSU,
+		Set reqDiscType, Set reqDiscSize, Set reqMotherboard, Set reqScreenSize,
+        Set reqScreenResolution, Set reqMusicCard,
+        Set reqTouchscreen, Set reqMicrophone, Set reqCamera, Set reqErgonomic)
+    checkIfSetIsEmpty(reqCPU;)
+    checkIfSetIsEmpty(reqGPU;)
+    checkIfSetIsEmpty(reqRAM;)
+    checkIfSetIsEmpty(reqOS;)
+    checkIfSetIsEmpty(reqPSU;)
+    checkIfSetIsEmpty(reqDiscType;)
+    checkIfSetIsEmpty(reqDiscSize;)
+    checkIfSetIsEmpty(reqMotherboard;)
+    checkIfSetIsEmpty(reqScreenSize;)
+    checkIfSetIsEmpty(reqScreenResolution;)
+    checkIfSetIsEmpty(reqTouchscreen;)
+    checkIfSetIsEmpty(reqMicrophone;)
+    checkIfSetIsEmpty(reqCamera;)
+    checkIfSetIsEmpty(reqErgonomic;)
+
+	$configuraion: Configuration(
+                  (CPU not memberOf reqCPU)
+                  ||
+                  (GPU not memberOf reqGPU)
+                  ||
+                  (RAM not memberOf reqRAM)
+                  ||
+                  (OS not memberOf reqOS)
+                  ||
+                  (PSU not memberOf reqPSU)
+                  ||
+                  (discType not memberOf reqDiscType)
+                  ||
+                  (motherboard not memberOf reqMotherboard)
+                  ||
+                  (screenSize not memberOf reqScreenSize)
+                  ||
+                  (screenResolution not memberOf reqScreenResolution)
+                  ||
+                  (touchscreen not memberOf reqTouchscreen)
+                  ||
+                  (microphone not memberOf reqMicrophone)
+                  ||
+                  (camera not memberOf reqCamera)
+                  ||
+                  (ergonomic not memberOf reqErgonomic)
+                 )
+end;
+
+    //?checkIfSetIsEmpty(reqCPU, $notEmmptyCPU;)
     //?checkIfSetIsEmpty($reqGPU, $notEmmptyGPU;)
     //?checkIfSetIsEmpty($reqRAM, $notEmmptyRAM;)
     //?checkIfSetIsEmpty($reqOS, $notEmmptyOS;)
@@ -30,38 +77,6 @@ query "getConfigurationsByUsage" getConfigurationByUsage(Set<String> reqCPU, Set
     //?checkIfSetIsEmpty($reqMicrophone, $notEmmptyMicrophone;)
     //?checkIfSetIsEmpty($reqCamera, $notEmmptyCamera;)
     //?checkIfSetIsEmpty($reqErgonomic, $notEnotEmmptyErgonomicmpty;)
-	$configuraion: Configuration(considered == true && 
-			((CPU not memberOf reqCPU.getSetString() && $notEmmptyCPU)
-    		//||
-            //(GPU not memberOf reqGPU && $notEmmptyGPU)
-            //||
-            //(RAM not memberOf reqRAM && $notEmmptyRAM)
-            //||
-            //(OS not memberOf reqOS && $notEmmptyOS)
-            //||
-            //(PSU not memberOf reqPSU && $notEmmptyPSU)
-            //||
-            //(discType not memberOf reqDiscType && $notEmmptyDiscType)
-            //||
-            //(discSize not memberOf reqDiscSize && $notEmmptyDiscSize)
-            //||
-            //(motherboard not memberOf reqMotherboard && $notEmmptyMotherboard)
-            //||
-            //(screenSize not memberOf reqScreenSize && $notEmmptyScreenSize)
-            //||
-            //(screenResolution not memberOf reqScreenResolution && $notEmmptyScreenResolution)
-            //||
-            //(musicCard not memberOf reqMusicCard && $notEmmptyMusicCard)
-            //||
-            //(touchscreen not memberOf reqTouchScreen && $notEmmptyTouchscreen)
-            //||
-            //(microphone memberOf reqMicrophone && $notEmmptyMicrophone)
-            //||
-            //(camera not memberOf reqCamera && $notEmmptyCamera)
-            //||
-            //(ergonomic not memberOf reqEgronomic && $notEmmptyErgonomic)
-            ))
-end;
 
 rule "Usage"
         agenda-group "recommendation"
@@ -76,11 +91,11 @@ rule "Usage"
         $reqScreenResolution: screenResolution, $reqMusicCard: musicCard,
         $reqTouchScreen: touchscreen, $reqMicrophone: microphone, $reqCamera: camera, $reqEgronomic: ergonomic);
 
-		$c: Configuration( $configurationId: id )
-        ?getConfigurationByUsage($reqCPU, $reqGPU, $reqRAM, $reqOS, $reqPSU, $reqDiscType,
+		$c: Configuration( $configurationId: id, considered == true )
+        getConfigurationsByUsage($reqCPU, $reqGPU, $reqRAM, $reqOS, $reqPSU, $reqDiscType,
         $reqDiscSize, $reqMotherboard, $reqScreenSize,
         $reqScreenResolution, $reqMusicCard,
-        $reqTouchScreen, $reqMicrophone, $reqCamera, $reqEgronomic)
+        $reqTouchScreen, $reqMicrophone, $reqCamera, $reqEgronomic;)
     then
         System.out.println("Rule: Usage");
     	modify($c) { setConsidered(false) }
