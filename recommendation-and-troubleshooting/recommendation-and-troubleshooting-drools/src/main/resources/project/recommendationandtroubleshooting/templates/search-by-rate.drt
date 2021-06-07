@@ -3,7 +3,7 @@ template header
 minRate
 maxRate
 
-package project.recommendationandtroubleshooting.recommendation;
+package project.recommendationandtroubleshooting;
 import project.recommendationandtroubleshooting.model.recommendation.Configurations;
 import project.recommendationandtroubleshooting.model.recommendation.Configuration;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
@@ -20,7 +20,7 @@ import java.util.List;
 template "interval-rating"
 
 
-query getAverageRating(Long configurationId, double $average)
+query getAverageRating(Integer configurationId, double $average)
 	$c: Configuration(id == configurationId, $ratings: ratings);
 	$average:= Number() from accumulate (
 		Rating($rate: rate) from $ratings,

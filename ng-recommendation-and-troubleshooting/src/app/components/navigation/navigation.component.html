@@ -1,0 +1,11 @@
+<div *ngIf="role === this.unauthorized">
+  <app-not-logged-in></app-not-logged-in>
+</div>
+
+<div *ngIf="role === this.admin">
+  <app-admin-navigation (logOut)="logOut()"></app-admin-navigation>
+</div>
+
+<div *ngIf="role === this.user">
+  <app-user-navigation (logOut)="logOut()"></app-user-navigation>
+</div>

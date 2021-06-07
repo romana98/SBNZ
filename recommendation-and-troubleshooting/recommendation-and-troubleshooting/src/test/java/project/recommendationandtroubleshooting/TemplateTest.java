@@ -49,16 +49,16 @@ public class TemplateTest {
 
         try {
             InputStream template = new FileInputStream(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\templates\\interval-report.drt");
+                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\templates\\interval-report.drt");
 
             List<IntervalDTO> arguments = new ArrayList<>();
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm");
-            arguments.add(new IntervalDTO("2021-05-28", "2021-05-31"));
+            arguments.add(new IntervalDTO("2021-06-05", "2021-06-07"));
             ObjectDataCompiler compiler = new ObjectDataCompiler();
             String drl = compiler.compile(arguments, template);
 
             FileOutputStream drlFile = new FileOutputStream(new File(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\interval-report.drl"), false);
+                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\interval-report.drl"), false);
             drlFile.write(drl.getBytes());
             drlFile.close();
 
@@ -140,7 +140,7 @@ public class TemplateTest {
 
         try {
             InputStream template = new FileInputStream(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\templates\\search-by-rate.drt");
+                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\templates\\search-by-rate.drt");
 
             List<RateDTO> arguments = new ArrayList<RateDTO>();
             arguments.add(new RateDTO(2.0, 5.0));
@@ -149,13 +149,13 @@ public class TemplateTest {
             String drl = compiler.compile(arguments, template);
 
             FileOutputStream drlFile = new FileOutputStream(new File(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\search-by-rate.drl"), false);
+                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\search-by-rate.drl"), false);
             drlFile.write(drl.getBytes());
             drlFile.close();
 
             InvocationRequest request = new DefaultInvocationRequest();
             //request.setInputStream(InputStream.nullInputStream());
-            request.setPomFile(new File("../recommendation-and-troibleshooting/pom.xml"));
+            request.setPomFile(new File("../recommendation-and-troubleshooting/pom.xml"));
             request.setGoals(Arrays.asList("clean", "install"));
 
             Invoker invoker = new DefaultInvoker();
