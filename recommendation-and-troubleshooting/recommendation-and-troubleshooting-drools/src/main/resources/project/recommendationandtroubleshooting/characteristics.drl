@@ -1,7 +1,7 @@
 package project.recommendationandtroubleshooting.recommendation;
 
 import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
@@ -26,8 +26,8 @@ rule "Characteristics"
                 $reqScreenResolution: screenResolution, $reqMusicCard: musicCard,
                 $reqTouchScreen: touchscreen, $reqMicrophone: microphone, $reqCamera: camera, $reqEgronomic: ergonomic);
 
-        $configurations: List() from collect(Configuration(considered == true))
-        $c: Configuration(
+        $configurations: List() from collect(ConfigurationClass(considered == true))
+        $c: ConfigurationClass(
            (CPU not memberOf $reqCPU && !$reqCPU.isEmpty())
            ||
            (GPU not memberOf $reqGPU && !$reqGPU.isEmpty())

@@ -11,17 +11,17 @@ public class Rating {
     private Integer id;
 
     @Column(name = "rate", nullable = false)
-    private Double rate;
+    private double rate;
 
     public Rating() {
 
     }
 
-    public Rating(Double rate) {
+    public Rating(double rate) {
         this.rate = rate;
     }
 
-    public Rating(Integer id, Double rate) {
+    public Rating(Integer id, double rate) {
         this.id = id;
         this.rate = rate;
     }
@@ -30,7 +30,7 @@ public class Rating {
         return id;
     }
 
-    public Double getRate() {
+    public double getRate() {
         return rate;
     }
 

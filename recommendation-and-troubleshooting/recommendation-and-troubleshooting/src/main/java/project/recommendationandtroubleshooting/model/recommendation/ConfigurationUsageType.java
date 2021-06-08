@@ -41,4 +41,11 @@ public class ConfigurationUsageType {
     public void setUsage(String usage) {
         this.usage = usage;
     }
+
+	@Override
+	public String toString() {
+		return "ConfigurationUsageType [id=" + id + ", usage=" + usage + "]";
+	}
+    
+    
 }

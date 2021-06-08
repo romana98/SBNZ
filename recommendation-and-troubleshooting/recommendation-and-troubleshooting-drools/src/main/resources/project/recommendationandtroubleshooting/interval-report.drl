@@ -1,5 +1,5 @@
 package project.recommendationandtroubleshooting.recommendation;
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 import project.recommendationandtroubleshooting.model.recommendation.Configurations;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
@@ -17,10 +17,10 @@ rule "Popular in given interval - put to favorite at least 6 times by 4 differen
         lock-on-active true
     when
         $pc: Configurations();
-        $confs: List() from collect (Configuration());
+        $confs: List() from collect (ConfigurationClass());
         $users: List() from collect (User());
         $res: List() from accumulate(
-            	    Configuration($c: this, $confId: id) from $confs and
+            	    ConfigurationClass($c: this, $confId: id) from $confs and
             	    Number($num: intValue() >= 4) from accumulate(
                              	User($user: this, $favorites: favorites) from $users and
                              		Favorite($f: this, $conf: configuration, $conf.id == $confId, putToFavorite >= 6,

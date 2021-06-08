@@ -17,7 +17,7 @@ import project.recommendationandtroubleshooting.dto.RateDTO;
 import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.enums.DiscType;
 import project.recommendationandtroubleshooting.model.User;
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 import project.recommendationandtroubleshooting.model.recommendation.Configurations;
 import project.recommendationandtroubleshooting.model.recommendation.Favorite;
 import project.recommendationandtroubleshooting.model.recommendation.Rating;
@@ -49,7 +49,7 @@ public class TemplateTest {
 
         try {
             InputStream template = new FileInputStream(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\templates\\interval-report.drt");
+                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\templates\\interval-report.drt");
 
             List<IntervalDTO> arguments = new ArrayList<>();
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm");
@@ -58,13 +58,13 @@ public class TemplateTest {
             String drl = compiler.compile(arguments, template);
 
             FileOutputStream drlFile = new FileOutputStream(new File(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\interval-report.drl"), false);
+                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\interval-report.drl"), false);
             drlFile.write(drl.getBytes());
             drlFile.close();
 
             InvocationRequest request = new DefaultInvocationRequest();
             //request.setInputStream(InputStream.nullInputStream());
-            request.setPomFile(new File("../recommendation-and-troibleshooting/pom.xml"));
+            request.setPomFile(new File("../recommendation-and-troubleshooting/pom.xml"));
             request.setGoals(Arrays.asList("clean", "install"));
 
             Invoker invoker = new DefaultInvoker();
@@ -73,9 +73,9 @@ public class TemplateTest {
 
             // Fire new rule
 
-            Configuration c1 = new Configuration(1, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
-            Configuration c2 = new Configuration(2, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
-            Configuration c3 = new Configuration(3, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+            ConfigurationClass c1 = new ConfigurationClass(1, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+            ConfigurationClass c2 = new ConfigurationClass(2, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
+            ConfigurationClass c3 = new ConfigurationClass(3, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
 
             kieSession.insert(c1);
             kieSession.insert(c2);
@@ -140,22 +140,22 @@ public class TemplateTest {
 
         try {
             InputStream template = new FileInputStream(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\templates\\search-by-rate.drt");
+                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\templates\\search-by-rate.drt");
 
             List<RateDTO> arguments = new ArrayList<RateDTO>();
             arguments.add(new RateDTO(2.0, 5.0));
             ObjectDataCompiler compiler = new ObjectDataCompiler();
             System.out.println("++++++++++++++++++++++++++++++++");
             String drl = compiler.compile(arguments, template);
-
+            
             FileOutputStream drlFile = new FileOutputStream(new File(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\search-by-rate.drl"), false);
+                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\search-by-rate.drl"), false);
             drlFile.write(drl.getBytes());
             drlFile.close();
 
             InvocationRequest request = new DefaultInvocationRequest();
             //request.setInputStream(InputStream.nullInputStream());
-            request.setPomFile(new File("../recommendation-and-troibleshooting/pom.xml"));
+            request.setPomFile(new File("../recommendation-and-troubleshooting/pom.xml"));
             request.setGoals(Arrays.asList("clean", "install"));
 
             Invoker invoker = new DefaultInvoker();
@@ -164,9 +164,9 @@ public class TemplateTest {
 
             // Fire new rule
 
-            Configuration c1 = new Configuration(1, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
-            Configuration c2 = new Configuration(2, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
-            Configuration c3 = new Configuration(3, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+            ConfigurationClass c1 = new ConfigurationClass(1, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
+            ConfigurationClass c2 = new ConfigurationClass(2, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
+            ConfigurationClass c3 = new ConfigurationClass(3, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
 
             c1.setRatings(new HashSet<Rating>());
     	    c2.setRatings(new HashSet<Rating>());
@@ -180,7 +180,7 @@ public class TemplateTest {
             kieSession.insert(c3);
 
             Configurations output = new Configurations();
-            output.setConfigurations(new ArrayList<Configuration>());
+            output.setConfigurations(new ArrayList<ConfigurationClass>());
             kieSession.insert(output);
 
             kieSession.getAgenda().getAgendaGroup("search-by-rate").setFocus();

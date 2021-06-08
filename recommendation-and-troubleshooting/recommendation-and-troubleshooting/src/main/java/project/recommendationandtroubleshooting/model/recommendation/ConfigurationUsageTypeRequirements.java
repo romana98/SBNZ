@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-
+@Entity
 @Table(name = "configuration_usages_requirements")
 public class ConfigurationUsageTypeRequirements {
 
@@ -50,22 +50,22 @@ public class ConfigurationUsageTypeRequirements {
     private Set<String> musicCard = new HashSet<>();
 
     @ElementCollection
-    private Set<String> touchscreen = new HashSet<>();
+    private Set<Boolean> touchscreen = new HashSet<>();
 
     @ElementCollection
-    private Set<String> microphone = new HashSet<>();
+    private Set<Boolean> microphone = new HashSet<>();
 
     @ElementCollection
-    private Set<String> camera = new HashSet<>();
+    private Set<Boolean> camera = new HashSet<>();
 
     @ElementCollection
-    private Set<String> ergonomic = new HashSet<>();
+    private Set<Boolean> ergonomic = new HashSet<>();
 
     public ConfigurationUsageTypeRequirements() {
 
     }
 
-    public ConfigurationUsageTypeRequirements(ConfigurationUsageType usage, Set<String> CPU, Set<String> GPU, Set<String> RAM, Set<String> OS, Set<String> PSU, Set<String> discType, Set<String> discSize, Set<String> motherboard, Set<String> screenSize, Set<String> screenResolution, Set<String> musicCard, Set<String> touchscreen, Set<String> microphone, Set<String> camera, Set<String> ergonomic) {
+    public ConfigurationUsageTypeRequirements(ConfigurationUsageType usage, Set<String> CPU, Set<String> GPU, Set<String> RAM, Set<String> OS, Set<String> PSU, Set<String> discType, Set<String> discSize, Set<String> motherboard, Set<String> screenSize, Set<String> screenResolution, Set<String> musicCard, Set<Boolean> touchscreen, Set<Boolean> microphone, Set<Boolean> camera, Set<Boolean> ergonomic) {
         this.usage = usage;
         this.CPU = CPU;
         this.GPU = GPU;
@@ -84,7 +84,7 @@ public class ConfigurationUsageTypeRequirements {
         this.ergonomic = ergonomic;
     }
 
-    public ConfigurationUsageTypeRequirements(Integer id, ConfigurationUsageType usage, Set<String> CPU, Set<String> GPU, Set<String> RAM, Set<String> OS, Set<String> PSU, Set<String> discType, Set<String> discSize, Set<String> motherboard, Set<String> screenSize, Set<String> screenResolution, Set<String> musicCard, Set<String> touchscreen, Set<String> microphone, Set<String> camera, Set<String> ergonomic) {
+    public ConfigurationUsageTypeRequirements(Integer id, ConfigurationUsageType usage, Set<String> CPU, Set<String> GPU, Set<String> RAM, Set<String> OS, Set<String> PSU, Set<String> discType, Set<String> discSize, Set<String> motherboard, Set<String> screenSize, Set<String> screenResolution, Set<String> musicCard, Set<Boolean> touchscreen, Set<Boolean> microphone, Set<Boolean> camera, Set<Boolean> ergonomic) {
         this.id = id;
         this.usage = usage;
         this.CPU = CPU;
@@ -156,19 +156,19 @@ public class ConfigurationUsageTypeRequirements {
         return musicCard;
     }
 
-    public Set<String> getTouchscreen() {
+    public Set<Boolean> getTouchscreen() {
         return touchscreen;
     }
 
-    public Set<String> getMicrophone() {
+    public Set<Boolean> getMicrophone() {
         return microphone;
     }
 
-    public Set<String> getCamera() {
+    public Set<Boolean> getCamera() {
         return camera;
     }
 
-    public Set<String> getErgonomic() {
+    public Set<Boolean> getErgonomic() {
         return ergonomic;
     }
 
@@ -224,19 +224,19 @@ public class ConfigurationUsageTypeRequirements {
         this.musicCard = musicCard;
     }
 
-    public void setTouchscreen(Set<String> touchscreen) {
+    public void setTouchscreen(Set<Boolean> touchscreen) {
         this.touchscreen = touchscreen;
     }
 
-    public void setMicrophone(Set<String> microphone) {
+    public void setMicrophone(Set<Boolean> microphone) {
         this.microphone = microphone;
     }
 
-    public void setCamera(Set<String> camera) {
+    public void setCamera(Set<Boolean> camera) {
         this.camera = camera;
     }
 
-    public void setErgonomic(Set<String> ergonomic) {
+    public void setErgonomic(Set<Boolean> ergonomic) {
         this.ergonomic = ergonomic;
     }
 }

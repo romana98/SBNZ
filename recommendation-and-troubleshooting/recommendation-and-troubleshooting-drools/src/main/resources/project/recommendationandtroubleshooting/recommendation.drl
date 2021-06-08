@@ -1,6 +1,6 @@
 package project;
 
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
@@ -16,7 +16,7 @@ rule "Recommendation"
 	    salience (1)
     when
         $r: Recommendations(configurations.isEmpty());
-        $configurations: Set() from collect(Configuration(considered == true));
+        $configurations: Set() from collect(ConfigurationClass(considered == true));
     then
         System.out.println("Rule: Recommendation");
         modify($r) { setConfigurations($configurations) };

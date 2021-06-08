@@ -1,5 +1,5 @@
 package project.recommendationandtroubleshooting.recommendation;
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
@@ -15,8 +15,8 @@ rule "Desktop"
     when
         $r: Recommendations(configurations.isEmpty())
         $i: InputRequirements($mobility: mobility, $mobility.getMobility() < 50)
-        $configurations: List() from collect(Configuration(considered == true))
-        $c: Configuration(type == ConfigurationType.LAPTOP) from $configurations
+        $configurations: List() from collect(ConfigurationClass(considered == true))
+        $c: ConfigurationClass(type == ConfigurationType.LAPTOP) from $configurations
     then
         System.out.println("Rule: Desktop");
     	modify($c) { setConsidered(false) }
@@ -28,8 +28,8 @@ rule "Laptop"
     when
         $r: Recommendations(configurations.isEmpty())
         $i: InputRequirements($mobility: mobility, $mobility.getMobility() >= 50)
-        $configurations: List() from collect(Configuration(considered == true))
-        $c: Configuration(type == ConfigurationType.DESKTOP) from $configurations
+        $configurations: List() from collect(ConfigurationClass(considered == true))
+        $c: ConfigurationClass(type == ConfigurationType.DESKTOP) from $configurations
     then
         System.out.println("Rule: Laptop");
     	modify($c) { setConsidered(false) }

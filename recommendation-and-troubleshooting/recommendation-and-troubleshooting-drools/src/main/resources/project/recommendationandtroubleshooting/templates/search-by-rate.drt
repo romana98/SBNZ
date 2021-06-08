@@ -5,7 +5,7 @@ maxRate
 
 package project.recommendationandtroubleshooting.recommendation;
 import project.recommendationandtroubleshooting.model.recommendation.Configurations;
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
 import project.recommendationandtroubleshooting.model.recommendation.Budget;
@@ -20,8 +20,8 @@ import java.util.List;
 template "interval-rating"
 
 
-query getAverageRating(Long configurationId, double $average)
-	$c: Configuration(id == configurationId, $ratings: ratings);
+query getAverageRating(Integer configurationId, Double $average)
+	$c: ConfigurationClass(id == configurationId, $ratings: ratings);
 	$average:= Number() from accumulate (
 		Rating($rate: rate) from $ratings,
 		average($rate));
@@ -32,7 +32,7 @@ rule "Get configurations rated between minRate and maxRate_@{row.rowNumber}"
 	agenda-group "search-by-rate"
 when	
 	$pc: Configurations();
-	$c: Configuration($idConf: id);
+	$c: ConfigurationClass($idConf: id);
 	?getAverageRating($idConf, $average;)
 	eval($average >= @{minRate} && $average <= @{maxRate})
 then
@@ -43,4 +43,3 @@ then
 end
 
 end template
-

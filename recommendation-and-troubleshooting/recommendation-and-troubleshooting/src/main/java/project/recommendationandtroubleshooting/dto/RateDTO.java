@@ -1,9 +1,9 @@
 package project.recommendationandtroubleshooting.dto;
 
 public class RateDTO {
-	private double minRate;
-	private double maxRate;
-	public RateDTO(double minRate, double maxRate) {
+	private Double minRate;
+	private Double maxRate;
+	public RateDTO(Double minRate, Double maxRate) {
 		super();
 		this.minRate = minRate;
 		this.maxRate = maxRate;
@@ -11,7 +11,7 @@ public class RateDTO {
 	
 	public RateDTO() {}
 
-	public double getMinRate() {
+	public Double getMinRate() {
 		return minRate;
 	}
 	
@@ -22,15 +22,15 @@ public class RateDTO {
 		return "RateDTO [minRate=" + minRate + ", maxRate=" + maxRate + "]";
 	}
 
-	public void setMinRate(double minRate) {
+	public void setMinRate(Double minRate) {
 		this.minRate = minRate;
 	}
 
-	public double getMaxRate() {
+	public Double getMaxRate() {
 		return maxRate;
 	}
 
-	public void setMaxRate(double maxRate) {
+	public void setMaxRate(Double maxRate) {
 		this.maxRate = maxRate;
 	}
 	

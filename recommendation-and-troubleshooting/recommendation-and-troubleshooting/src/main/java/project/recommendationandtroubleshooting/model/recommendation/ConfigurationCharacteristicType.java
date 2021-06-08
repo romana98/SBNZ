@@ -41,4 +41,11 @@ public class ConfigurationCharacteristicType {
     public void setCharacteristic(String characteristic) {
         this.characteristic = characteristic;
     }
+
+	@Override
+	public String toString() {
+		return "ConfigurationCharacteristicType [id=" + id + ", characteristic=" + characteristic + "]";
+	}
+    
+    
 }

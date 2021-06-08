@@ -5,24 +5,24 @@ import java.util.Set;
 
 public class Recommendations {
 
-    private Set<Configuration> configurations = new HashSet<>();
+    private Set<ConfigurationClass> configurations = new HashSet<>();
 
     public Recommendations() {
     }
 
-    public Recommendations(Set<Configuration> configurations) {
+    public Recommendations(Set<ConfigurationClass> configurations) {
         this.configurations = configurations;
     }
 
-    public void addConfiguration(Configuration configuration) {
+    public void addConfiguration(ConfigurationClass configuration) {
         this.configurations.add(configuration);
     }
 
-    public Set<Configuration> getConfigurations() {
+    public Set<ConfigurationClass> getConfigurations() {
         return configurations;
     }
 
-    public void setConfigurations(Set<Configuration> configurations) {
+    public void setConfigurations(Set<ConfigurationClass> configurations) {
         this.configurations = configurations;
     }
 }

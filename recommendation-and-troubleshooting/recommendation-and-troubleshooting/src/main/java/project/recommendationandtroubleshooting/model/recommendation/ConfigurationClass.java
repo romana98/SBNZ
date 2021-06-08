@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "configurations")
-public class Configuration {
+public class ConfigurationClass {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,11 +74,11 @@ public class Configuration {
     @Column(name = "considered", nullable = false)
     private Boolean considered = true;
 
-    public Configuration() {
+    public ConfigurationClass() {
 
     }
 
-    public Configuration(Long price, ConfigurationType type, String CPU, String GPU, String RAM, String OS, String PSU, DiscType discType, String discSize, String motherboard, String screenSize, String screenResolution, String musicCard, boolean touchscreen, boolean microphone, boolean camera, boolean ergonomic, Set<Rating> ratings, Boolean considered) {
+    public ConfigurationClass(Long price, ConfigurationType type, String CPU, String GPU, String RAM, String OS, String PSU, DiscType discType, String discSize, String motherboard, String screenSize, String screenResolution, String musicCard, boolean touchscreen, boolean microphone, boolean camera, boolean ergonomic, Set<Rating> ratings, Boolean considered) {
         this.price = price;
         this.type = type;
         this.CPU = CPU;
@@ -100,7 +100,7 @@ public class Configuration {
         this.considered = considered;
     }
 
-    public Configuration(Integer id, Long price, ConfigurationType type, String CPU, String GPU, String RAM, String OS, String PSU, DiscType discType, String discSize, String motherboard, String screenSize, String screenResolution, String musicCard, boolean touchscreen, boolean microphone, boolean camera, boolean ergonomic, Set<Rating> ratings, Boolean considered) {
+    public ConfigurationClass(Integer id, Long price, ConfigurationType type, String CPU, String GPU, String RAM, String OS, String PSU, DiscType discType, String discSize, String motherboard, String screenSize, String screenResolution, String musicCard, boolean touchscreen, boolean microphone, boolean camera, boolean ergonomic, Set<Rating> ratings, Boolean considered) {
         this.id = id;
         this.price = price;
         this.type = type;

@@ -5,25 +5,25 @@ import java.util.List;
 
 public class Configurations {
 
-    private List<Configuration> configurations = new ArrayList<>();
+    private List<ConfigurationClass> configurations = new ArrayList<>();
 
     public Configurations() {
 
     }
 
-    public Configurations(List<Configuration> configurations) {
+    public Configurations(List<ConfigurationClass> configurations) {
         this.configurations = configurations;
     }
 
-    public List<Configuration> getConfigurations() {
+    public List<ConfigurationClass> getConfigurations() {
         return configurations;
     }
 
-    public void setConfigurations(List<Configuration> configurations) {
+    public void setConfigurations(List<ConfigurationClass> configurations) {
         this.configurations = configurations;
     }
 
-    public void addConfiguration(Configuration configuration) {
+    public void addConfiguration(ConfigurationClass configuration) {
         this.configurations.add(configuration);
     }
 }

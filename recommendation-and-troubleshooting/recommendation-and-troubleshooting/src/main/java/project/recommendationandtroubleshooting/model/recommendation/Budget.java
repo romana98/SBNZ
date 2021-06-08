@@ -28,4 +28,11 @@ public class Budget {
     public void setMaxPrice(Long maxPrice) {
         this.maxPrice = maxPrice;
     }
+
+	@Override
+	public String toString() {
+		return "Budget [minPrice=" + minPrice + ", maxPrice=" + maxPrice + "]";
+	}
+    
+    
 }

@@ -1,6 +1,6 @@
 package project;
 
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 import project.recommendationandtroubleshooting.model.recommendation.Configurations;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
@@ -14,14 +14,14 @@ import project.recommendationandtroubleshooting.model.User;
 import java.util.List;
 
 query "Average rating" (Long configurationId)
-	$c: Configuration(id == configurationId, $ratings: ratings);
+	$c: ConfigurationClass(id == configurationId, $ratings: ratings);
 	$average:= Number() from accumulate (
 		Rating($rate: rate) from $ratings,
 		average($rate));
 end;
 
 query "Number of users by rate" (Long configurationId)
-	$c: Configuration(id == configurationId, $ratings: ratings);
+	$c: ConfigurationClass(id == configurationId, $ratings: ratings);
 	$one: Number() from accumulate (
 		Rating(rate == 1) from $ratings,
 		count(1));

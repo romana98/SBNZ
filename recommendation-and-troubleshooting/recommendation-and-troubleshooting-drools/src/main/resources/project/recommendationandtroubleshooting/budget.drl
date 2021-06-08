@@ -2,7 +2,7 @@ package project.recommendationandtroubleshooting.recommendation;
 
 import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 import java.util.List;
 
 rule "Budget"
@@ -13,8 +13,8 @@ rule "Budget"
          $i: InputRequirements($b: budget);
          $min: Long() from $b.getMinPrice();
          $max: Long() from $b.getMaxPrice();
-         $configurations: List() from collect(Configuration(considered == true));
-         $c: Configuration(price < $min || price > $max) from $configurations;
+         $configurations: List() from collect(ConfigurationClass(considered == true));
+         $c: ConfigurationClass(price < $min || price > $max) from $configurations;
     then
         System.out.println("Rule: Budget");
         modify($c) { setConsidered(false) };

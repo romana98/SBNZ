@@ -13,7 +13,7 @@ public class Favorite {
     private Integer id;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER)
-    private Configuration configuration;
+    private ConfigurationClass configuration;
 
     @Column(name = "put_to_favorite", nullable = false)
     private Long putToFavorite;
@@ -27,20 +27,20 @@ public class Favorite {
     public Favorite() {
     }
 
-    public Favorite(Configuration configuration, Long putToFavorite, Date dateOfFavorite) {
+    public Favorite(ConfigurationClass configuration, Long putToFavorite, Date dateOfFavorite) {
         this.configuration = configuration;
         this.putToFavorite = putToFavorite;
         this.dateOfFavorite = dateOfFavorite;
     }
 
-    public Favorite(Integer id, Configuration configuration, Long putToFavorite, Date dateOfFavorite) {
+    public Favorite(Integer id, ConfigurationClass configuration, Long putToFavorite, Date dateOfFavorite) {
         this.id = id;
         this.configuration = configuration;
         this.putToFavorite = putToFavorite;
         this.dateOfFavorite = dateOfFavorite;
     }
 
-    public Favorite(Integer id, Configuration configuration, Long putToFavorite, Date dateOfFavorite, boolean active) {
+    public Favorite(Integer id, ConfigurationClass configuration, Long putToFavorite, Date dateOfFavorite, boolean active) {
         this.id = id;
         this.configuration = configuration;
         this.putToFavorite = putToFavorite;
@@ -48,7 +48,7 @@ public class Favorite {
         this.active = active;
     }
 
-    public Favorite(Configuration configuration, Long putToFavorite, Date dateOfFavorite, boolean active) {
+    public Favorite(ConfigurationClass configuration, Long putToFavorite, Date dateOfFavorite, boolean active) {
         this.configuration = configuration;
         this.putToFavorite = putToFavorite;
         this.dateOfFavorite = dateOfFavorite;
@@ -59,7 +59,7 @@ public class Favorite {
         return id;
     }
 
-    public Configuration getConfiguration() {
+    public ConfigurationClass getConfiguration() {
         return configuration;
     }
 
@@ -75,7 +75,7 @@ public class Favorite {
         this.id = id;
     }
 
-    public void setConfiguration(Configuration configuration) {
+    public void setConfiguration(ConfigurationClass configuration) {
         this.configuration = configuration;
     }
 

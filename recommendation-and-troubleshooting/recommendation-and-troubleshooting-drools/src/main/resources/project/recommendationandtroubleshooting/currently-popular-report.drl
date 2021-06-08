@@ -1,6 +1,6 @@
 package project.recommendationandtroubleshooting.recommendation;
 
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 import project.recommendationandtroubleshooting.model.recommendation.Configurations;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
@@ -19,11 +19,11 @@ rule "Currently popular configurations - put to favorite by at least 5 users"
         lock-on-active true
     when
         $pc: Configurations();
-    	$confs: List() from collect (Configuration());
+    	$confs: List() from collect (ConfigurationClass());
     	$users: List() from collect (User());
 
     	$res: List() from accumulate(
-    	    Configuration($c: this, $confId: id) from $confs and
+    	    ConfigurationClass($c: this, $confId: id) from $confs and
 
     	    Number($num: intValue() >= 5) from accumulate(
                      	User($user: this, $favorites: favorites) from $users and

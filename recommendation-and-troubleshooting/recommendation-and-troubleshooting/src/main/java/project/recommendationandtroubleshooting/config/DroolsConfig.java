@@ -11,12 +11,26 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.annotation.SessionScope;
 import project.recommendationandtroubleshooting.model.Person;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicTypeRequirements;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageTypeRequirements;
+import project.recommendationandtroubleshooting.model.recommendation.Favorite;
+import project.recommendationandtroubleshooting.model.recommendation.Rating;
 import project.recommendationandtroubleshooting.model.troubleshooting.Bug;
 import project.recommendationandtroubleshooting.model.troubleshooting.Description;
 import project.recommendationandtroubleshooting.model.troubleshooting.Solution;
 import project.recommendationandtroubleshooting.repository.BugRepository;
+import project.recommendationandtroubleshooting.repository.ConfigurationCharacteristicTypeRepository;
+import project.recommendationandtroubleshooting.repository.ConfigurationCharacteristicTypeRequirementsRepository;
+import project.recommendationandtroubleshooting.repository.ConfigurationRepository;
+import project.recommendationandtroubleshooting.repository.ConfigurationUsageTypeRepository;
+import project.recommendationandtroubleshooting.repository.ConfigurationUsageTypeRequirementsRepository;
 import project.recommendationandtroubleshooting.repository.DescriptionRepository;
+import project.recommendationandtroubleshooting.repository.FavoriteRepository;
 import project.recommendationandtroubleshooting.repository.PersonRepository;
+import project.recommendationandtroubleshooting.repository.RatingRepository;
 import project.recommendationandtroubleshooting.repository.SolutionRepository;
 
 import java.util.HashMap;
@@ -42,6 +56,27 @@ public class DroolsConfig {
 
     @Autowired
     private BugRepository bugRepository;
+    
+    @Autowired
+    private ConfigurationRepository configurationRepository;
+    
+    @Autowired
+    private ConfigurationCharacteristicTypeRepository configurationCharacteristicTypeRepository;
+    
+    @Autowired
+    private ConfigurationCharacteristicTypeRequirementsRepository configurationCharacteristicTypeRequirementsRepository;
+    
+    @Autowired
+    private ConfigurationUsageTypeRepository configurationUsageTypeRepository;
+    
+    @Autowired
+    private ConfigurationUsageTypeRequirementsRepository configurationUsageTypeRequirementsRepository;
+    
+    @Autowired
+    private FavoriteRepository favoriteRepository;
+    
+    @Autowired
+    private RatingRepository ratingRepository;
 
     @Bean
     public KieContainer kieContainer() {
@@ -79,6 +114,41 @@ public class DroolsConfig {
         List<Bug> allBugs = bugRepository.findAll();
         for (Bug bug : allBugs) {
             kieSession.insert(bug);
+        }
+                
+        List<ConfigurationClass> allConfigurations = configurationRepository.findAll();
+        for (ConfigurationClass configuration : allConfigurations) {
+            kieSession.insert(configuration);
+        }
+        
+        List<ConfigurationCharacteristicType> allCharacteristicTypes = configurationCharacteristicTypeRepository.findAll();
+        for (ConfigurationCharacteristicType ct : allCharacteristicTypes) {
+            kieSession.insert(ct);
+        }
+        
+        List<ConfigurationCharacteristicTypeRequirements> allCharacteristicRequirements = configurationCharacteristicTypeRequirementsRepository.findAll();
+        for (ConfigurationCharacteristicTypeRequirements cr : allCharacteristicRequirements) {
+            kieSession.insert(cr);
+        }
+        
+        List<ConfigurationUsageType> allUsageTypes = configurationUsageTypeRepository.findAll();
+        for (ConfigurationUsageType ut : allUsageTypes) {
+            kieSession.insert(ut);
+        }
+        
+        List<ConfigurationUsageTypeRequirements> allUsageRequirements = configurationUsageTypeRequirementsRepository.findAll();
+        for (ConfigurationUsageTypeRequirements ur : allUsageRequirements) {
+            kieSession.insert(ur);
+        }
+        
+        List<Favorite> allFavorites = favoriteRepository.findAll();
+        for (Favorite favorite : allFavorites) {
+            kieSession.insert(favorite);
+        }
+        
+        List<Rating> allRatings = ratingRepository.findAll();
+        for (Rating rating : allRatings) {
+            kieSession.insert(rating);
         }
 
         this.kieSessionManager.insert(kieSession);

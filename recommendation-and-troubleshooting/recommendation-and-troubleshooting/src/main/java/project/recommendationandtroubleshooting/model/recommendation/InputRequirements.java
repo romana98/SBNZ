@@ -51,4 +51,13 @@ public class InputRequirements {
     public void setMobility(Mobility mobility) {
         this.mobility = mobility;
     }
+
+	@Override
+	public String toString() {
+		return "InputRequirements [budget=" + budget + ", configurationUsageType=" + configurationUsageType
+				+ ", configurationCharacteristicType=" + configurationCharacteristicType + ", mobility=" + mobility
+				+ "]";
+	}
+    
+    
 }

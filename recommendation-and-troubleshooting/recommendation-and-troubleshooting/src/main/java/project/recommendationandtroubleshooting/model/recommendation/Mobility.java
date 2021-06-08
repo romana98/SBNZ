@@ -19,4 +19,12 @@ public class Mobility {
     public void setMobility(Double mobility) {
         this.mobility = mobility;
     }
+
+
+	@Override
+	public String toString() {
+		return "Mobility [mobility=" + mobility + "]";
+	}
+    
+    
 }

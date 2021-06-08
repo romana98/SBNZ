@@ -5,20 +5,20 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import project.recommendationandtroubleshooting.model.recommendation.Configuration;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 
 public interface ConfigurationService {
 	
-	List<Configuration> findAll();
+	List<ConfigurationClass> findAll();
 
-	Page<Configuration> findAll(Pageable pageable);
+	Page<ConfigurationClass> findAll(Pageable pageable);
 	
-	Configuration findOne(Integer id);
+	ConfigurationClass findOne(Integer id);
 	
-	Configuration saveOne(Configuration admin);
+	ConfigurationClass saveOne(ConfigurationClass admin);
 	
 	boolean delete(Integer id);
 
-	Configuration update(Configuration admin);
+	ConfigurationClass update(ConfigurationClass admin);
 
 }
