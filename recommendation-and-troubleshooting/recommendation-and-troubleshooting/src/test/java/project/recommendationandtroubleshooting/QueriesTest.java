@@ -70,25 +70,28 @@ public class QueriesTest {
 
         kieSession.insert(c1);
 
-        Long one = 0L;
+        Long result = 0L;
+        /*Long one = 0L;
         Long two = 0L;
         Long three = 0L;
         Long four = 0L;
-        Long five = 0L;
-        QueryResults results = kieSession.getQueryResults("Number of users by rate", 1L);
+        Long five = 0L;*/
+        QueryResults results = kieSession.getQueryResults("Number of users by rate", 1L, 2L);
         for (QueryResultsRow queryResult : results) {
-            one = (Long) queryResult.get("$one");
+        	result = (Long) queryResult.get("$result");
+            /*one = (Long) queryResult.get("$one");
             two = (Long) queryResult.get("$two");
             three = (Long) queryResult.get("$three");
             four = (Long) queryResult.get("$four");
-            five = (Long) queryResult.get("$five");
+            five = (Long) queryResult.get("$five");*/
         }
 
-        assertEquals(one, 0);
+        assertEquals(result, 2);
+        /*assertEquals(one, 0);
         assertEquals(two, 2);
         assertEquals(three, 1);
         assertEquals(four, 2);
-        assertEquals(five, 3);
+        assertEquals(five, 3);*/
 
         kieSession.dispose();
 

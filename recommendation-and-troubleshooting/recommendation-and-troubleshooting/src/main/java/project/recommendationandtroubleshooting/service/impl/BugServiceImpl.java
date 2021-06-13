@@ -21,17 +21,6 @@ public class BugServiceImpl implements BugService {
 
     @Override
     public List<Bug> findAll() {
-
-        Bug b = new Bug();
-
-        Set<Description> d = new HashSet<>();
-        d.add(new Description(1, "Računar ne može da se upali."));
-        Map<Integer, Solution> s = new HashMap<>();
-        s.put(10, new Solution(2, "Odneti na dalju dijagnostiku u servis."));
-        b.setSolutions(s);
-        b.setDescriptions(d);
-        bugRepository.save(b);
-
         return bugRepository.findAll();
     }
 

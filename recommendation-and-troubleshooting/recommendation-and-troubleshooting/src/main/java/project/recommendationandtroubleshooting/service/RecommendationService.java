@@ -1,233 +1,30 @@
 package project.recommendationandtroubleshooting.service;
 
-public class RecommendationService {
-/*
-    private final KieContainer kieContainer;
+import java.util.List;
 
-    @Autowired
-    public RecommendationService(KieContainer kieContainer) {
-        this.kieContainer = kieContainer;
-    }
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-    public Recommendations getRecommendation() {
-        KieSession kieSession = kieContainer.newKieSession();
+import project.recommendationandtroubleshooting.dto.ConfigurationResponseDTO;
+import project.recommendationandtroubleshooting.dto.IntervalDTO;
+import project.recommendationandtroubleshooting.dto.RateDTO;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
+import project.recommendationandtroubleshooting.model.recommendation.Configurations;
+import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
+import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
 
-        Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
-        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
-        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
+public interface RecommendationService {
 
-        kieSession.insert(c1);
-        kieSession.insert(c2);
-        kieSession.insert(c3);
+	Page<ConfigurationResponseDTO> getRecommendation(InputRequirements input, Pageable pageable, int idUser);
+	
+	Page<ConfigurationResponseDTO> getCurrentlyPopular(Pageable pageable, int idUser);
 
-        Budget b1 = new Budget(1000L, 100000L);
-        ConfigurationUsageType usage1 = new ConfigurationUsageType(1L, "SoftwareDevelopment");
-        ConfigurationUsageType usage2 = new ConfigurationUsageType(2L, "Gaming");
-        //kieSession.insert(usage1);
-        //kieSession.insert(usage2);
+	Page<ConfigurationResponseDTO> getIntervalPopular(IntervalDTO dto, Pageable pageable, int idUser);
+	
+	Page<ConfigurationResponseDTO> searchByRate(RateDTO dto, Pageable pageable, int idUser);
 
-        ConfigurationCharacteristicType characteristic1 = new ConfigurationCharacteristicType(1L, "Presentations");
-        ConfigurationCharacteristicType characteristic2 = new ConfigurationCharacteristicType(2L, "Touchscreen");
-
-        Mobility m1 = new Mobility(80.0);
-        Mobility m2 = new Mobility(10.0);
-        ArrayList<ConfigurationCharacteristicType> characteristicsList1 = new ArrayList<ConfigurationCharacteristicType>();
-        characteristicsList1.add(characteristic1);
-        characteristicsList1.add(characteristic2);
-        ArrayList<ConfigurationCharacteristicType> characteristicsList2 = new ArrayList<ConfigurationCharacteristicType>();
-        characteristicsList2.add(characteristic1);
-        characteristicsList2.add(characteristic2);
-
-        Set<String> sdCPU = new HashSet<String>();
-        sdCPU.add("Intel Core i3 Processor");
-        Set<String> gGPU = new HashSet<String>();
-        gGPU.add("ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G");
-        ConfigurationUsageTypeRequirements reqSD = new ConfigurationUsageTypeRequirements();
-        reqSD.setUsage(usage1);
-        reqSD.setCPU(sdCPU);
-        ConfigurationUsageTypeRequirements reqG = new ConfigurationUsageTypeRequirements();
-        reqG.setUsage(usage2);
-        reqG.setGPU(gGPU);
-
-        kieSession.insert(reqSD);
-        kieSession.insert(reqG);
-
-        ConfigurationCharacteristicTypeRequirements reqCharP = new ConfigurationCharacteristicTypeRequirements();
-        reqCharP.setCharacteristic(characteristic1);
-        ConfigurationCharacteristicTypeRequirements reqCharT = new ConfigurationCharacteristicTypeRequirements();
-        reqCharT.setCharacteristic(characteristic2);
-
-        kieSession.insert(reqCharP);
-        kieSession.insert(reqCharT);
-
-        InputRequirements input1 = new InputRequirements(b1, usage1, characteristicsList1, m1);
-        InputRequirements input2 = new InputRequirements(b1, usage2, characteristicsList2, m2);
-
-        kieSession.insert(input1);
-        //kieSession.insert(input2);
-
-        Recommendations output = new Recommendations();
-
-        kieSession.insert(output);
-
-        kieSession.getAgenda().getAgendaGroup("recommendation").setFocus();
-        kieSession.fireAllRules();
-
-        System.out.println(output.getConfigurations().size());
-        for (Configuration cc : output.getConfigurations()) {
-            System.out.println(cc.toString());
-        }
-
-        kieSession.dispose();
-        return null;
-    }
-
-    public Configurations getCurrentlyPopular() {
-        KieSession kieSession = kieContainer.newKieSession();
-
-        Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
-        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
-        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
-
-        kieSession.insert(c1);
-        kieSession.insert(c2);
-        kieSession.insert(c3);
-
-        User u1 = new User();
-        u1.getFavorites().add(new Favorite(c1, 6L, new Date()));
-        u1.getFavorites().add(new Favorite(c2, 1L, new Date()));
-
-        User u2 = new User();
-        u2.getFavorites().add(new Favorite(c1, 6L, new Date()));
-        u2.getFavorites().add(new Favorite(c2, 1L, new Date()));
-
-        User u3 = new User();
-        u3.getFavorites().add(new Favorite(c1, 6L, new Date()));
-        u3.getFavorites().add(new Favorite(c3, 1L, new Date()));
-
-        User u4 = new User();
-        u4.getFavorites().add(new Favorite(c1, 1L, new Date()));
-        u4.getFavorites().add(new Favorite(c2, 1L, new Date()));
-
-        User u5 = new User();
-        u5.getFavorites().add(new Favorite(c1, 1L, new Date()));
-        u5.getFavorites().add(new Favorite(c2, 1L, new Date()));
-
-        User u6 = new User();
-        u6.getFavorites().add(new Favorite(c1, 6L, new Date()));
-        u6.getFavorites().add(new Favorite(c2, 1L, new Date()));
-
-
-        Configurations output = new Configurations();
-
-        kieSession.insert(output);
-        kieSession.insert(u1);
-        kieSession.insert(u2);
-        kieSession.insert(u3);
-        kieSession.insert(u4);
-        kieSession.insert(u5);
-        kieSession.insert(u6);
-
-        kieSession.getAgenda().getAgendaGroup("interval_popular1").setFocus();
-        kieSession.fireAllRules();
-
-        kieSession.dispose();
-        return null;
-    }
-    
-    public Configurations getIntervalPopular() {
-    	KieSession kieSession = kieContainer.newKieSession();
-    
-		try {
-			InputStream template = new FileInputStream(
-					"..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\templates\\interval-report.drt");
-
-			List<IntervalDTO> arguments = new ArrayList<>();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm");
-            arguments.add(new IntervalDTO("2021-05-28", "2021-05-31"));
-			ObjectDataCompiler compiler = new ObjectDataCompiler();
-			String drl = compiler.compile(arguments, template);
-
-			FileOutputStream drlFile = new FileOutputStream(new File(
-					"..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\recommendation\\interval-report.drl"));
-			drlFile.write(drl.getBytes());
-			drlFile.close();
-
-			InvocationRequest request = new DefaultInvocationRequest();
-			request.setPomFile(new File("../recommendation-and-troibleshooting/pom.xml"));
-			request.setGoals(Arrays.asList("clean", "install"));
-
-			Invoker invoker = new DefaultInvoker();
-			invoker.setMavenHome(new File(System.getenv("M2_HOME")));
-			invoker.execute(request);
-			
-			// Fire new rule
-				
-			Configuration c1 = new Configuration(1L, 52999L, ConfigurationType.LAPTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "8GB DDR4 2666 MHz", "Windows 10 Pro 64bit", "500W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "13", "1024 x 768", "musicCard1", true, true, true, false, null, true);
-	        Configuration c2 = new Configuration(2L, 99999L, ConfigurationType.DESKTOP, "Intel Core i3 Processor", "GeForce GTX 1050 Ti", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "1024 x 768", "musicCard1", false, true, true, true, null, true);
-	        Configuration c3 = new Configuration(3L, 89999L, ConfigurationType.DESKTOP, "AMD Ryzen 5", "ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G", "16GB DDR4 2400 MHz", "Windows 10 Pro 64bit", "600W", DiscType.SSD, "240GB", "MSI H3110M PRO-M2 PLUS", "15", "3840 x 1440", "musicCard1", false, true, true, false, null, true);
-
-	        kieSession.insert(c1);
-	        kieSession.insert(c2);
-	        kieSession.insert(c3);
-
-	        User u1 = new User();
-	        u1.getFavorites().add(new Favorite(c1, 1L, new Date()));
-	        u1.getFavorites().add(new Favorite(c2, 1L, new Date()));
-
-	        User u2 = new User();
-	        u2.getFavorites().add(new Favorite(c1, 1L, new Date()));
-	        u2.getFavorites().add(new Favorite(c2, 1L, new Date()));
-
-	        User u3 = new User();
-	        u3.getFavorites().add(new Favorite(c1, 1L, new Date()));
-	        u3.getFavorites().add(new Favorite(c3, 1L, new Date()));
-
-	        User u4 = new User();
-	        u4.getFavorites().add(new Favorite(c1, 1L, new Date()));
-	        u4.getFavorites().add(new Favorite(c2, 1L, new Date()));
-
-	        User u5 = new User();
-	        u5.getFavorites().add(new Favorite(c1, 1L, new Date()));
-	        u5.getFavorites().add(new Favorite(c2, 1L, new Date()));
-
-	        User u6 = new User();
-	        u6.getFavorites().add(new Favorite(c1, 1L, new Date()));
-	        u6.getFavorites().add(new Favorite(c2, 1L, new Date()));
-
-
-	        Configurations output = new Configurations();
-
-	        kieSession.insert(output);
-	        kieSession.insert(u1);
-	        kieSession.insert(u2);
-	        kieSession.insert(u3);
-	        kieSession.insert(u4);
-	        kieSession.insert(u5);
-	        kieSession.insert(u6);
-
-	        kieSession.getAgenda().getAgendaGroup("currently_popular").setFocus();
-	        kieSession.fireAllRules();
-
-	        kieSession.dispose();
-	        return null;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-    }
-    
-    */
-    /*ConfigurationUsageType usage3 = new ConfigurationUsageType(3L, "Editing");
-        ConfigurationUsageType usage4 = new ConfigurationUsageType(4L, "Bookkeeping");
-        ConfigurationUsageType usage5 = new ConfigurationUsageType(5L, "3DDesign");
-        ConfigurationUsageType usage6 = new ConfigurationUsageType(6L, "AcademicPurposes");
-        ConfigurationUsageType usage7 = new ConfigurationUsageType(7L, "PeronalUse");*/
-
-    /*ConfigurationCharacteristicType characteristic3 = new ConfigurationCharacteristicType(3L, "LowBrightness");
-        ConfigurationCharacteristicType characteristic4 = new ConfigurationCharacteristicType(4L, "OnlineMeeting");
-        ConfigurationCharacteristicType characteristic5 = new ConfigurationCharacteristicType(5L, "LowPowerConsumption");
-        ConfigurationCharacteristicType characteristic6 = new ConfigurationCharacteristicType(6L, "DamagdEyesight");*/
+	Double getAverageRating(Long configurationId);
+	
+	Long getUsersByRate(Long configurationId, Long grade);
 
 }

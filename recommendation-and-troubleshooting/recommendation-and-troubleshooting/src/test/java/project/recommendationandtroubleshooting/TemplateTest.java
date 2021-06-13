@@ -53,7 +53,7 @@ public class TemplateTest {
 
             List<IntervalDTO> arguments = new ArrayList<>();
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm");
-            arguments.add(new IntervalDTO("2021-05-28", "2021-05-31"));
+            arguments.add(new IntervalDTO("2021-06-05", "2021-06-07"));
             ObjectDataCompiler compiler = new ObjectDataCompiler();
             String drl = compiler.compile(arguments, template);
 
@@ -173,6 +173,7 @@ public class TemplateTest {
     	    c3.setRatings(new HashSet<Rating>());
     	    c1.getRatings().add(new Rating(1, 1.0));
     	    c2.getRatings().add(new Rating(2, 3.0));
+    	    c2.getRatings().add(new Rating(2, 4.0));
     	    c3.getRatings().add(new Rating(3, 5.0));
     	    
             kieSession.insert(c1);

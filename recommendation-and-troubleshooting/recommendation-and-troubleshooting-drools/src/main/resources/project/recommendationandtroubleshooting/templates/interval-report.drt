@@ -11,7 +11,7 @@ import project.recommendationandtroubleshooting.model.recommendation.Configurati
 import project.recommendationandtroubleshooting.model.recommendation.Budget;
 import project.recommendationandtroubleshooting.model.recommendation.Mobility;
 import project.recommendationandtroubleshooting.model.recommendation.Favorite;
-import project.recommendationandtroubleshooting.enums.ConfigurationType
+import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.model.User;
 import java.util.List;
 import java.sql.Date;

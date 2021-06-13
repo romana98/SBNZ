@@ -1,0 +1,41 @@
+<mat-toolbar color="primary">
+
+    <a routerLink="/">
+        <mat-icon [ngStyle]="{'color':'white'}">
+            star_rate
+        </mat-icon>
+    </a>
+    <span style="padding-left: 0.5%; font-size: medium;">Recommendation and Troubleshooting</span>
+    <a routerLink="/" style="padding-left: 0.5%;">
+        <mat-icon [ngStyle]="{'color':'white'}">
+            bug_report
+        </mat-icon>
+    </a>
+    <a routerLink="/" style="padding-left: 0.5%;">
+        <mat-icon [ngStyle]="{'color':'white'}">
+            bug_report
+        </mat-icon>
+    </a>
+
+    <!--
+    <span style="padding-left: 3%;">
+        <button (click)="router.navigate(['/user']);" mat-button>SomePage</button>
+      </span>
+-->
+
+    <span class="example-spacer" style="width: 75%"></span>
+    <a routerLink="/user/view-profile" style="margin-left: 5%;">
+        <button mat-flat-button color="primary">
+            <mat-icon [ngStyle]="{'color':'white'}">
+                face
+            </mat-icon>
+        </button>
+    </a>
+    <a routerLink="/" style="margin-left: 5%;">
+        <button mat-flat-button color="primary">
+            <mat-icon (click)="logOutUser()" [ngStyle]="{'color':'white'}">
+                logout
+            </mat-icon>
+        </button>
+    </a>
+</mat-toolbar>

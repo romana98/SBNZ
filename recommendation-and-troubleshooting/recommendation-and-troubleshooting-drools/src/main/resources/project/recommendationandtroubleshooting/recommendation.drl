@@ -19,6 +19,8 @@ rule "Recommendation"
         $configurations: Set() from collect(ConfigurationClass(considered == true));
     then
         System.out.println("Rule: Recommendation");
+        System.out.println($configurations);
+        //System.out.println($configurations.get(0));
         modify($r) { setConfigurations($configurations) };
 end
 

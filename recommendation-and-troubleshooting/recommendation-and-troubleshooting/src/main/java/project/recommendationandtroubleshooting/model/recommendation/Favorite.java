@@ -31,6 +31,7 @@ public class Favorite {
         this.configuration = configuration;
         this.putToFavorite = putToFavorite;
         this.dateOfFavorite = dateOfFavorite;
+        this.active = true;
     }
 
     public Favorite(Integer id, ConfigurationClass configuration, Long putToFavorite, Date dateOfFavorite) {
@@ -93,5 +94,9 @@ public class Favorite {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+    
+    public void incrementPutToFavorite() {
+    	this.putToFavorite += 1L;
     }
 }

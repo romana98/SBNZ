@@ -1,0 +1,21 @@
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Configurations</h1>
+<mat-divider></mat-divider>
+<br><br>
+<div style="padding-left: 1%;padding-right: 1%">
+
+    <app-table style="font-size:5px" [dataSource]="configurations.content" [columnsToDisplay]="['Price', 'Type', 'CPU', 'GPU', 'RAM', 
+    'OS', 'PSU', 'Disc type', 'Disc size', 'Motherboard', 'Screen size', 'Screen resolution', 'Music card', 
+    'Touchscreen', 'Microphone', 'Camera', 'Ergonomic', 'Rating']" (DoubleClick)="onClick($event)" 
+    [columnsToIterate]="['price', 'type', 'cpu', 'gpu', 'ram', 
+    'os', 'psu', 'discType', 'discSize', 'motherboard', 'screenSize', 'screenResolution', 'musicCard', 
+    'touchscreen', 'microphone', 'camera', 'ergonomic', 'averageRating']"></app-table>
+
+    <app-pagination [pageSize]="pageSize"
+                [totalItems]="configurations.totalElements"
+                [totalPages]="configurations.totalPages"
+                [currentPage]="configurations.number"
+                (ChangePage)="onPagination($event)"
+    ></app-pagination>
+    
+</div>
+

@@ -17,7 +17,7 @@ insert into solutions (id, solution) values (16, 'Čip je izgubio kontakt ili je
 insert into solutions (id, solution) values (17, 'Diskonektovati računar sa mreže i ponovo ga konektovati.');
 insert into solutions (id, solution) values (18, 'Pronaći bolji signal zatim diskonektovati računar sa mreže i ponovo ga konektovati .');
 insert into solutions (id, solution) values (19, 'Premalo RAM memorije, ugraditi dodatno još ako je to moguće.');
-insert into solutions (id, solution) values (20, 'Operativni sistem nema dovoljno memorije.');
+insert into solutions (id, solution) values (20, 'Operativni sistem nema dovoljno memorije, osloboditi memoriju sa dela diska gde je operativni sistem');
 insert into solutions (id, solution) values (21, 'Disk je prepunjen temporalnom i keš memorijom, očititi je.');
 insert into solutions (id, solution) values (22, 'Osloboditi prostora na disku (premestiti/obrisati podatke).');
 insert into solutions (id, solution) values (23, 'Promeniti kodek koji se koristi.');
@@ -29,3 +29,6 @@ insert into solutions (id, solution) values (28, 'Proveriti da li su instalirani
 insert into solutions (id, solution) values (29, 'Proveriti napon USB port-a.');
 insert into solutions (id, solution) values (30, 'Keš memorija je korumpirana, iskorititi program koji briše korumpiranu memoriju.');
 insert into solutions (id, solution) values (31, 'Pronaći u event viewer-u koji je kod greške u pitanju.');
+insert into solutions (id, solution) values (32, 'Pokušati na drugom USB portu ili sa drugim kablom.');
+insert into solutions (id, solution) values (33, 'Uraditi memory test kako bi se proverila radna memorijam, možda je loše inicijalizovna.');
+insert into solutions (id, solution) values (34, 'Pogledali da li radna memorija dobro stoji, možda je do kontakt greške.');

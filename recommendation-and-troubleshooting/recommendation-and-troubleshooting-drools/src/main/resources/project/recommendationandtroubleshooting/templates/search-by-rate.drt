@@ -3,7 +3,7 @@ template header
 minRate
 maxRate
 
-package project.recommendationandtroubleshooting.recommendation;
+package project.recommendationandtroubleshooting;
 import project.recommendationandtroubleshooting.model.recommendation.Configurations;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
@@ -12,21 +12,51 @@ import project.recommendationandtroubleshooting.model.recommendation.Budget;
 import project.recommendationandtroubleshooting.model.recommendation.Mobility;
 import project.recommendationandtroubleshooting.model.recommendation.Favorite;
 import project.recommendationandtroubleshooting.model.recommendation.Rating;
-import project.recommendationandtroubleshooting.enums.ConfigurationType
+import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.model.User;
 import java.util.List;
 
 
 template "interval-rating"
 
-
-query getAverageRating(Integer configurationId, Double $average)
-	$c: ConfigurationClass(id == configurationId, $ratings: ratings);
-	$average:= Number() from accumulate (
+rule "Get configurations rated between minRate and maxRate_@{row.rowNumber}" 
+	agenda-group "search-by-rate"
+when	
+	$pc: Configurations();
+	$c: ConfigurationClass($idConf: id, $ratings: ratings);
+	$average: Double() from accumulate (
 		Rating($rate: rate) from $ratings,
 		average($rate));
-end;
+	eval($average >= @{minRate} && $average <= @{maxRate})
+then
+	System.out.println($average);
+    modify($pc){getConfigurations().add($c)};
+end
 
+end template
+
+
+/*
+template header
+
+minRate
+maxRate
+
+package project.recommendationandtroubleshooting;
+import project.recommendationandtroubleshooting.model.recommendation.Configurations;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
+import project.recommendationandtroubleshooting.model.recommendation.Budget;
+import project.recommendationandtroubleshooting.model.recommendation.Mobility;
+import project.recommendationandtroubleshooting.model.recommendation.Favorite;
+import project.recommendationandtroubleshooting.model.recommendation.Rating;
+import project.recommendationandtroubleshooting.enums.ConfigurationType;
+import project.recommendationandtroubleshooting.model.User;
+import java.util.List;
+
+
+template "interval-rating"
 
 rule "Get configurations rated between minRate and maxRate_@{row.rowNumber}" 
 	agenda-group "search-by-rate"
@@ -36,10 +66,11 @@ when
 	?getAverageRating($idConf, $average;)
 	eval($average >= @{minRate} && $average <= @{maxRate})
 then
-    System.out.println("Average: " + $average);
+    //System.out.println("Average: " + $average);
     modify($pc){getConfigurations().add($c)};
-    System.out.println($pc.getConfigurations());
-    System.out.println($pc.getConfigurations().size());
+    //System.out.println($pc.getConfigurations());
+    //System.out.println($pc.getConfigurations().size());
 end
 
 end template
+*/

@@ -1,0 +1,28 @@
+package project.recommendationandtroubleshooting;
+import project.recommendationandtroubleshooting.model.recommendation.Configurations;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
+import project.recommendationandtroubleshooting.model.recommendation.Budget;
+import project.recommendationandtroubleshooting.model.recommendation.Mobility;
+import project.recommendationandtroubleshooting.model.recommendation.Favorite;
+import project.recommendationandtroubleshooting.model.recommendation.Rating;
+import project.recommendationandtroubleshooting.enums.ConfigurationType;
+import project.recommendationandtroubleshooting.model.User;
+import java.util.List;
+
+rule "Get configurations rated between minRate and maxRate_0" 
+	agenda-group "search-by-rate"
+when	
+	$pc: Configurations();
+	$c: ConfigurationClass($idConf: id, $ratings: ratings);
+	$average: Double() from accumulate (
+		Rating($rate: rate) from $ratings,
+		average($rate));
+	eval($average >= 2.0 && $average <= 5.0)
+then
+	System.out.println($average);
+    modify($pc){getConfigurations().add($c)};
+end
+
+

@@ -8,10 +8,18 @@ import project.recommendationandtroubleshooting.model.recommendation.Budget;
 import project.recommendationandtroubleshooting.model.recommendation.Mobility;
 import project.recommendationandtroubleshooting.model.recommendation.Favorite;
 import project.recommendationandtroubleshooting.model.recommendation.Rating;
-import project.recommendationandtroubleshooting.enums.ConfigurationType
+import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.model.User;
 
 import java.util.List;
+
+/*query getAverageRating(Long configurationId, Double $average)
+	$c: ConfigurationClass(id == configurationId, $ratings: ratings);
+	$average:= Number() from accumulate (
+		Rating($rate: rate) from $ratings,
+		average($rate));
+end;*/
+
 
 query "Average rating" (Long configurationId)
 	$c: ConfigurationClass(id == configurationId, $ratings: ratings);
@@ -20,23 +28,13 @@ query "Average rating" (Long configurationId)
 		average($rate));
 end;
 
-query "Number of users by rate" (Long configurationId)
+query "Number of users by rate" (Long configurationId, Long grade)
 	$c: ConfigurationClass(id == configurationId, $ratings: ratings);
-	$one: Number() from accumulate (
-		Rating(rate == 1) from $ratings,
-		count(1));
-	$two: Number() from accumulate (
-		Rating(rate == 2) from $ratings,
-		count(1));
-	$three: Number() from accumulate (
-		Rating(rate == 3) from $ratings,
-		count(1));
-	$four: Number() from accumulate (
-		Rating(rate == 4) from $ratings,
-		count(1));
-	$five: Number() from accumulate (
-		Rating(rate == 5) from $ratings,
+	$result: Number() from accumulate (
+		Rating(rate == grade) from $ratings,
 		count(1));
 end;
+
+
 
 

@@ -6,7 +6,7 @@ import project.recommendationandtroubleshooting.model.recommendation.Configurati
 import project.recommendationandtroubleshooting.model.recommendation.Budget;
 import project.recommendationandtroubleshooting.model.recommendation.Mobility;
 import project.recommendationandtroubleshooting.model.recommendation.Favorite;
-import project.recommendationandtroubleshooting.enums.ConfigurationType
+import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.model.User;
 import java.util.List;
 import java.sql.Date;
@@ -25,8 +25,8 @@ rule "Popular in given interval - put to favorite at least 6 times by 4 differen
                              	User($user: this, $favorites: favorites) from $users and
                              		Favorite($f: this, $conf: configuration, $conf.id == $confId, putToFavorite >= 6,
                                     $date: dateOfFavorite,
-                                    $date.after(Date.valueOf(LocalDate.parse("2021-05-28"))) == true,
-                                    $date.before(Date.valueOf(LocalDate.parse("2021-05-31"))) == true
+                                    $date.after(Date.valueOf(LocalDate.parse("2021-06-05"))) == true,
+                                    $date.before(Date.valueOf(LocalDate.parse("2021-06-07"))) == true
                              		) from $favorites,
                              	count($user)
                             ),

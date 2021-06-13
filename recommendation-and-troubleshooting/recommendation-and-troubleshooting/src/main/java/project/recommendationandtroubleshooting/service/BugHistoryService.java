@@ -15,9 +15,9 @@ public interface BugHistoryService {
 	
 	BugHistory findOne(Integer id);
 	
-	BugHistory saveOne(BugHistory admin);
-	
-	boolean delete(Integer id);
+	BugHistory saveOne(BugHistory bugHistory);
 
-	BugHistory update(BugHistory admin);
+	void delete(Integer id);
+
+	BugHistory update(BugHistory bugHistory);
 }

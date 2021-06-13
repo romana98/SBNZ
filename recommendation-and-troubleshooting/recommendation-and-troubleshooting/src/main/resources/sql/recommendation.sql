@@ -36,8 +36,6 @@ insert into configurations(price, type, cpu, gpu, ram, os, psu, disc_type, disc_
 insert into configurations(price, type, cpu, gpu, ram, os, psu, disc_type, disc_size, motherboard, screen_size, screen_resolution, music_card, touch_screen, microphone, camera, ergonomic, considered) values (99999, 'DESKTOP', 'Intel Core i3 Processor', 'GeForce GTX 1050 Ti', '16GB DDR4 2400 MHz', 'Windows 10 Pro 64bit', '600W', 'SSD', '240GB', 'MSI H3110M PRO-M2 PLUS', '15', '1024 x 768', 'musicCard1', false, true, true, true, true);
 insert into configurations(price, type, cpu, gpu, ram, os, psu, disc_type, disc_size, motherboard, screen_size, screen_resolution, music_card, touch_screen, microphone, camera, ergonomic, considered) values (89999, 'DESKTOP', 'AMD Ryzen 5', 'ASUS GeForce GTX 1050 Ti Cerberus OC 4GB GDDR5 128bit - CERBERUS-GTX1050TI-O4G', '16GB DDR4 2400 MHz', 'Windows 10 Pro 64bit', '600W', 'SSD', '240GB', 'MSI H3110M PRO-M2 PLUS', '15', '3840 x 1440', 'musicCard1', false, true, true, false, true);
 
-insert into users (id, email, first_name, last_name, password, verified) values (nextval('person_seq'), 'user@gmail.com', 'user', 'user', '$2y$12$NFN7DJUX1lFfaDX1tc9/6uBtgls9SZOU9iwjhrlXJc0xr471vgKAK', true);
-
 insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 7, 1, 2);
 
 insert into ratings (rate, rating_id) values (5.0, 1);
