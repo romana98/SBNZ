@@ -1,4 +1,4 @@
-/*insert into bugs_descriptions (bug_id, descriptions_id) values (1, 1);
+insert into bugs_descriptions (bug_id, descriptions_id) values (1, 1);
 insert into bugs_descriptions (bug_id, descriptions_id) values (1, 2);
 
 insert into bugs_descriptions (bug_id, descriptions_id) values (2, 1);
@@ -40,4 +40,4 @@ insert into bugs_descriptions (bug_id, descriptions_id) values (17, 18);
 
 insert into bugs_descriptions (bug_id, descriptions_id) values (18, 19);
 
-insert into bugs_descriptions (bug_id, descriptions_id) values (19, 20);*/
+insert into bugs_descriptions (bug_id, descriptions_id) values (19, 20);
