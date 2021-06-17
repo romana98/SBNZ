@@ -1,0 +1,17 @@
+mat-button-toggle {
+    border: 1px rgba(0,0,0,0) solid !important;
+    margin-top: 5px !important;
+    padding: 0 5px !important;
+    z-index: 3 !important;
+}
+
+mat-button-toggle:hover {
+    background-color: #999 !important;
+    border-radius: 5px !important;
+}
+
+.mat-button-toggle-checked {
+	box-shadow: 0 0 30px #000 !important;
+    border-radius: 5px !important;
+    background-color: rgba(255, 0, 0, 0.719) !important;
+}

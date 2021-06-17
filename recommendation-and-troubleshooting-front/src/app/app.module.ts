@@ -12,6 +12,9 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { HttpAuthInterceptor } from "./interceptors/http-auth.interceptor";
 import { AppRoutingModule } from "./app-routing/app-routing.module";
 import { SharedModule } from "./shared/shared.module";
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [

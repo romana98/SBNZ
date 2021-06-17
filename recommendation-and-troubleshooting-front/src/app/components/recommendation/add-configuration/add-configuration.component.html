@@ -1,0 +1,127 @@
+<h2 style="display: block; text-align: center; margin: 3%;" mat-dialog-title>Add new configuration</h2>
+
+<div style="display: block; text-align: center; margin: 3%;">
+    <br>
+    <form [formGroup]="form" name="form" (ngSubmit)="submit()" style="display: inline-block; width: 100%">
+
+    <mat-form-field name="form-field-price" [style.width.%]="60">
+        <mat-label for="price">Price:</mat-label>
+        <input matInput id="price" name="price" placeholder="Price:" [formControl]="form.controls.price">
+        <mat-error *ngIf="form.controls.price.touched && form.controls.price.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-type" [style.width.%]="60">
+        <mat-label>Type:</mat-label>
+        <mat-select (selectionChange)="onChangeType($event)" id="type" name="type" [formControl]="form.controls.type">
+            <mat-option id={{type}} *ngFor="let type of types" [value]="type">{{type}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.controls.type.touched && form.controls.type.errors?.required">
+            This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-cpu" [style.width.%]="60">
+        <mat-label for="cpu">CPU</mat-label>
+        <input matInput id="cpu" name="cpu" placeholder="CPU:" [formControl]="form.controls.cpu">
+        <mat-error *ngIf="form.controls.cpu.touched && form.controls.cpu.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-gpu" [style.width.%]="60">
+        <mat-label for="gpu">GPU:</mat-label>
+        <input matInput id="gpu" name="gpu" placeholder="GPU:" [formControl]="form.controls.gpu">
+        <mat-error *ngIf="form.controls.gpu.touched && form.controls.gpu.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-ram" [style.width.%]="60">
+        <mat-label for="ram">RAM:</mat-label>
+        <input matInput id="ram" name="ram" placeholder="RAM:" [formControl]="form.controls.ram">
+        <mat-error *ngIf="form.controls.ram.touched && form.controls.ram.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-os" [style.width.%]="60">
+        <mat-label for="os">OS:</mat-label>
+        <input matInput id="os" name="os" placeholder="OS:" [formControl]="form.controls.os">
+        <mat-error *ngIf="form.controls.os.touched && form.controls.os.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-psu" [style.width.%]="60">
+        <mat-label for="psu">PSU:</mat-label>
+        <input matInput id="psu" name="psu" placeholder="PSU:" [formControl]="form.controls.psu">
+        <mat-error *ngIf="form.controls.psu.touched && form.controls.psu.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-discType" [style.width.%]="60">
+        <mat-label>Disc Type:</mat-label>
+        <mat-select (selectionChange)="onChangeDiscType($event)" id="discType" name="discType" [formControl]="form.controls.discType">
+            <mat-option id={{discType}} *ngFor="let discType of discTypes" [value]="discType">{{discType}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.controls.discType.touched && form.controls.discType.errors?.required">
+            This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-discSize" [style.width.%]="60">
+        <mat-label for="discSize">Disc Size:</mat-label>
+        <input matInput id="discSize" name="discSize" placeholder="Disc Size:" [formControl]="form.controls.discSize">
+        <mat-error *ngIf="form.controls.discSize.touched && form.controls.discSize.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-motherboard" [style.width.%]="60">
+        <mat-label for="motherboard">Motherboard:</mat-label>
+        <input matInput id="motherboard" name="motherboard" placeholder="Motherboard:" [formControl]="form.controls.motherboard">
+        <mat-error *ngIf="form.controls.motherboard.touched && form.controls.motherboard.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-screenSize" [style.width.%]="60">
+        <mat-label for="screenSize">Screen Size:</mat-label>
+        <input matInput id="screenSize" name="screenSize" placeholder="Screen Size:" [formControl]="form.controls.screenSize">
+        <mat-error *ngIf="form.controls.screenSize.touched && form.controls.screenSize.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-screenResolution" [style.width.%]="60">
+        <mat-label for="screenResolution">Screen Resolution:</mat-label>
+        <input matInput id="screenResolution" name="screenResolution" placeholder="Screen Resolution:" [formControl]="form.controls.screenResolution">
+        <mat-error *ngIf="form.controls.screenResolution.touched && form.controls.screenResolution.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <mat-form-field name="form-field-musicCard" [style.width.%]="60">
+        <mat-label for="musicCard">Music Card:</mat-label>
+        <input matInput id="musicCard" name="musicCard" placeholder="Music Card:" [formControl]="form.controls.musicCard">
+        <mat-error *ngIf="form.controls.musicCard.touched && form.controls.musicCard.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <div style="margin-bottom: 10px;">
+        <mat-label for="touchscreen">Touchscreen: </mat-label>
+        <mat-checkbox name="touchscreen" (change)="changedCheckbox('touchscreen', $event)" ></mat-checkbox>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <mat-label for="microphone">Microphone: </mat-label>
+        <mat-checkbox name="microphone" (change)="changedCheckbox('microphone', $event)" ></mat-checkbox>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <mat-label for="camera">Camera: </mat-label>
+        <mat-checkbox name="camera" (change)="changedCheckbox('camera', $event)" ></mat-checkbox>
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <mat-label for="ergonomic">Ergonomic: </mat-label>
+        <mat-checkbox name="ergonomic" (change)="changedCheckbox('ergonomic', $event)" ></mat-checkbox>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <button mat-raised-button color="primary" id="publish-button" name="publish-button" type="submit" [disabled]="false">Add Configuration</button>
+    </div>
+    </form>
+    
+  </div>

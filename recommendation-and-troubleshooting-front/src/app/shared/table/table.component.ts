@@ -34,6 +34,9 @@ export class TableComponent implements OnChanges {
   doubleClicked(id: number){
     this.DoubleClick.emit(id);
   }
+  doubleClickedWithData(data: any){
+    this.DoubleClick.emit(data);
+  }
   get(element: string): string[]{
     switch (element) {
       case 'dataSource':

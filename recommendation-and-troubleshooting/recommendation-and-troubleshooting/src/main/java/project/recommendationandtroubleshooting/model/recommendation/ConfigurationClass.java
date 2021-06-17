@@ -291,4 +291,5 @@ public class ConfigurationClass {
                 + screenResolution + ", musicCard=" + musicCard + ", touchscreen=" + touchscreen + ", microphone="
                 + microphone + ", camera=" + camera + ", ergonomic=" + ergonomic + "]";
     }
+
 }
