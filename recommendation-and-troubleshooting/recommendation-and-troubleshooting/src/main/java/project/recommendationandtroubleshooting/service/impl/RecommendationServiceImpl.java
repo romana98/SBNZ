@@ -73,7 +73,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         Collection<FactHandle> handlers = kieSession.getFactHandles();
         for (FactHandle handle: handlers) {
         	Object sessionObject = kieSession.getObject(handle);
-        	if (sessionObject instanceof ConfigurationClass) {
+        	if (sessionObject instanceof ConfigurationClass || sessionObject instanceof Recommendations) {
         		kieSession.delete(handle);
         	}
         }
@@ -103,6 +103,14 @@ public class RecommendationServiceImpl implements RecommendationService {
         
         List<ConfigurationClass> configs = output.getConfigurations();
         List<ConfigurationResponseDTO> result = this.toDTOList(configs, idUser);
+        
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle: handlers) {
+        	Object sessionObject = kieSession.getObject(handle);
+        	if (sessionObject instanceof Configurations) {
+        		kieSession.delete(handle);
+        	}
+        }
 
         Collections.sort(result);
         int start = (int)pageable.getOffset();
@@ -148,6 +156,14 @@ public class RecommendationServiceImpl implements RecommendationService {
             
             List<ConfigurationClass> configs = output.getConfigurations();
             List<ConfigurationResponseDTO> result = this.toDTOList(configs, idUser);
+            
+            Collection<FactHandle> handlers = kieSession.getFactHandles();
+            for (FactHandle handle: handlers) {
+            	Object sessionObject = kieSession.getObject(handle);
+            	if (sessionObject instanceof Configurations) {
+            		kieSession.delete(handle);
+            	}
+            }
 
             Collections.sort(result);
             int start = (int)pageable.getOffset();
@@ -197,7 +213,15 @@ public class RecommendationServiceImpl implements RecommendationService {
             
             List<ConfigurationClass> configs = output.getConfigurations();
             List<ConfigurationResponseDTO> result = this.toDTOList(configs, idUser);
-
+            
+            Collection<FactHandle> handlers = kieSession.getFactHandles();
+            for (FactHandle handle: handlers) {
+            	Object sessionObject = kieSession.getObject(handle);
+            	if (sessionObject instanceof Configurations) {
+            		kieSession.delete(handle);
+            	}
+            }
+            
             Collections.sort(result);
             int start = (int)pageable.getOffset();
             int end = Math.min((start + pageable.getPageSize()), result.size());
