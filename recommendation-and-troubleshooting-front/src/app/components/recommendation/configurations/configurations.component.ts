@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ConfigurationsService } from 'src/app/services/configurations.service';
 import { DialogConfigurationComponent } from '../dialog-configuration/dialog-configuration.component';
 import { RecommendComponent } from '../recommend/recommend.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LogInService } from 'src/app/services/log-in.service';
 
 @Component({
   selector: 'app-configurations',
@@ -23,8 +25,14 @@ export class ConfigurationsComponent implements OnInit {
   configurations = {content: [], numberOfElements: 0, totalElements: 0, totalPages: 0, number: 0};
   formInterval: FormGroup;
   formRate: FormGroup;
+  role = 0;
 
-  constructor(private configurationsService: ConfigurationsService, private router: Router, public dialog: MatDialog, private fb: FormBuilder) {
+  constructor(private configurationsService: ConfigurationsService, 
+    private router: Router, 
+    public dialog: MatDialog, 
+    private fb: FormBuilder, 
+    public snackBar: MatSnackBar,
+    private loginService: LogInService) {
     this.formInterval = this.fb.group({
       minDate : [null, Validators.required],
       maxDate : [null, Validators.required]
@@ -36,6 +44,8 @@ export class ConfigurationsComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.role = this.loginService.getRole();
+    console.log(this.role)
     this.state = "ALL";
     this.page = 0;
     this.configurationsService.getConfigurations({ page: this.page, size: this.pageSize }).subscribe(
@@ -131,6 +141,10 @@ export class ConfigurationsComponent implements OnInit {
         console.log(this.configurations.content)
         console.log(this.page)
         console.log(this.pageSize)
+        this.snackBar.open('See configurations for you!', 'Ok', { duration: 2000 });
+      },
+      error => {
+        this.snackBar.open('Something went wrong. Try again!', 'Ok', { duration: 2000 });
       }
     );
   }
@@ -169,6 +183,9 @@ export class ConfigurationsComponent implements OnInit {
       result => {
         this.configurations = result;
         console.log(this.configurations.content)
+      }, 
+      error => {
+        this.snackBar.open('Something went wrong. Rate should be a number.', 'Ok', { duration: 2000 });
       }
     );
   }
@@ -179,17 +196,20 @@ export class ConfigurationsComponent implements OnInit {
   }
 
   submitInterval() {
-    if (this.formInterval.value.minDate == null) this.formInterval.value.minDate = "2000-01-01";
-    if (this.formInterval.value.maxDate == null) this.formInterval.value.maxDate = "2100-01-01";
+    if (this.formInterval.value.minDate == null) this.formInterval.controls["minDate"].patchValue("2000-01-01");
+    if (this.formInterval.value.maxDate == null) this.formInterval.controls["maxDate"].patchValue("2100-01-01");
     console.log(this.formInterval.value.minDate)
     console.log(this.formInterval.value.maxDate)
     this.page = 0;
     this.state = "INERVAL_SEARCH";
     this.intervalInput = { "minDate": this.formInterval.value.minDate, "maxDate": this.formInterval.value.maxDate };
-    this.configurationsService.getIntervalPopular({ page: this.page, size: this.pageSize, value: this.rateInput }).subscribe(
+    this.configurationsService.getIntervalPopular({ page: this.page, size: this.pageSize, value: this.intervalInput }).subscribe(
       result => {
         this.configurations = result;
         console.log(this.configurations.content)
+      },
+      error => {
+        this.snackBar.open('Something went wrong.', 'Ok', { duration: 2000 });
       }
     );
   }
@@ -205,6 +225,10 @@ export class ConfigurationsComponent implements OnInit {
           result => {
             this.configurations = result;
             console.log(this.configurations.content)
+            this.snackBar.open('Successfully deleted configuration.', 'Ok', { duration: 2000 });
+          },
+          error => {
+            this.snackBar.open('Something went wrong.', 'Ok', { duration: 2000 });
           }
         );
       }

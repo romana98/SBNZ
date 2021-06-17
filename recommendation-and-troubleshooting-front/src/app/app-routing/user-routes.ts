@@ -15,9 +15,4 @@ export const userRoutes: Routes = [
     component: ConfigurationsComponent,
     canActivate: [UserGuard]
   },
-  {
-    path: 'add-configuration', 
-    component: AddConfigurationComponent,
-    canActivate: [UserGuard]
-  },
 ];

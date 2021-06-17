@@ -22,7 +22,7 @@
 <div style="display: block">
     <h3>Average Rating: {{data.averageRating}}</h3>
     <h3>Users Per Grade: 1({{usersPerGrade.ones}}) 2({{usersPerGrade.twos}}) 3({{usersPerGrade.threes}}) 4({{usersPerGrade.fours}}) 5({{usersPerGrade.fives}})</h3>
-    <tr>
+    <tr *ngIf="role==2">
         <td style="padding-right: 20px;"><mat-button-toggle [checked]="data.favorite" (change)="onValChange($event.source.checked)">{{favoriteLabel}}</mat-button-toggle></td>
         <td style="vertical-align: middle;"><ngx-stars [wholeStars]="true" [color]="'gold'" [size]="2" (ratingOutput)="onRatingSet($event)"></ngx-stars></td>
     </tr>

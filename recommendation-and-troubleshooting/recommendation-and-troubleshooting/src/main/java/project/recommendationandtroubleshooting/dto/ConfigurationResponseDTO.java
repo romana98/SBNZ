@@ -238,6 +238,6 @@ public class ConfigurationResponseDTO implements Comparable<ConfigurationRespons
     
     @Override
     public int compareTo(ConfigurationResponseDTO c) {
-      return getPrice().compareTo(c.getPrice());
+      return getId().compareTo(c.getId());
     }
 }

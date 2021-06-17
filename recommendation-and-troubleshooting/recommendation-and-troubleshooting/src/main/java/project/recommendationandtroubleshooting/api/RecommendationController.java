@@ -31,6 +31,8 @@ import project.recommendationandtroubleshooting.dto.FavoriteDTO;
 import project.recommendationandtroubleshooting.dto.IntervalDTO;
 import project.recommendationandtroubleshooting.dto.RateDTO;
 import project.recommendationandtroubleshooting.dto.UsersByRateDTO;
+import project.recommendationandtroubleshooting.model.Admin;
+import project.recommendationandtroubleshooting.model.Person;
 import project.recommendationandtroubleshooting.model.User;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
@@ -69,7 +71,6 @@ public class RecommendationController {
 	@Autowired
 	ConfigurationServiceImpl configurationService;
 	
-	
 	@Autowired
 	ConfigurationUsageTypeServiceImpl usagesService;
 	
@@ -90,7 +91,7 @@ public class RecommendationController {
         return new ResponseEntity<Page<ConfigurationResponseDTO>>(output, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMINISTRATOR')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),
@@ -98,13 +99,16 @@ public class RecommendationController {
     @GetMapping("/getCurrentlyPopular/by-page")
     public ResponseEntity<Page<ConfigurationResponseDTO>> getCurrentlyPopular(Pageable pageable) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User person = (User) authentication.getPrincipal();
-		Page<ConfigurationResponseDTO> output = recommendationService.getCurrentlyPopular(pageable, person.getId());
+		Person person = (Person) authentication.getPrincipal();
+		Integer id = 0;
+		if (person instanceof User)
+			id = person.getId();
+		Page<ConfigurationResponseDTO> output = recommendationService.getCurrentlyPopular(pageable, id);
         return new ResponseEntity<Page<ConfigurationResponseDTO>>(output, HttpStatus.OK);
 	}
 	
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),
@@ -112,13 +116,16 @@ public class RecommendationController {
     @PostMapping("/getIntervalPopular/by-page")
     public ResponseEntity<Page<ConfigurationResponseDTO>> getIntervalPopular(@Valid @RequestBody IntervalDTO dto, Pageable pageable) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User person = (User) authentication.getPrincipal();
-		Page<ConfigurationResponseDTO> output = recommendationService.getIntervalPopular(dto, pageable, person.getId());
+		Person person = (Person) authentication.getPrincipal();
+		Integer id = 0;
+		if (person instanceof User)
+			id = person.getId();
+		Page<ConfigurationResponseDTO> output = recommendationService.getIntervalPopular(dto, pageable, id);
         return new ResponseEntity<Page<ConfigurationResponseDTO>>(output, HttpStatus.OK);
 	}
 	
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),
@@ -126,13 +133,16 @@ public class RecommendationController {
     @PostMapping("/searchByRate/by-page")
     public ResponseEntity<Page<ConfigurationResponseDTO>> searchByRate(@Valid @RequestBody RateDTO dto, Pageable pageable) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User person = (User) authentication.getPrincipal();
-		Page<ConfigurationResponseDTO> output = recommendationService.searchByRate(dto, pageable, person.getId());
+		Person person = (Person) authentication.getPrincipal();
+		Integer id = 0;
+		if (person instanceof User)
+			id = person.getId();
+		Page<ConfigurationResponseDTO> output = recommendationService.searchByRate(dto, pageable, id);
         return new ResponseEntity<Page<ConfigurationResponseDTO>>(output, HttpStatus.OK);
 	}
 	
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMINISTRATOR')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),
@@ -144,7 +154,7 @@ public class RecommendationController {
         return new ResponseEntity<Double>(output, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMINISTRATOR')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),
@@ -152,8 +162,11 @@ public class RecommendationController {
     @GetMapping("all/by-page")
     public ResponseEntity<Page<ConfigurationResponseDTO>> getAll(Pageable pageable) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User person = (User) authentication.getPrincipal();
-		Page<ConfigurationResponseDTO> output = configurationService.findAll(pageable, person.getId());
+		Person person = (Person) authentication.getPrincipal();
+		Integer id = 0;
+		if (person instanceof User)
+			id = person.getId();
+		Page<ConfigurationResponseDTO> output = configurationService.findAll(pageable, id);
         return new ResponseEntity<Page<ConfigurationResponseDTO>>(output, HttpStatus.OK);
 	}
 	
@@ -170,7 +183,7 @@ public class RecommendationController {
         return new ResponseEntity<Page<ConfigurationResponseDTO>>(output, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),
@@ -181,7 +194,7 @@ public class RecommendationController {
         return new ResponseEntity<ConfigurationClass>(output, HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),
@@ -192,7 +205,7 @@ public class RecommendationController {
         return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMINISTRATOR')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),
@@ -208,7 +221,7 @@ public class RecommendationController {
 	}
 	
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMINISTRATOR')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),
@@ -219,7 +232,7 @@ public class RecommendationController {
 	}
 	
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMINISTRATOR')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),

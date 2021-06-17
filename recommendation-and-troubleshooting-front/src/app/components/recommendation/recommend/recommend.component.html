@@ -5,14 +5,14 @@
     <form [formGroup]="form" name="form" (ngSubmit)="submit()" style="display: inline-block; width: 100%">
     <p style="color:  #bbb;">1) Define your budget!</p>
     <mat-form-field name="form-field-minprice" [style.width.%]="79">
-        <mat-label for="minprice">Minimal price:</mat-label>
-        <input matInput id="minprice" name="minprice" placeholder="Minimal price:" [formControl]="form.controls.minprice">
+        <mat-label for="minprice">Minimal price (din):</mat-label>
+        <input matInput id="minprice" name="minprice" placeholder="Minimal price (din):" [formControl]="form.controls.minprice">
         <mat-error *ngIf="form.controls.minprice.touched && form.controls.minprice.errors?.required">
         This field can't be empty!</mat-error >
     </mat-form-field>
     <mat-form-field name="form-field-maxprice" [style.width.%]="79">
-        <mat-label for="maxprice">Maximal price:</mat-label>
-        <input matInput id="maxprice" name="maxprice" placeholder="Maximal price:" [formControl]="form.controls.maxprice">
+        <mat-label for="maxprice">Maximal price (din):</mat-label>
+        <input matInput id="maxprice" name="maxprice" placeholder="Maximal price (din):" [formControl]="form.controls.maxprice">
         <mat-error *ngIf="form.controls.maxprice.touched && form.controls.maxprice.errors?.required">
         This field can't be empty!</mat-error >
     </mat-form-field>
@@ -43,7 +43,7 @@
     </div>
 
       <div>
-        <button mat-raised-button color="primary" id="publish-button" name="publish-button" type="submit" [disabled]="false">Recommend</button>
+        <button mat-raised-button color="primary" id="publish-button" name="publish-button" type="submit" [disabled]="!form.valid">Recommend</button>
       </div>
     </form>
     

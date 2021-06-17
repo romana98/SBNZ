@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigurationsService } from 'src/app/services/configurations.service';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-add-configuration',
@@ -13,7 +14,7 @@ export class AddConfigurationComponent implements OnInit {
   types = ["DESKTOP", "LAPTOP"];
   discTypes = ["SSD", "HDD"];
 
-  constructor(private fb: FormBuilder,  private configurationsService: ConfigurationsService) {
+  constructor(private fb: FormBuilder,  private configurationsService: ConfigurationsService, public snackBar: MatSnackBar) {
     this.form = this.fb.group({
       price : [null, Validators.required],
       type : [null, Validators.required],
@@ -76,6 +77,10 @@ export class AddConfigurationComponent implements OnInit {
       result => {
         console.log(result)
         console.log("success")
+        this.snackBar.open('Successfully added configuration!', 'Ok', { duration: 2000 });
+      },
+      error => {
+        this.snackBar.open('Something went wrong. Try again!', 'Ok', { duration: 2000 });
       }
     );
 

@@ -5,8 +5,8 @@
     <form [formGroup]="form" name="form" (ngSubmit)="submit()" style="display: inline-block; width: 100%">
 
     <mat-form-field name="form-field-price" [style.width.%]="60">
-        <mat-label for="price">Price:</mat-label>
-        <input matInput id="price" name="price" placeholder="Price:" [formControl]="form.controls.price">
+        <mat-label for="price">Price (din):</mat-label>
+        <input matInput id="price" name="price" placeholder="Price (din):" [formControl]="form.controls.price">
         <mat-error *ngIf="form.controls.price.touched && form.controls.price.errors?.required">
         This field can't be empty!</mat-error >
     </mat-form-field>
@@ -120,7 +120,7 @@
     </div>
 
     <div style="margin-top: 20px;">
-        <button mat-raised-button color="primary" id="publish-button" name="publish-button" type="submit" [disabled]="false">Add Configuration</button>
+        <button mat-raised-button color="primary" id="publish-button" name="publish-button" type="submit" [disabled]="!form.valid">Add Configuration</button>
     </div>
     </form>
     

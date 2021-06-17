@@ -1,10 +1,13 @@
 package project.recommendationandtroubleshooting.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,6 +27,9 @@ import project.recommendationandtroubleshooting.service.RecommendationService;
 
 @Service
 public class ConfigurationServiceImpl implements ConfigurationService {
+	
+	@Autowired
+	KieSession kieSession;
 	
 	@Autowired
 	ConfigurationRepository confRepository;
@@ -60,6 +66,7 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 
 	@Override
 	public ConfigurationClass saveOne(ConfigurationClass entity) {
+        kieSession.insert(entity);
 		return confRepository.save(entity);
 	}
 	
@@ -70,6 +77,13 @@ public class ConfigurationServiceImpl implements ConfigurationService {
 	
 	@Override
 	public boolean delete(Integer id) {
+		Collection<FactHandle> handlers = kieSession.getFactHandles();
+		for (FactHandle handle: handlers) {
+			Object sessionObject = kieSession.getObject(handle);
+        	if (sessionObject instanceof ConfigurationClass && ((ConfigurationClass) sessionObject).getId() == id) {
+        		kieSession.delete(handle);
+        	}
+        }
 		confRepository.deleteById(id);
 		return true;
 	}
