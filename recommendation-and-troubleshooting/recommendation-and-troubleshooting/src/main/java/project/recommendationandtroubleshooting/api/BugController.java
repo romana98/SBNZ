@@ -3,6 +3,8 @@ package project.recommendationandtroubleshooting.api;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,6 +22,7 @@ import project.recommendationandtroubleshooting.service.impl.BugServiceImpl;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @CrossOrigin(origins = "https://localhost:4200")
@@ -29,6 +32,9 @@ public class BugController {
 
     @Autowired
     BugServiceImpl bugService;
+
+    @Autowired
+    KieSession kieSession;
 
     private final BugMapper bugMapper;
 
@@ -47,6 +53,8 @@ public class BugController {
         Bug bug = bugMapper.toEntity(bugDTO);
 
         Bug savedBug = bugService.saveOne(bug);
+        kieSession.insert(savedBug);
+
         return new ResponseEntity<>(bugMapper.toDto(savedBug), HttpStatus.CREATED);
     }
 
@@ -59,6 +67,17 @@ public class BugController {
     public ResponseEntity<String> deleteBug(@PathVariable @Min(1) Integer id) {
 
         bugService.delete(id);
+
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle : handlers) {
+            Object obj = kieSession.getObject(handle);
+
+            if (obj.getClass() == Bug.class) {
+                if (((Bug) obj).getId().equals(id))
+                    kieSession.delete(handle);
+            }
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -72,6 +91,18 @@ public class BugController {
 
         Bug bug = bugService.update(bugMapper.toEntity(bugDTO));
 
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle : handlers) {
+            Object obj = kieSession.getObject(handle);
+
+            if (obj.getClass() == Bug.class) {
+                if (((Bug) obj).getId().equals(bug.getId()))
+                    kieSession.delete(handle);
+            }
+        }
+
+        kieSession.insert(bug);
+
         return new ResponseEntity<>(bugMapper.toDto(bug), HttpStatus.OK);
     }
 
@@ -81,7 +112,7 @@ public class BugController {
             @ApiResponse(code = 400, message = "Bug with passed id can not be found."),
     })
     @GetMapping("/{id}")
-    public ResponseEntity<BugDTO> getBug(@PathVariable Integer id) {
+    public ResponseEntity<BugDTO> getBug(@PathVariable @Min(1) Integer id) {
 
         Bug bug = bugService.findOne(id);
         return new ResponseEntity<>(bugMapper.toDto(bug), HttpStatus.OK);

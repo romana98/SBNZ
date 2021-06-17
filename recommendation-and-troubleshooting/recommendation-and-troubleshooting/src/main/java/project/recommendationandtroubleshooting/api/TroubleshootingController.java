@@ -2,7 +2,9 @@ package project.recommendationandtroubleshooting.api;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.kie.api.KieServices;
 import org.kie.api.runtime.ClassObjectFilter;
+import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,36 +16,46 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import project.recommendationandtroubleshooting.model.User;
+import project.recommendationandtroubleshooting.model.troubleshooting.Bug;
+import project.recommendationandtroubleshooting.model.troubleshooting.BugHistory;
 import project.recommendationandtroubleshooting.model.troubleshooting.Bugs;
 import project.recommendationandtroubleshooting.model.troubleshooting.Problem;
 import project.recommendationandtroubleshooting.model.troubleshooting.cep.Warning;
+import project.recommendationandtroubleshooting.service.impl.BugServiceImpl;
+import project.recommendationandtroubleshooting.service.impl.UserServiceImpl;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "https://localhost:4200")
 @RestController
 @RequestMapping(value = "/troubleshooting", produces = MediaType.APPLICATION_JSON_VALUE)
-public class Troubleshooting {
+public class TroubleshootingController {
 
     @Autowired
     KieSession kieSession;
+
+    @Autowired
+    UserServiceImpl userService;
+
+    @Autowired
+    BugServiceImpl bugService;
+
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully returned solution."),
             @ApiResponse(code = 400, message = "Failed to return solution."),
     })
-    @PostMapping()
+    @PostMapping() // user keeps pressing no
     public ResponseEntity<Problem> solution(@Valid @RequestBody Problem problem) {
         kieSession.getAgenda().getAgendaGroup("troubleshooting").setFocus();
         kieSession.insert(problem);
         kieSession.fireAllRules();
 
-        Collection<Problem> newEvents = (Collection<Problem>) kieSession.getObjects(new ClassObjectFilter(Problem.class));
-        problem = (Problem) newEvents.toArray()[0];
 
         Collection<FactHandle> handlers = kieSession.getFactHandles();
         for (FactHandle handle : handlers) {
@@ -53,8 +65,35 @@ public class Troubleshooting {
                 kieSession.delete(handle);
         }
 
-        return new ResponseEntity<>(problem, HttpStatus.CREATED);
+        return new ResponseEntity<>(problem, HttpStatus.OK);
     }
+
+
+    @PutMapping() // user presses yes
+    public ResponseEntity<User> updateBugHistory(@Valid @RequestBody Problem problem) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User loggedIn = (User) authentication.getPrincipal();
+
+        Bug bug = bugService.findByDescription(problem.getProblems());
+
+        BugHistory bugHistory = new BugHistory(new Date(), problem.getCurrentSolution(), bug);
+
+        User user = userService.addToBugHistory(loggedIn.getId(), bugHistory);
+
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle : handlers) {
+            Object obj = kieSession.getObject(handle);
+
+            if (obj.getClass() == User.class) {
+                if (((User) obj).getId().equals(user.getId()))
+                    kieSession.delete(handle);
+            }
+        }
+        kieSession.insert(user);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @ApiResponses(value = {
@@ -69,13 +108,14 @@ public class Troubleshooting {
 
         kieSession.getAgenda().getAgendaGroup("bug_frequency").setFocus();
 
-        kieSession.insert(new Bugs());
+        Bugs bugs = new Bugs();
+        kieSession.insert(bugs);
         kieSession.setGlobal("userId", loggedIn.getId());
 
         kieSession.fireAllRules();
 
-        Collection<Bugs> newEvents = (Collection<Bugs>) kieSession.getObjects(new ClassObjectFilter(Bugs.class));
-        Bugs userBugs = (Bugs) newEvents.toArray()[0];
+        // Collection<Bugs> newEvents = (Collection<Bugs>) kieSession.getObjects(new ClassObjectFilter(Bugs.class));
+        // Bugs userBugs = (Bugs) newEvents.toArray()[0];
 
         Collection<FactHandle> handlers = kieSession.getFactHandles();
         for (FactHandle handle : handlers) {
@@ -86,7 +126,7 @@ public class Troubleshooting {
         }
         kieSession.setGlobal("userId", -1);
 
-        return new ResponseEntity<>(userBugs, HttpStatus.OK);
+        return new ResponseEntity<>(bugs, HttpStatus.OK);
     }
 
     @GetMapping(value = "unsolved-bugs")
@@ -97,13 +137,15 @@ public class Troubleshooting {
 
         kieSession.getAgenda().getAgendaGroup("unsolved_bugs").setFocus();
 
-        kieSession.insert(new Bugs());
+        Bugs bugs = new Bugs();
+
+        kieSession.insert(bugs);
         kieSession.setGlobal("userId", loggedIn.getId());
 
         kieSession.fireAllRules();
 
-        Collection<Bugs> newEvents = (Collection<Bugs>) kieSession.getObjects(new ClassObjectFilter(Bugs.class));
-        Bugs userBugs = (Bugs) newEvents.toArray()[0];
+        // Collection<Bugs> newEvents = (Collection<Bugs>) kieSession.getObjects(new ClassObjectFilter(Bugs.class));
+        // Bugs userBugs = (Bugs) newEvents.toArray()[0];
 
         Collection<FactHandle> handlers = kieSession.getFactHandles();
         for (FactHandle handle : handlers) {
@@ -114,33 +156,32 @@ public class Troubleshooting {
         }
         kieSession.setGlobal("userId", -1);
 
-        return new ResponseEntity<>(userBugs, HttpStatus.OK);
+        return new ResponseEntity<>(bugs, HttpStatus.OK);
     }
 
-    @GetMapping(value = "cep")
-    public ResponseEntity<List<Warning>> cep() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User loggedIn = (User) authentication.getPrincipal();
+    @GetMapping(value = "computer-state")
+    public ResponseEntity<List<Warning>> getComputerState() {
 
-
-        kieSession.getAgenda().getAgendaGroup("unsolved_bugs").setFocus();
+        KieServices kieServices = KieServices.Factory.get();
+        KieContainer kieContainer = kieServices.getKieClasspathContainer();
+        KieSession kSession = kieContainer.newKieSession("eventsSession");
 
         //TODO: implement random CEP call
 
-        kieSession.fireAllRules();
+        kSession.fireAllRules();
 
         List<Warning> warnings = new ArrayList<>();
-        Collection<Warning> newEvents = (Collection<Warning>) kieSession.getObjects(new ClassObjectFilter(Bugs.class));
+        Collection<Warning> newEvents = (Collection<Warning>) kSession.getObjects(new ClassObjectFilter(Bugs.class));
         for (int i = 0; i < newEvents.toArray().length; i++) {
             warnings.add((Warning) newEvents.toArray()[i]);
         }
 
-        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        Collection<FactHandle> handlers = kSession.getFactHandles();
         for (FactHandle handle : handlers) {
-            Object obj = kieSession.getObject(handle);
+            Object obj = kSession.getObject(handle);
 
             if (obj.getClass() == Warning.class)
-                kieSession.delete(handle);
+                kSession.delete(handle);
         }
 
         return new ResponseEntity<>(warnings, HttpStatus.OK);
