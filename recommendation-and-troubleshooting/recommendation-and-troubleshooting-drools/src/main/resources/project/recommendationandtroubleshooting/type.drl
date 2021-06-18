@@ -14,7 +14,7 @@ rule "Desktop"
 	    salience (4)
     when
         $r: Recommendations(configurations.isEmpty())
-        $i: InputRequirements($mobility: mobility, $mobility.getMobility() < 50)
+        $i: InputRequirements($mobility: mobility, $mobility.getMobility() < 20)
         $configurations: List() from collect(ConfigurationClass(considered == true))
         $c: ConfigurationClass(type == ConfigurationType.LAPTOP) from $configurations
     then

@@ -19,7 +19,7 @@ rule "Usage"
         $reqTouchScreen: touchscreen, $reqMicrophone: microphone, $reqCamera: camera, $reqEgronomic: ergonomic);
 
         $configurations: List() from collect(ConfigurationClass(considered == true));
-        $c: ConfigurationClass(
+        $c: ConfigurationClass($a: CPU, $b: GPU, $d: RAM, $e: OS, $f: discSize, $g: discType, $m: microphone,
     		(CPU not memberOf $reqCPU && !$reqCPU.isEmpty())
     		||
             (GPU not memberOf $reqGPU && !$reqGPU.isEmpty())
@@ -42,16 +42,30 @@ rule "Usage"
             ||
             (musicCard not memberOf $reqMusicCard && !$reqMusicCard.isEmpty())
             ||
-            (touchscreen not memberOf $reqTouchScreen && !$reqTouchScreen.isEmpty())
+            (touchscreen == false && !$reqTouchScreen.isEmpty())
             ||
-            (microphone memberOf $reqMicrophone && !$reqMicrophone.isEmpty())
+            (microphone == false && !$reqMicrophone.isEmpty())
             ||
-            (camera not memberOf $reqCamera && !$reqCamera.isEmpty())
+            (camera == false && !$reqCamera.isEmpty())
             ||
-            (ergonomic not memberOf $reqEgronomic && !$reqEgronomic.isEmpty())
+            (ergonomic == false && !$reqEgronomic.isEmpty())
     	)
     	from $configurations
     then
+    //cpu, gpu, ram, os, disc size, disc type
+    	System.out.println($c);
+    	System.out.println($m);
+    	System.out.println($reqMicrophone);
+    	//System.out.println($b);
+    	//System.out.println($reqGPU);
+    	//System.out.println($d);
+    	//System.out.println($reqRAM);
+    	//System.out.println($e);
+    	//System.out.println($reqOS);
+    	//System.out.println($f);
+    	//System.out.println($reqDiscSize);
+    	//System.out.println($g);
+    	//System.out.println($reqDiscType);
         System.out.println("Rule: Usage");
     	modify($c) { setConsidered(false) }
 end

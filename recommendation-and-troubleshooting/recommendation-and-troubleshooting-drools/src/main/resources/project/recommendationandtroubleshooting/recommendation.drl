@@ -12,6 +12,7 @@ import java.util.Set;
 
 
 rule "Recommendation"
+		no-loop
         agenda-group "recommendation"
 	    salience (1)
     when

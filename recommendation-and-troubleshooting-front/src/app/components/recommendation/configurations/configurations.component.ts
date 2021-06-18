@@ -21,7 +21,7 @@ export class ConfigurationsComponent implements OnInit {
   rateInput = {};
   intervalInput = {};
   page = 0;
-  pageSize = 1;
+  pageSize = 7;
   configurations = {content: [], numberOfElements: 0, totalElements: 0, totalPages: 0, number: 0};
   formInterval: FormGroup;
   formRate: FormGroup;

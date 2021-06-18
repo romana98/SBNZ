@@ -22,7 +22,7 @@ export class RecommendComponent implements OnInit {
       minprice : [null, Validators.required],
       maxprice : [null, Validators.required],
       usagesSelect: [null, Validators.required],
-      characteristicsSelect: [null, Validators.required],
+      characteristicsSelect: [[]],
       sliderValue: [0]
     });
   }

@@ -50,13 +50,13 @@ rule "Characteristics"
            ||
            (musicCard not memberOf $reqMusicCard && !$reqMusicCard.isEmpty())
            ||
-           (touchscreen not memberOf $reqTouchScreen && !$reqTouchScreen.isEmpty())
+           (touchscreen == false && !$reqTouchScreen.isEmpty())
            ||
-           (microphone not memberOf $reqMicrophone && !$reqMicrophone.isEmpty())
+           (microphone == false && !$reqMicrophone.isEmpty())
            ||
-           (camera not memberOf $reqCamera && !$reqCamera.isEmpty())
+           (camera == false && !$reqCamera.isEmpty())
            ||
-           (ergonomic not memberOf $reqEgronomic && !$reqEgronomic.isEmpty())
+           (ergonomic == false && !$reqEgronomic.isEmpty())
         )
         from $configurations
     then
