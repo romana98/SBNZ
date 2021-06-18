@@ -4,9 +4,12 @@ import project.recommendationandtroubleshooting.model.recommendation.Recommendat
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageTypeRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Collections;
 
 
-/*rule "Usage"
+rule "Usage"
         agenda-group "recommendation"
 	    salience (3)
     when
@@ -17,35 +20,34 @@ import java.util.List;
         $reqTouchScreen: touchscreen, $reqMicrophone: microphone, $reqCamera: camera, $reqEgronomic: ergonomic);
         
         $configurations: List() from collect(ConfigurationClass(considered == true));
-        $c: ConfigurationClass($mapa: getAttributes(),
-        	
-        	$neZadovoljava: List( size >= 1 ) from accumulate(
-        	    Map.Entry( $tupleMapa: this, $keyMapa: key, $valueMapa: value ) from $mapa.entrySet(), 
-        		$tupleZahtjevi: Map.Entry( $keyZahtjevi: key, $valueZahtjevi: value, key == $keyMapa ) from $zahtjevi.entrySet(),
-        		$valueMapa not memberOf $valueZahtjevi && !valueZahtjevi.isEmpty(),
-        		collectList($tupleMapa)
-        	)
-        	
-    		$neZadovoljava
-            ||
-            (touchscreen == false && !$reqTouchScreen.isEmpty())
-            ||
-            (microphone == false && !$reqMicrophone.isEmpty())
-            ||
-            (camera == false && !$reqCamera.isEmpty())
-            ||
-            (ergonomic == false && !$reqEgronomic.isEmpty())
+        $c: ConfigurationClass($mapa: getAttributes(), $touch: touchscreen, $micro: microphone, $cam: camera, $ergo: ergonomic
     	)
-    	from $configurations
+    	from $configurations;
+    	$neZadovoljava: List( size >= 1 ) from accumulate(
+    	    Map.Entry( $tupleMapa: this, $keyMapa: key, $valueMapa: value, 
+    	    (value not memberOf (Set)$zahtjevi.get(key) && !((Set)$zahtjevi.get(key)).isEmpty())
+    	    ||
+    	    ($touch == false && !((Set)$reqTouchScreen).isEmpty())
+            ||
+            ($micro == false && !((Set)$reqMicrophone).isEmpty())
+            ||
+            ($cam == false && !((Set)$reqCamera).isEmpty())
+            ||
+            ($ergo == false && !((Set)$reqEgronomic).isEmpty()) ) from $mapa.entrySet(),
+    	    
+    		collectList( $tupleMapa )
+    	)
     then
         System.out.println("Rule: Usage");
+        System.out.println($touch);
+        System.out.println($neZadovoljava.size());
     	System.out.println($c);
     	System.out.println($mapa);
     	System.out.println($zahtjevi);
     	modify($c) { setConsidered(false) }
 end
-*/
-rule "Usage"
+
+/*rule "Usage"
         agenda-group "recommendation"
 	    salience (3)
     when
@@ -98,3 +100,4 @@ rule "Usage"
     	System.out.println($zahtjevi);
     	modify($c) { setConsidered(false) }
 end
+*/
