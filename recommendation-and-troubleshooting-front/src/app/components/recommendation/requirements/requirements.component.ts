@@ -37,7 +37,14 @@ export class RequirementsComponent implements OnInit {
     console.log(event)
     this.configurationsService.deleteRequirement(event).subscribe(
       result => {
+        console.log(result)
         this.snackBar.open('Successfully deleted requirement!', 'Ok', { duration: 2000 });
+        this.page = 0;
+        this.configurationsService.getRequirements({ page: this.page, size: this.pageSize }).subscribe(
+          result => {
+            this.requirements = result;
+          }
+        );
       },
       error => {
         this.snackBar.open('Something went wrong.', 'Ok', { duration: 2000 });
