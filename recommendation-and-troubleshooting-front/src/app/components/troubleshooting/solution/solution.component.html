@@ -1,1 +1,52 @@
-<p>solution works!</p>
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Solutions</h1>
+<mat-divider></mat-divider>
+<br><br>
+<div style="float: left; margin-left: 1%; font-size: large">
+
+  <mat-label style="margin-left: 10%">Add solution</mat-label>
+
+  <form  [formGroup]="form" (ngSubmit)="addSolution()" style="padding-left: 25px;">
+
+    <mat-form-field>
+      <mat-label for="solution">Solution:</mat-label>
+      <input matInput name="solution" placeholder="Solution" [formControl]="form.controls.solution">
+      <mat-error *ngIf="form.controls.solution.touched && form.controls.solution.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+    <br>
+    <button mat-raised-button type="submit" [disabled]="form.controls.solution.errors?.required">Add solution</button>
+
+  </form>
+
+  <br><br><br><br>
+
+  <div [hidden]="this.isHidden">
+
+    <mat-label style="margin-left: 10%">Update solution</mat-label>
+
+    <form  [formGroup]="formEdit" (ngSubmit)="editSolution()" style="padding-left: 25px;">
+
+      <mat-form-field>
+        <mat-label for="solution">Solution:</mat-label>
+        <input matInput id="solution" name="solution" placeholder="Solution" [formControl]="formEdit.controls.solution">
+        <mat-error *ngIf="formEdit.controls.solution.touched && formEdit.controls.solution.errors?.required">
+          This field can't be empty!</mat-error >
+      </mat-form-field>
+      <br>
+      <button mat-raised-button type="submit" [disabled]="!formEdit.valid">Update solution</button>
+
+    </form>
+  </div>
+
+</div>
+<div style="width: 50%; height: 50%; float: right; padding-right: 10%">
+  <app-table [dataSource]="solutions.content" [columnsToDisplay]="['solution', 'delete']" [columnsToIterate]="['solution']" (Click)="editModeOn($event)" (Delete)="deleteSolution($event)"></app-table>
+
+  <app-pagination [pageSize]="pageSize"
+                  [totalItems]="solutions.totalElements"
+                  [totalPages]="solutions.totalPages"
+                  [currentPage]="solutions.number"
+                  (ChangePage)="onPagination($event)"
+  ></app-pagination>
+</div>
+

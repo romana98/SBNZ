@@ -1,1 +1,67 @@
-<p>bug works!</p>
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Bugs</h1>
+<mat-divider></mat-divider>
+<br><br>
+<div style="float: left; margin-left: 1%; font-size: large">
+
+  <mat-label style="margin-left: 10%">Add bug</mat-label>
+
+  <form  [formGroup]="form" (ngSubmit)="addBug()" style="padding-left: 25px;">
+
+    <mat-form-field appearance="legacy" style="margin-left: 2%">
+      <mat-label>Description(s):</mat-label>
+      <mat-select [formControl]="form.controls.descriptions" multiple>
+        <mat-option matTooltip="{{desc['problemDescription']}}" matTooltipClass="tooltip"  [matTooltipPosition]="'after'" *ngFor="let desc of descriptions" [value]="desc">{{desc['problemDescription']}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="legacy" style="margin-left: 2%">
+      <mat-label>Solution(s):</mat-label>
+      <mat-select [formControl]="form.controls.solutions" multiple >
+        <mat-option matTooltip="{{solution['solution']}}"  (onSelectionChange)="selected(solution)" [matTooltipPosition]="'after'" *ngFor="let solution of solutions" [value]="solution">{{solution['solution']}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <br>
+    <button mat-raised-button type="submit" [disabled]="!form.valid">Add bug</button>
+
+  </form>
+
+  <br><br><br><br>
+
+  <div [hidden]="this.isHidden">
+
+    <mat-label style="margin-left: 10%">Update bug</mat-label>
+
+    <form  [formGroup]="formEdit" (ngSubmit)="editBug()" style="padding-left: 25px;">
+
+      <mat-form-field appearance="legacy" style="margin-left: 2%">
+        <mat-label>Description(s):</mat-label>
+        <mat-select [formControl]="formEdit.controls.descriptions" multiple>
+          <mat-option *ngFor="let desc of descriptionsEdit" matTooltip="{{desc['problemDescription']}}" matTooltipClass="tooltip"  [matTooltipPosition]="'after'" [value]="desc">{{desc['problemDescription']}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="legacy" style="margin-left: 2%">
+        <mat-label>Solution(s):</mat-label>
+        <mat-select [formControl]="formEdit.controls.solutions" multiple>
+          <mat-option *ngFor="let solution of solutionsEdit" matTooltip="{{solution['solution']}}"  (onSelectionChange)="selectedEdit(solution)" [matTooltipPosition]="'after'" [value]="solution">{{solution['solution']}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <button id="updateCategoryBtn" mat-raised-button type="submit" [disabled]="!formEdit.valid">Update bug</button>
+
+    </form>
+  </div>
+
+</div>
+<div style="width: 50%; height: 50%; float: right; padding-right: 10%">
+  <app-table [dataSource]="bugs.content" [columnsToDisplay]="['descriptions', 'solutions', 'delete']" [columnsToIterate]="['descriptionDTO', 'solutionDTOList']" (Click)="editModeOn($event)" (Delete)="deleteBug($event)"></app-table>
+
+  <app-pagination [pageSize]="pageSize"
+                  [totalItems]="bugs.totalElements"
+                  [totalPages]="bugs.totalPages"
+                  [currentPage]="bugs.number"
+                  (ChangePage)="onPagination($event)"
+  ></app-pagination>
+
+</div>

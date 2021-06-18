@@ -1,7 +1,7 @@
 import { Inject, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { ConfigurationsService } from 'src/app/services/configurations.service';
+import { ConfigurationsService } from 'src/app/services/recommendation/configurations.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LogInService } from 'src/app/services/log-in.service';
 

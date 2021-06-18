@@ -48,7 +48,7 @@ export class ViewProfileComponent implements OnInit {
       });
       this.id = res.id;
     }, err => {
-      this.snackBar.open("Server error: " + err, "Close");
+      this.snackBar.open("Server error: " + err, "Close",{duration: 2000} );
     })
   }
 
@@ -61,9 +61,9 @@ export class ViewProfileComponent implements OnInit {
       this.form.controls['lastName'].value,
       this.form.controls['password'].value.length == 0 ? "________" : this.form.controls['password'].value
     )).toPromise().then(() => {
-      this.snackBar.open("Successfully changed profile information", "Close");
+      this.snackBar.open("Successfully changed profile information", "Close",{duration: 2000} );
     }, err => {
-      this.snackBar.open("Server error: " + err, "Close");
+      this.snackBar.open("Server error: " + err, "Close",{duration: 2000} );
     })
   }
 }

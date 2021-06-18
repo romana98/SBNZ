@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormGroupDirective, Validators } from '@angular/forms';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { ConfigurationsService } from 'src/app/services/configurations.service';
+import { ConfigurationsService } from 'src/app/services/recommendation/configurations.service';
 import { DialogConfigurationComponent } from '../dialog-configuration/dialog-configuration.component';
 
 @Component({
@@ -17,7 +17,7 @@ export class RecommendComponent implements OnInit {
   characteristics = [{id: 1, characteristic: "characteristic1"}, {id: 2, characteristic: "characteristic2"}, {id: 3, characteristic: "characteristic3"}]
 
   constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<DialogConfigurationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private configurationsService: ConfigurationsService) { 
+    @Inject(MAT_DIALOG_DATA) public data: any, private configurationsService: ConfigurationsService) {
     this.form = this.fb.group({
       minprice : [null, Validators.required],
       maxprice : [null, Validators.required],
@@ -95,7 +95,7 @@ export class RecommendComponent implements OnInit {
       }
     }*/
     this.newEvent.emit(input);
-  }    
+  }
 
   closeDialog() {
     this.dialogRef.close();

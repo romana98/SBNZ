@@ -3,7 +3,7 @@ table {
 }
 th.mat-header-cell{
   text-align: center !important;
-  font-size: x-small;
+  font-size: medium;
   padding-right: 3px;
 }
 td.mat-cell{

@@ -1,5 +1,6 @@
-import {Component, Input, OnChanges, Output, SimpleChanges, EventEmitter} from '@angular/core';
-import { LogInService } from 'src/app/services/log-in.service';
+import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {LogInService} from 'src/app/services/log-in.service';
+import {UserRole} from "../../model/user-role";
 
 @Component({
   selector: 'app-table',
@@ -14,9 +15,9 @@ export class TableComponent implements OnChanges {
   @Output() Delete = new EventEmitter<number>();
   @Output() Click = new EventEmitter<number>();
   @Output() DoubleClick = new EventEmitter<number>();
-  role = 0;
+  role: String;
   constructor(private loginService: LogInService) {
-    this.role = this.loginService.getRole();
+    this.role = this.loginService.getRole() === UserRole.ROLE_USER ? 'user' : 'admin';
   }
 
   ngOnChanges(changes: SimpleChanges): void {
