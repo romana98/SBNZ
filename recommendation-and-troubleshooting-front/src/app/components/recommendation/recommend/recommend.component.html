@@ -1,0 +1,50 @@
+<h2 style="display: block; text-align: center; margin: 3%;" mat-dialog-title>Choose your preferences and get list of configurations for you!</h2>
+
+<div style="display: block; text-align: center; margin: 3%;">
+    <br>
+    <form [formGroup]="form" name="form" (ngSubmit)="submit()" style="display: inline-block; width: 100%">
+    <p style="color:  #bbb;">1) Define your budget!</p>
+    <mat-form-field name="form-field-minprice" [style.width.%]="79">
+        <mat-label for="minprice">Minimal price (din):</mat-label>
+        <input matInput id="minprice" name="minprice" placeholder="Minimal price (din):" [formControl]="form.controls.minprice">
+        <mat-error *ngIf="form.controls.minprice.touched && form.controls.minprice.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+    <mat-form-field name="form-field-maxprice" [style.width.%]="79">
+        <mat-label for="maxprice">Maximal price (din):</mat-label>
+        <input matInput id="maxprice" name="maxprice" placeholder="Maximal price (din):" [formControl]="form.controls.maxprice">
+        <mat-error *ngIf="form.controls.maxprice.touched && form.controls.maxprice.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <p style="color:  #bbb;">2) For what will you mainly use your computer?</p>
+    <mat-form-field name="form-field-usages" [style.width.%]="80" [style.margin.%]="1">
+        <mat-label>Choose one usage...</mat-label>
+        <mat-select (selectionChange)="onChangeUsages($event)" id="usagesSelect" name="usagesSelect" [formControl]="form.controls.usagesSelect">
+            <mat-option id={{usage.id}} *ngFor="let usage of usages" [value]="usage">{{usage.usage}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.controls.usagesSelect.touched && form.controls.usagesSelect.errors?.required">
+            This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <p style="color:  #bbb;">3) Do you have any special requests?</p>
+    <mat-form-field name="form-field-characteristics" [style.width.%]="80" [style.margin.%]="1">
+        <mat-label>Choose one or more special characteristics...</mat-label>
+        <mat-select multiple (selectionChange)="onChangeCharacteristics($event)" id="characteristicsSelect" name="characteristicsSelect" [formControl]="form.controls.characteristicsSelect">
+            <mat-option id={{characteristic.id}} *ngFor="let characteristic of characteristics" [value]="characteristic">{{characteristic.characteristic}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.controls.characteristicsSelect.touched && form.controls.characteristicsSelect.errors?.required">
+            This field can't be empty!</mat-error >
+    </mat-form-field>
+
+    <div>
+        <mat-label for="slider" ><p style="color:  #bbb;">4) How often will you move your computer?</p></mat-label>
+        <mat-slider max=100 min=0 step=1 (input)="onSliderChange($event)"></mat-slider>
+    </div>
+
+      <div>
+        <button mat-raised-button color="primary" id="publish-button" name="publish-button" type="submit" [disabled]="!form.valid">Recommend</button>
+      </div>
+    </form>
+    
+  </div>

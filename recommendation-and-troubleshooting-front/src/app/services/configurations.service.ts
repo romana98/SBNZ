@@ -13,6 +13,56 @@ export class ConfigurationsService {
     return this.http.get('http://localhost:8080/recommendation/all/by-page?page=' + payload.page + '&size=' + payload.size)
   }
 
+  getRecommended(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/recommendation/by-page?page=' + payload.page + '&size=' + payload.size, payload.value)
+  }
+
+  rate(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/rating', payload)
+  }
+
+  favorite(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/favorite', payload)
+  }
+
+  getCurrentlyPopular(payload: any): Observable<any> {
+    return this.http.get('http://localhost:8080/recommendation/getCurrentlyPopular/by-page?page=' + payload.page + '&size=' + payload.size)
+  }
+
+  getIntervalPopular(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/recommendation/getIntervalPopular/by-page?page=' + payload.page + '&size=' + payload.size, payload.value)
+  }
+
+  searchByRate(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/recommendation/searchByRate/by-page?page=' + payload.page + '&size=' + payload.size, payload.value)
+  }
+
+  getFavorites(payload: any): Observable<any> {
+    return this.http.get('http://localhost:8080/recommendation/favorites/by-page?page=' + payload.page + '&size=' + payload.size)
+  }
+
+  addConfiguration(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/recommendation/add-configuration', payload)
+  }
+
+  deleteConfiguration(payload: any): Observable<any> {
+    return this.http.get('http://localhost:8080/recommendation/delete-configuration/' + payload)
+  }
+
+  getUsersByRate(payload: any): Observable<any> {
+    return this.http.get('http://localhost:8080/recommendation/get-users-by-rate/' + payload)
+  }
+
+  getUsages(): Observable<any> {
+    return this.http.get('http://localhost:8080/recommendation/getUsages')
+  }
+
+  getCharacteristics(): Observable<any> {
+    return this.http.get('http://localhost:8080/recommendation/getCharacteristics')
+  }
+
+
+
 }
 
 

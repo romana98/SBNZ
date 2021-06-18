@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -17,9 +19,11 @@ import org.apache.maven.shared.invoker.InvocationRequest;
 import org.apache.maven.shared.invoker.Invoker;
 import org.drools.template.ObjectDataCompiler;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -37,6 +41,7 @@ import project.recommendationandtroubleshooting.model.recommendation.Favorite;
 import project.recommendationandtroubleshooting.model.recommendation.InputRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.Rating;
 import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
+import project.recommendationandtroubleshooting.repository.ConfigurationRepository;
 import project.recommendationandtroubleshooting.service.FavoriteService;
 import project.recommendationandtroubleshooting.service.RecommendationService;
 
@@ -48,6 +53,9 @@ public class RecommendationServiceImpl implements RecommendationService {
 	
 	@Autowired
 	FavoriteServiceImpl favoriteService;
+	
+	@Autowired
+    private ConfigurationRepository configurationRepository;
 
 	@Override
 	public Page<ConfigurationResponseDTO> getRecommendation(InputRequirements input, Pageable pageable, int idUser) {
@@ -62,14 +70,26 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         //kieSession.dispose();
 
-        /*Collection<FactHandle> handlers = kieSession.getFactHandles();
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
         for (FactHandle handle: handlers) {
-            kieSession.delete(handle);
-        }*/
+        	Object sessionObject = kieSession.getObject(handle);
+        	if (sessionObject instanceof ConfigurationClass || sessionObject instanceof Recommendations) {
+        		kieSession.delete(handle);
+        	}
+        }
+        List<ConfigurationClass> allConfigurations = configurationRepository.findAll();
+        for (ConfigurationClass configuration : allConfigurations) {
+            kieSession.insert(configuration);
+        }
         
         List<ConfigurationClass> configs = new ArrayList<ConfigurationClass>(output.getConfigurations());
         List<ConfigurationResponseDTO> result = this.toDTOList(configs, idUser);
-        return new PageImpl<>(result, pageable, (long)result.size());
+        
+        Collections.sort(result);
+        int start = (int)pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), result.size());
+        Page<ConfigurationResponseDTO> page = new PageImpl<>(result.subList(start, end), pageable, result.size());
+        return page;
 	}
 
 	@Override
@@ -83,7 +103,20 @@ public class RecommendationServiceImpl implements RecommendationService {
         
         List<ConfigurationClass> configs = output.getConfigurations();
         List<ConfigurationResponseDTO> result = this.toDTOList(configs, idUser);
-        return new PageImpl<>(result, pageable, (long)result.size());
+        
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle: handlers) {
+        	Object sessionObject = kieSession.getObject(handle);
+        	if (sessionObject instanceof Configurations) {
+        		kieSession.delete(handle);
+        	}
+        }
+
+        Collections.sort(result);
+        int start = (int)pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), result.size());
+        Page<ConfigurationResponseDTO> page = new PageImpl<>(result.subList(start, end), pageable, result.size());
+        return page;
 	}
 
 	@Override
@@ -94,8 +127,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                     "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\templates\\interval-report.drt");
 
             List<IntervalDTO> arguments = new ArrayList<>();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyy HH:mm");
-            arguments.add(new IntervalDTO("2021-06-05", "2021-06-07"));
+            arguments.add(new IntervalDTO(dto.getMaxDate(), dto.getMinDate()));
             ObjectDataCompiler compiler = new ObjectDataCompiler();
             String drl = compiler.compile(arguments, template);
 
@@ -124,7 +156,20 @@ public class RecommendationServiceImpl implements RecommendationService {
             
             List<ConfigurationClass> configs = output.getConfigurations();
             List<ConfigurationResponseDTO> result = this.toDTOList(configs, idUser);
-            return new PageImpl<>(result, pageable, (long)result.size());
+            
+            Collection<FactHandle> handlers = kieSession.getFactHandles();
+            for (FactHandle handle: handlers) {
+            	Object sessionObject = kieSession.getObject(handle);
+            	if (sessionObject instanceof Configurations) {
+            		kieSession.delete(handle);
+            	}
+            }
+
+            Collections.sort(result);
+            int start = (int)pageable.getOffset();
+            int end = Math.min((start + pageable.getPageSize()), result.size());
+            Page<ConfigurationResponseDTO> page = new PageImpl<>(result.subList(start, end), pageable, result.size());
+            return page;
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -140,7 +185,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                     "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\templates\\search-by-rate.drt");
 
             List<RateDTO> arguments = new ArrayList<RateDTO>();
-            arguments.add(new RateDTO(2.0, 5.0));
+            arguments.add(new RateDTO(dto.getMinRate(), dto.getMaxRate()));
             ObjectDataCompiler compiler = new ObjectDataCompiler();
             System.out.println("++++++++++++++++++++++++++++++++");
             String drl = compiler.compile(arguments, template);
@@ -168,7 +213,20 @@ public class RecommendationServiceImpl implements RecommendationService {
             
             List<ConfigurationClass> configs = output.getConfigurations();
             List<ConfigurationResponseDTO> result = this.toDTOList(configs, idUser);
-            return new PageImpl<>(result, pageable, (long)result.size());
+            
+            Collection<FactHandle> handlers = kieSession.getFactHandles();
+            for (FactHandle handle: handlers) {
+            	Object sessionObject = kieSession.getObject(handle);
+            	if (sessionObject instanceof Configurations) {
+            		kieSession.delete(handle);
+            	}
+            }
+            
+            Collections.sort(result);
+            int start = (int)pageable.getOffset();
+            int end = Math.min((start + pageable.getPageSize()), result.size());
+            Page<ConfigurationResponseDTO> page = new PageImpl<>(result.subList(start, end), pageable, result.size());
+            return page;
             
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -201,7 +259,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 	
 	public ConfigurationResponseDTO toDto(ConfigurationClass entity, int idUser) {
         Double average = this.getAverageRating((long)entity.getId());
-        boolean favorited = favoriteService.checkIfUserFavorited(idUser, entity.getId());
+        boolean favorited = idUser!=0 ? favoriteService.checkIfUserFavorited(idUser, entity.getId()) : false;
         return new ConfigurationResponseDTO(entity, average, favorited);
     }
 

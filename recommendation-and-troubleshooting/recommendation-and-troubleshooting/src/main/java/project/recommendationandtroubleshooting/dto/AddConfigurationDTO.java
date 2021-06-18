@@ -1,16 +1,9 @@
 package project.recommendationandtroubleshooting.dto;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.enums.DiscType;
-import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
 
-public class ConfigurationResponseDTO implements Comparable<ConfigurationResponseDTO> {
-
-	private Integer id;
+public class AddConfigurationDTO {
 
     private Long price;
 
@@ -46,41 +39,31 @@ public class ConfigurationResponseDTO implements Comparable<ConfigurationRespons
 
     private boolean ergonomic;
     
-    private Double averageRating;
-    
-    private boolean favorite;
-    
-    public ConfigurationResponseDTO() {}
-    
-    public ConfigurationResponseDTO(ConfigurationClass c, Double average, boolean favorite) {
-    	this.id = c.getId();
-    	this.price = c.getPrice();
-    	this.type = c.getType();
-    	this.CPU = c.getCPU();
-    	this.GPU = c.getGPU();
-    	this.RAM = c.getRAM();
-    	this.OS = c.getOS();
-    	this.PSU = c.getPSU();
-    	this.discType = c.getDiscType();
-    	this.discSize = c.getDiscSize();
-    	this.motherboard = c.getMotherboard();
-    	this.screenSize = c.getScreenSize();
-    	this.screenResolution = c.getScreenResolution();
-    	this.musicCard = c.getMusicCard();
-    	this.touchscreen = c.isTouchscreen();
-    	this.microphone = c.isMicrophone();
-    	this.camera = c.isCamera();
-    	this.ergonomic = c.isErgonomic();
-    	this.averageRating = average;
-    	this.favorite = favorite;
+    public AddConfigurationDTO() {
     }
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
+	public AddConfigurationDTO(Long price, ConfigurationType type, String cPU, String gPU, String rAM, String oS,
+			String pSU, DiscType discType, String discSize, String motherboard, String screenSize,
+			String screenResolution, String musicCard, boolean touchscreen, boolean microphone, boolean camera,
+			boolean ergonomic) {
+		super();
+		this.price = price;
+		this.type = type;
+		this.CPU = cPU;
+		this.GPU = gPU;
+		this.RAM = rAM;
+		this.OS = oS;
+		this.PSU = pSU;
+		this.discType = discType;
+		this.discSize = discSize;
+		this.motherboard = motherboard;
+		this.screenSize = screenSize;
+		this.screenResolution = screenResolution;
+		this.musicCard = musicCard;
+		this.touchscreen = touchscreen;
+		this.microphone = microphone;
+		this.camera = camera;
+		this.ergonomic = ergonomic;
 	}
 
 	public Long getPrice() {
@@ -218,26 +201,8 @@ public class ConfigurationResponseDTO implements Comparable<ConfigurationRespons
 	public void setErgonomic(boolean ergonomic) {
 		this.ergonomic = ergonomic;
 	}
+	
+	
 
-	public Double getAverageRating() {
-		return averageRating;
-	}
-
-	public void setAverageRating(Double averageRating) {
-		this.averageRating = averageRating;
-	}
-
-	public boolean isFavorite() {
-		return favorite;
-	}
-
-	public void setFavorite(boolean favorite) {
-		this.favorite = favorite;
-	}
     
-    
-    @Override
-    public int compareTo(ConfigurationResponseDTO c) {
-      return getId().compareTo(c.getId());
-    }
 }

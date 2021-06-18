@@ -1,8 +1,11 @@
 package project.recommendationandtroubleshooting.service.impl;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +21,9 @@ import project.recommendationandtroubleshooting.service.RatingService;
 
 @Service
 public class RatingServiceImpl implements RatingService {
+	
+	@Autowired
+	KieSession kieSession;
 
 	@Autowired
 	RatingRepository ratingRepository;
@@ -32,7 +38,17 @@ public class RatingServiceImpl implements RatingService {
 			conf.setRatings(new HashSet<Rating>());
 		}
 		conf.getRatings().add(r);
-		//DODATI U KIE SESIJU
+		
+		Collection<FactHandle> handlers = kieSession.getFactHandles();
+		for (FactHandle handle: handlers) {
+			Object sessionObject = kieSession.getObject(handle);
+        	if (sessionObject instanceof ConfigurationClass && ((ConfigurationClass) sessionObject).getId() == dto.getConfigId()) {
+        		kieSession.delete(handle);
+        	}
+        }
+		kieSession.insert(r);
+		kieSession.insert(conf);
+		
 		return saveOne(r);
 	}
 

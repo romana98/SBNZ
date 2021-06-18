@@ -1,14 +1,15 @@
 import {Routes} from "@angular/router";
+import {MainPageComponent} from "../components/users/main-page/main-page.component";
+import {AuthGuard} from "../guards/auth.guard";
+import {ViewProfileComponent} from "../components/users/view-profile/view-profile.component";
+import {ConfigurationsComponent} from "../components/recommendation/configurations/configurations.component";
 import {UserGuard} from "../guards/user.guard";
-import {ConfigurationsComponent} from '../components/recommendation/configurations/configurations.component';
 import {TroubleshootComponent} from "../components/troubleshooting/troubleshoot/troubleshoot.component";
 import {AdminGuard} from "../guards/admin.guard";
 import {BugFrequencyComponent} from "../components/troubleshooting/bug-frequency/bug-frequency.component";
 import {UnsolvedBugsComponent} from "../components/troubleshooting/unsolved-bugs/unsolved-bugs.component";
 import {ComputerStateComponent} from "../components/troubleshooting/computer-state/computer-state.component";
-import {ViewProfileComponent} from "../components/users/view-profile/view-profile.component";
-import {AuthGuard} from "../guards/auth.guard";
-import {MainPageComponent} from "../components/users/main-page/main-page.component";
+
 
 export const userRoutes: Routes = [
   {

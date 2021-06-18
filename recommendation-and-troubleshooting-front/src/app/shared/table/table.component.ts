@@ -1,4 +1,5 @@
 import {Component, Input, OnChanges, Output, SimpleChanges, EventEmitter} from '@angular/core';
+import { LogInService } from 'src/app/services/log-in.service';
 
 @Component({
   selector: 'app-table',
@@ -13,8 +14,9 @@ export class TableComponent implements OnChanges {
   @Output() Delete = new EventEmitter<number>();
   @Output() Click = new EventEmitter<number>();
   @Output() DoubleClick = new EventEmitter<number>();
-  constructor() {
-
+  role = 0;
+  constructor(private loginService: LogInService) {
+    this.role = this.loginService.getRole();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -33,6 +35,9 @@ export class TableComponent implements OnChanges {
   }
   doubleClicked(id: number){
     this.DoubleClick.emit(id);
+  }
+  doubleClickedWithData(data: any){
+    this.DoubleClick.emit(data);
   }
   get(element: string): string[]{
     switch (element) {

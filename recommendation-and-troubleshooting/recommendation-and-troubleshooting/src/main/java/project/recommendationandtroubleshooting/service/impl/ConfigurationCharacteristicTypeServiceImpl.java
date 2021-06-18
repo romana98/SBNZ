@@ -2,20 +2,24 @@ package project.recommendationandtroubleshooting.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.stereotype.Service;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
+import project.recommendationandtroubleshooting.repository.ConfigurationCharacteristicTypeRepository;
 import project.recommendationandtroubleshooting.service.ConfigurationCharacteristicTypeService;
 
 @Service
 public class ConfigurationCharacteristicTypeServiceImpl implements ConfigurationCharacteristicTypeService {
+	
+	@Autowired
+	ConfigurationCharacteristicTypeRepository repository;
 
 	@Override
 	public List<ConfigurationCharacteristicType> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findAll();
 	}
 
 	@Override

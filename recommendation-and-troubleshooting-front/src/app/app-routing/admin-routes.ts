@@ -1,11 +1,13 @@
 import {Routes} from "@angular/router";
-import {AdminGuard} from "../guards/admin.guard";
+import {MainPageComponent} from "../components/users/main-page/main-page.component";
 import {AuthGuard} from "../guards/auth.guard";
 import {ViewProfileComponent} from "../components/users/view-profile/view-profile.component";
-import {MainPageComponent} from "../components/users/main-page/main-page.component";
 import {BugComponent} from "../components/troubleshooting/bug/bug.component";
+import {AdminGuard} from "../guards/admin.guard";
 import {DescriptionComponent} from "../components/troubleshooting/description/description.component";
 import {SolutionComponent} from "../components/troubleshooting/solution/solution.component";
+import {AddConfigurationComponent} from "../components/recommendation/add-configuration/add-configuration.component";
+import {ConfigurationsComponent} from "../components/recommendation/configurations/configurations.component";
 
 export const adminRoutes: Routes = [
   {
@@ -45,8 +47,19 @@ export const adminRoutes: Routes = [
 
   {
     path: 'recommendation',
-    children: []
-  }
+    children: [
 
+      {
+        path: 'add-configuration',
+        component: AddConfigurationComponent,
+        canActivate: [AdminGuard]
+      },
+      {
+        path: 'configurations',
+        component: ConfigurationsComponent,
+        canActivate: [AdminGuard]
+      },
+    ]
+  }
 
 ];

@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Configuration</h2>
+<div mat-dialog-content style="margin-bottom: 20px;">
+    <div>Price: {{data.price}}</div>
+    <div>Type: {{data.type}}</div>
+    <div>CPU: {{data.cpu}}</div>
+    <div>GPU: {{data.gpu}}</div>
+    <div>RAM: {{data.ram}}</div>
+    <div>OS: {{data.os}}</div>
+    <div>PSU: {{data.psu}}</div>
+    <div>Disc Type: {{data.discType}}</div>
+    <div>Disc Size: {{data.discSize}}</div>
+    <div>Motherboard: {{data.motherboard}}</div>
+    <div>Screen Size: {{data.screenSize}}</div>
+    <div>Screen Resolution: {{data.screenResolution}}</div>
+    <div>Music Card: {{data.musicCard}}</div>
+    <div>Touchscreen: {{data.touchscreen ? "Yes" : "No"}}</div>
+    <div>Microphone: {{data.microphone ? "Yes" : "No"}}</div>
+    <div>Camera: {{data.camera ? "Yes" : "No"}}</div>
+    <div>Ergonomic: {{data.ergonomic ? "Yes" : "No"}}</div>
+</div>
+
+<div style="display: block">
+    <h3>Average Rating: {{data.averageRating}}</h3>
+    <h3>Users Per Grade: 1({{usersPerGrade.ones}}) 2({{usersPerGrade.twos}}) 3({{usersPerGrade.threes}}) 4({{usersPerGrade.fours}}) 5({{usersPerGrade.fives}})</h3>
+    <tr *ngIf="role==2">
+        <td style="padding-right: 20px;"><mat-button-toggle [checked]="data.favorite" (change)="onValChange($event.source.checked)">{{favoriteLabel}}</mat-button-toggle></td>
+        <td style="vertical-align: middle;"><ngx-stars [wholeStars]="true" [color]="'gold'" [size]="2" (ratingOutput)="onRatingSet($event)"></ngx-stars></td>
+    </tr>
+        
+</div>
+
+  
+<mat-dialog-actions><button mat-button mat-dialog-close>Close</button></mat-dialog-actions>

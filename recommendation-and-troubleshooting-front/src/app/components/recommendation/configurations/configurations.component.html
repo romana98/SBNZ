@@ -2,10 +2,48 @@
 <mat-divider></mat-divider>
 <br><br>
 <div style="padding-left: 1%;padding-right: 1%">
+    <button *ngIf="role==2" mat-raised-button color="primary" style="display: block; width: 80%;margin-left: 10%; margin-bottom: 15px;" (click)="onClickInput($event)">Recommend Configurations!</button>
+    <button *ngIf="role==2" mat-raised-button color="primary" style="margin-right:0px" (click)="onClickFavorites($event)">See My Favorites</button>
+    
+    <button mat-raised-button color="primary" style="margin-right:60px" (click)="onClickPopular($event)">See Currently Popular</button>
+    
+    <form *ngIf="role==1" [formGroup]="formRate" name="formRate" (ngSubmit)="submitRate()" style="display: inline; width: 100%">
+        <mat-form-field style="margin-right:8px" name="form-field-minRate" [style.width.%]="10">
+            <mat-label for="minRate">Choose minimal rate:</mat-label>
+            <input matInput id="minRate" name="minRate" placeholder="minRate" [formControl]="formRate.controls.minRate">
+            <mat-error *ngIf="formRate.controls.minRate.touched && formRate.controls.minRate.errors?.required">
+            This field can't be empty!</mat-error >
+        </mat-form-field>
+        <mat-form-field style="margin-right:8px" name="form-field-maxRate" [style.width.%]="10">
+            <mat-label for="maxRate">Choose maximal rate:</mat-label>
+            <input matInput id="maxRate" name="maxRate" placeholder="maxRate" [formControl]="formRate.controls.maxRate">
+            <mat-error *ngIf="formRate.controls.maxRate.touched && formRate.controls.maxRate.errors?.required">
+            This field can't be empty!</mat-error >
+        </mat-form-field>
+        <button mat-raised-button color="primary" style="margin-right:60px" id="rate-button" name="rate-button" type="submit" [disabled]="!formRate.valid">Search By Rating</button>  
+    </form>
 
-    <app-table style="font-size:5px" [dataSource]="configurations.content" [columnsToDisplay]="['Price', 'Type', 'CPU', 'GPU', 'RAM', 
+    <form *ngIf="role==1" [formGroup]="formInterval" name="formInterval" (ngSubmit)="submitInterval()" style="display: inline; width: 100%">
+        <mat-form-field style="margin-right:8px" [style.width.%]="10">
+            <mat-label>Choose start date:</mat-label>
+            <input id="minDate" [value]="formInterval.controls.minDate.value | date: 'yyyy-MM-dd'" (dateChange)="onValueChanged('minDate',$event)"
+                   matInput [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field style="margin-right:8px" [style.width.%]="10">
+            <mat-label>Choose end date:</mat-label>
+            <input id="maxDate" [value]="formInterval.controls.maxDate.value | date: 'yyyy-MM-dd'" (dateChange)="onValueChanged('maxDate',$event)" matInput
+                   [matDatepicker]="picker2">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker  #picker2></mat-datepicker>
+          </mat-form-field>
+        <button mat-raised-button color="primary" id="interval-button" name="interval-button" type="submit" [disabled]="!formInterval.valid">Most Popular in Selected Period</button>  
+    </form>
+
+    <app-table style="font-size:2px;" [dataSource]="configurations.content" [columnsToDisplay]="['Price (din)', 'Type', 'CPU', 'GPU', 'RAM', 
     'OS', 'PSU', 'Disc type', 'Disc size', 'Motherboard', 'Screen size', 'Screen resolution', 'Music card', 
-    'Touchscreen', 'Microphone', 'Camera', 'Ergonomic', 'Rating']" (DoubleClick)="onClick($event)" 
+    'Touchscreen', 'Microphone', 'Camera', 'Ergonomic', 'Rating', 'delete']" (DoubleClick)="onClick($event)" (Delete)="onDelete($event)"
     [columnsToIterate]="['price', 'type', 'cpu', 'gpu', 'ram', 
     'os', 'psu', 'discType', 'discSize', 'motherboard', 'screenSize', 'screenResolution', 'musicCard', 
     'touchscreen', 'microphone', 'camera', 'ergonomic', 'averageRating']"></app-table>

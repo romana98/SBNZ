@@ -1,9 +1,12 @@
 package project.recommendationandtroubleshooting.service.impl;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +23,9 @@ import project.recommendationandtroubleshooting.service.FavoriteService;
 
 @Service
 public class FavoriteServiceImpl implements FavoriteService {
+	
+	@Autowired
+	KieSession kieSession;
 	
 	@Autowired
 	FavoriteRepository favoriteRepository;
@@ -44,7 +50,17 @@ public class FavoriteServiceImpl implements FavoriteService {
 				u.setFavorites(new HashSet<Favorite>());
 			u.getFavorites().add(f);
 			saveOne(f);
-			//DODATI U KIE SESIJU
+
+			Collection<FactHandle> handlers = kieSession.getFactHandles();
+			for (FactHandle handle: handlers) {
+				Object sessionObject = kieSession.getObject(handle);
+	        	if (sessionObject instanceof User && ((User) sessionObject).getId() == userId) {
+	        		kieSession.delete(handle);
+	        	}
+	        }
+			kieSession.insert(f);
+			kieSession.insert(u);
+			
 		} else {
 			favorite.setDateOfFavorite(new Date());
 			favorite.setActive(dto.isValue());

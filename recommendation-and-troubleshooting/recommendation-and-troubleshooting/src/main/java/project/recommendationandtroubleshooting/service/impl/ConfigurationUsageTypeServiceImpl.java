@@ -2,20 +2,24 @@ package project.recommendationandtroubleshooting.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.stereotype.Service;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
+import project.recommendationandtroubleshooting.repository.ConfigurationUsageTypeRepository;
 import project.recommendationandtroubleshooting.service.ConfigurationUsageTypeService;
 
 @Service
 public class ConfigurationUsageTypeServiceImpl implements ConfigurationUsageTypeService {
+	
+	@Autowired
+	ConfigurationUsageTypeRepository repository;
 
 	@Override
 	public List<ConfigurationUsageType> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findAll();
 	}
 
 	@Override
