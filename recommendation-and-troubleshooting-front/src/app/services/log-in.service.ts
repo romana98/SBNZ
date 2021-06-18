@@ -20,6 +20,10 @@ export class LogInService {
       auth, { headers: this.headers, responseType: 'json' });
   }
 
+  activateAccount(id: number): Observable<any> {
+    return this.http.post('http://localhost:8080/auth/activate' + id, {});
+  }
+
   logOut(): void {
     this.storageService.clearStorage();
   }
