@@ -57,7 +57,7 @@ export const adminRoutes: Routes = [
         canActivate: [AdminGuard]
       },
       {
-        path: 'configurations',
+        path: '',
         component: ConfigurationsComponent,
         canActivate: [AdminGuard]
       },

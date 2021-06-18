@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigurationsService } from 'src/app/services/configurations.service';
+import { ConfigurationsService } from 'src/app/services/recommendation/configurations.service';
 
 @Component({
   selector: 'app-requirements',

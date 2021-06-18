@@ -16,9 +16,21 @@
   <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/troubleshooting')">
         <button (click)="router.navigate(['/admin/troubleshooting/descriptions']);" mat-button>Descriptions</button>
       </span>
-
   <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/troubleshooting')">
         <button (click)="router.navigate(['/admin/troubleshooting/solutions']);" mat-button>Solutions</button>
+      </span>
+
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/recommendation')">
+        <button (click)="router.navigate(['/admin/recommendation']);" mat-button>Configurations</button>
+      </span>
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/recommendation')">
+        <button (click)="router.navigate(['/admin/recommendation/add-configuration']);" mat-button>Add Configuration</button>
+      </span>
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/recommendation')">
+        <button (click)="router.navigate(['/admin/recommendation/requirements']);" mat-button>Requirements</button>
+      </span>
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/recommendation')">
+        <button (click)="router.navigate(['/admin/recommendation/add-requirement']);" mat-button>Add Requirement</button>
       </span>
 
 

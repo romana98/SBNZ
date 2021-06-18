@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ConfigurationsService } from 'src/app/services/configurations.service';
+import { ConfigurationsService } from 'src/app/services/recommendation/configurations.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
