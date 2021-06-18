@@ -11,7 +11,7 @@ import { StorageService } from '../services/storage.service';
 })
 export class NavigationComponent implements OnInit {
 
-  role: UserRole;
+  role: UserRole = UserRole.UNAUTHORIZED;
   admin: UserRole = UserRole.ROLE_ADMINISTRATOR;
   user: UserRole = UserRole.ROLE_USER;
   unauthorized: UserRole = UserRole.UNAUTHORIZED;
@@ -25,8 +25,10 @@ export class NavigationComponent implements OnInit {
     });
 
     const user = JSON.parse(<string>localStorage.getItem('user'));
-    this.role = user.role === 'ROLE_ADMINISTRATOR' ? UserRole.ROLE_ADMINISTRATOR : (user.role === 'ROLE_USER' ? UserRole.ROLE_USER : UserRole.UNAUTHORIZED);
-  }
+    if(user != null){
+      this.role = user.role === 'ROLE_ADMINISTRATOR' ? UserRole.ROLE_ADMINISTRATOR : (user.role === 'ROLE_USER' ? UserRole.ROLE_USER : UserRole.UNAUTHORIZED);
+    }
+     }
 
   ngOnInit(): void {
   }
