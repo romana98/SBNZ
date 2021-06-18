@@ -2,6 +2,8 @@ package project.recommendationandtroubleshooting.api;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -19,6 +21,7 @@ import project.recommendationandtroubleshooting.service.impl.DescriptionServiceI
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -29,6 +32,9 @@ public class DescriptionController {
 
     @Autowired
     DescriptionServiceImpl descriptionService;
+
+    @Autowired
+    KieSession kieSession;
 
     private final DescriptionMapper descriptionMapper;
 
@@ -47,6 +53,8 @@ public class DescriptionController {
         Description description = descriptionMapper.toEntity(descriptionDTO);
 
         Description savedDescription = descriptionService.saveOne(description);
+        kieSession.insert(savedDescription);
+
         return new ResponseEntity<>(descriptionMapper.toDto(savedDescription), HttpStatus.CREATED);
     }
 
@@ -59,6 +67,17 @@ public class DescriptionController {
     public ResponseEntity<String> deleteDescription(@PathVariable @Min(1) Integer id) {
 
         descriptionService.delete(id);
+
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle : handlers) {
+            Object obj = kieSession.getObject(handle);
+
+            if (obj.getClass() == Description.class) {
+                if (((Description) obj).getId().equals(id))
+                    kieSession.delete(handle);
+            }
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -72,6 +91,18 @@ public class DescriptionController {
 
         Description description = descriptionService.update(descriptionMapper.toEntity(descriptionDTO));
 
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle : handlers) {
+            Object obj = kieSession.getObject(handle);
+
+            if (obj.getClass() == Description.class) {
+                if (((Description) obj).getId().equals(description.getId()))
+                    kieSession.delete(handle);
+            }
+        }
+
+        kieSession.insert(description);
+
         return new ResponseEntity<>(descriptionMapper.toDto(description), HttpStatus.OK);
     }
 
@@ -81,7 +112,7 @@ public class DescriptionController {
             @ApiResponse(code = 400, message = "Description with passed id can not be found."),
     })
     @GetMapping("/{id}")
-    public ResponseEntity<DescriptionDTO> getDescription(@PathVariable Integer id) {
+    public ResponseEntity<DescriptionDTO> getDescription(@PathVariable @Min(1) Integer id) {
 
         Description description = descriptionService.findOne(id);
         return new ResponseEntity<>(descriptionMapper.toDto(description), HttpStatus.OK);

@@ -11,11 +11,11 @@ public class AdminMapper implements MapperInterface<Admin, UserDTO> {
     }
 
     public Admin toEntityWithPass(UserDTO dto) {
-        return new Admin(dto.getId(), dto.getFirstName(), dto.getLastName(), dto.getEmail());
+        return new Admin(dto.getFirstName(), dto.getLastName(), dto.getEmail(), dto.getPassword());
     }
 
     @Override
     public UserDTO toDto(Admin entity) {
-        return new UserDTO(entity.getId(), entity.getFirstName(), entity.getLastName(), entity.getEmail(), entity.getPassword(), entity.isVerified());
+        return new UserDTO(entity.getId(), entity.getFirstName(), entity.getLastName(), entity.getEmail(), entity.isVerified());
     }
 }

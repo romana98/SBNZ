@@ -63,8 +63,10 @@ public class AdminServiceImpl implements AdminService {
     public Admin update(Admin admin) {
         Admin found = adminRepository.findByEmail(admin.getEmail());
         if (found != null) {
-            admin.setId(found.getId());
-            return adminRepository.save(admin);
+            found.setFirstName(admin.getFirstName());
+            found.setLastName(admin.getLastName());
+            found.setPassword(admin.getPassword());
+            return adminRepository.save(found);
         }
         throw new InvalidIdException("Admin with email " + admin.getEmail() + " doesn't exists.");
     }

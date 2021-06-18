@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import project.recommendationandtroubleshooting.model.Admin;
 import project.recommendationandtroubleshooting.model.User;
+import project.recommendationandtroubleshooting.model.troubleshooting.BugHistory;
 
 public interface UserService {
 	
@@ -27,5 +28,7 @@ public interface UserService {
 	User registerUser(User user);
 
 	User activateAccount(Integer id);
+	
+	User addToBugHistory(Integer userId, BugHistory bugHistory);
 
 }

@@ -106,7 +106,7 @@ public class AdminController {
 
         String password = adminDTO.getPassword();
         adminDTO.setPassword(adminDTO.getPassword().equals("________") ? adminLogged.getPassword() : passwordEncoder.encode(adminDTO.getPassword()));
-        Admin admin = adminService.update(adminMapper.toEntity(adminDTO));
+        Admin admin = adminService.update(adminMapper.toEntityWithPass(adminDTO));
 
         if (!password.equals("________")) {
             authController.updatedLoggedIn(admin.getUsername(), password);

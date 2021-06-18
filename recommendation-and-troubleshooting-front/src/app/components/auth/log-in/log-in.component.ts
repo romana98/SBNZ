@@ -51,7 +51,6 @@ export class LogInComponent implements OnInit {
 
         this.snackBar.open('Successfully logged in!', 'Ok', { duration: 2000 });
 
-        console.log(role);
         if (role === 'ROLE_ADMINISTRATOR') {
           this.router.navigate(['/admin']);
         }

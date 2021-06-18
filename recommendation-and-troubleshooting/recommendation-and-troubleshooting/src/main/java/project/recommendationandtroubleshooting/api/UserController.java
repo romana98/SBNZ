@@ -3,6 +3,8 @@ package project.recommendationandtroubleshooting.api;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -18,11 +20,13 @@ import org.springframework.web.bind.annotation.*;
 import project.recommendationandtroubleshooting.dto.UserDTO;
 import project.recommendationandtroubleshooting.mapper.UserMapper;
 import project.recommendationandtroubleshooting.model.User;
+import project.recommendationandtroubleshooting.model.troubleshooting.Bug;
 import project.recommendationandtroubleshooting.service.impl.UserServiceImpl;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @CrossOrigin(origins = "https://localhost:4200")
@@ -38,6 +42,10 @@ public class UserController {
 
     @Autowired
     private AuthenticationController authController;
+
+    @Autowired
+    KieSession kieSession;
+
 
     private final UserMapper userMapper;
 
@@ -60,6 +68,18 @@ public class UserController {
             return new ResponseEntity<>("You are logged in.", HttpStatus.BAD_REQUEST);
         }
         userService.delete(id);
+
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle : handlers) {
+            Object obj = kieSession.getObject(handle);
+
+            if (obj.getClass() == User.class) {
+                if (((User) obj).getId().equals(id))
+                    kieSession.delete(handle);
+            }
+        }
+
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -80,11 +100,25 @@ public class UserController {
 
         String password = userDTO.getPassword();
         userDTO.setPassword(userDTO.getPassword().equals("________") ? userLogged.getPassword() : passwordEncoder.encode(userDTO.getPassword()));
-        User user = userService.update(userMapper.toEntity(userDTO));
+        User user = userService.update(userMapper.toEntityWithPass(userDTO));
 
         if (!password.equals("________")) {
             authController.updatedLoggedIn(user.getUsername(), password);
         }
+
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle : handlers) {
+            Object obj = kieSession.getObject(handle);
+
+            if (obj.getClass() == User.class) {
+                if (((User) obj).getId().equals(user.getId()))
+                    kieSession.delete(handle);
+            }
+        }
+
+        kieSession.insert(user);
+
+
         return new ResponseEntity<>(userMapper.toDto(user), HttpStatus.OK);
     }
 
@@ -114,7 +148,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Successfully retrieved users page."),
     })
     @GetMapping("/by-page")
-    public ResponseEntity<Page<UserDTO>> getAllAdministratorsPage(Pageable pageable) {
+    public ResponseEntity<Page<UserDTO>> getAllUsersPage(Pageable pageable) {
         Page<User> page = userService.findAll(pageable);
         List<UserDTO> userDTOS = toUserDTOList(page.toList());
         Page<UserDTO> pageUserDTOS = new PageImpl<>(userDTOS, page.getPageable(), page.getTotalElements());
@@ -127,7 +161,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Successfully retrieved all users."),
     })
     @GetMapping()
-    public ResponseEntity<List<UserDTO>> getAllAdministrators() {
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> users = userService.findAll();
         List<UserDTO> usersDTOS = new ArrayList<>();
         for (User user : users) {

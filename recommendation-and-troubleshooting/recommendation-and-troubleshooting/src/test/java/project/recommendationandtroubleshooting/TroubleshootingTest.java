@@ -59,7 +59,7 @@ public class TroubleshootingTest {
 
         kieSession.fireAllRules();
 
-        assertEquals(problem.getCurrentSolution().getSolution(), "Odneti na dalju dijagnostiku u servis.");
+        assertEquals("Odneti na dalju dijagnostiku u servis.", problem.getCurrentSolution().getSolution());
 
         kieSession.dispose();
     }

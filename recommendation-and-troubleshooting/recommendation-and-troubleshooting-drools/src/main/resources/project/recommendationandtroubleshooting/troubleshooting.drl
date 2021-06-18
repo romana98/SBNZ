@@ -18,7 +18,7 @@ rule "Troubleshooting"
         );
 
         $tuple:  Map.Entry( $key: key, $value: value ) from $solutions.entrySet() and
-                 Solution(this != $value, $key == $triedSolutions.size() + 1) from $triedSolutions;
+                 Solution(this != $value, $key == $triedSolutions.size()) from $triedSolutions; //ako zasteka probaj dodati size + 1
                  Map.Entry( key == 1) from $solutions.entrySet();
 
 

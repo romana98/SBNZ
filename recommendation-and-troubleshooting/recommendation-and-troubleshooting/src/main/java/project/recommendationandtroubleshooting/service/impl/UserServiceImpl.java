@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import project.recommendationandtroubleshooting.exceptions.InvalidIdException;
 import project.recommendationandtroubleshooting.exceptions.UniqueConstraintException;
 import project.recommendationandtroubleshooting.model.User;
+import project.recommendationandtroubleshooting.model.troubleshooting.BugHistory;
 import project.recommendationandtroubleshooting.repository.PersonRepository;
 import project.recommendationandtroubleshooting.repository.UserRepository;
 import project.recommendationandtroubleshooting.service.UserService;
@@ -67,8 +68,10 @@ public class UserServiceImpl implements UserService {
     public User update(User user) {
         User found = userRepository.findByEmail(user.getEmail());
         if (found != null) {
-            user.setId(found.getId());
-            return userRepository.save(user);
+            found.setFirstName(user.getFirstName());
+            found.setLastName(user.getLastName());
+            found.setPassword(user.getPassword());
+            return userRepository.save(found);
         }
         throw new InvalidIdException("User with email " + user.getEmail() + " doesn't exists.");
     }
@@ -87,6 +90,13 @@ public class UserServiceImpl implements UserService {
 
         found.setVerified(true);
         return userRepository.save(found);
+    }
+
+    @Override
+    public User addToBugHistory(Integer userId, BugHistory bugHistory) {
+        User found = userRepository.findById(userId).orElseThrow(() -> new InvalidIdException("Admin with id " + userId + " doesn't exists."));
+        found.getBugHistory().add(bugHistory);
+        return this.update(found);
     }
 
 }
