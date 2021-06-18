@@ -15,6 +15,7 @@ export class TableComponent implements OnChanges {
   @Output() Delete = new EventEmitter<number>();
   @Output() Click = new EventEmitter<number>();
   @Output() DoubleClick = new EventEmitter<number>();
+  @Output() DeleteData = new EventEmitter<any>();
   role: String;
   constructor(private loginService: LogInService) {
     this.role = this.loginService.getRole() === UserRole.ROLE_USER ? 'user' : 'admin';
@@ -30,6 +31,9 @@ export class TableComponent implements OnChanges {
   }
   deleted(id: number){
     this.Delete.emit(id);
+  }
+  deletedData(data: any){
+    this.DeleteData.emit(data);
   }
   clicked(id: number){
     this.Click.emit(id);

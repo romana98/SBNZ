@@ -1,8 +1,8 @@
 <h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Requirements</h1>
 <mat-divider></mat-divider>
 <br><br>
-<app-table style="font-size:2px;" [dataSource]="requirements.content" [columnsToDisplay]="['Usage/Characteristic', 'Attribute', 'Value', 'delete']" 
-    [columnsToIterate]="['usageOrChar', 'attribute', 'value']" (Delete)="onDelete($event)" ></app-table>
+<app-table style="font-size:2px;" [dataSource]="requirements.content" [columnsToDisplay]="['Usage/Characteristic', 'Attribute', 'Value', 'deleteData']" 
+    [columnsToIterate]="['usageOrChar', 'attribute', 'value']" (DeleteData)="onDelete($event)" ></app-table>
 
     <app-pagination [pageSize]="pageSize"
                 [totalItems]="requirements.totalElements"

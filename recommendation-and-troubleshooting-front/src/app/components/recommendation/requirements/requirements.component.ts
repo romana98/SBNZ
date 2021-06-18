@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigurationsService } from 'src/app/services/recommendation/configurations.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-requirements',
@@ -12,7 +13,7 @@ export class RequirementsComponent implements OnInit {
   pageSize = 7;
   requirements = {content: [], numberOfElements: 0, totalElements: 0, totalPages: 0, number: 0};
 
-  constructor(private configurationsService: ConfigurationsService) { }
+  constructor(private configurationsService: ConfigurationsService, public snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.page = 0;
@@ -34,6 +35,14 @@ export class RequirementsComponent implements OnInit {
 
   onDelete(event: any) {
     console.log(event)
+    this.configurationsService.deleteRequirement(event).subscribe(
+      result => {
+        this.snackBar.open('Successfully deleted requirement!', 'Ok', { duration: 2000 });
+      },
+      error => {
+        this.snackBar.open('Something went wrong.', 'Ok', { duration: 2000 });
+      }
+    );
   }
 
 }

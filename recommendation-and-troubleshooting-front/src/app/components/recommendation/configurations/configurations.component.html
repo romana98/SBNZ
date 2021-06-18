@@ -42,7 +42,7 @@
     </form>
 
     <app-table style="font-size:2px;" [dataSource]="configurations.content" [columnsToDisplay]="['Price (din)', 'Type', 'CPU', 'GPU', 'RAM', 
-    'OS', 'PSU', 'Disc type', 'Disc size', 'Motherboard', 'Screen size', 'Screen resolution', 'Music card', 
+    'OS', 'PSU', 'Disc type', 'Disc size', 'Motherboard', 'Screen size', 'Screen resolution', 'Audio card', 
     'Touchscreen', 'Microphone', 'Camera', 'Ergonomic', 'Rating', 'delete']" (DoubleClick)="onClick($event)" (Delete)="onDelete($event)"
     [columnsToIterate]="['price', 'type', 'cpu', 'gpu', 'ram', 
     'os', 'psu', 'discType', 'discSize', 'motherboard', 'screenSize', 'screenResolution', 'musicCard', 
