@@ -308,8 +308,7 @@ public class ConfigurationClass {
         attributes.put("motherboard", this.motherboard);
         attributes.put("screenSize", this.screenSize);
         attributes.put("screenResolution", this.screenResolution);
-        attributes.put("musicCard", this.CPU);
-        attributes.put("CPU", this.musicCard);
+        attributes.put("musicCard", this.musicCard);
         return attributes;
 
     }
