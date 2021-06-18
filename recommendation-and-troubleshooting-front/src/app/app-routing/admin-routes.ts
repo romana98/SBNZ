@@ -1,11 +1,11 @@
 import {Routes} from "@angular/router";
 import {AdminGuard} from "../guards/admin.guard";
-import {ViewDeleteBugComponent} from "../components/troubleshooting/bug/view-delete-bug/view-delete-bug.component";
-import {ViewDeleteDescriptionComponent} from "../components/troubleshooting/description/view-delete-description/view-delete-description.component";
 import {AuthGuard} from "../guards/auth.guard";
 import {ViewProfileComponent} from "../components/users/view-profile/view-profile.component";
-import {ViewDeleteSolutionComponent} from "../components/troubleshooting/solution/view-delete-solution/view-delete-solution.component";
 import {MainPageComponent} from "../components/users/main-page/main-page.component";
+import {BugComponent} from "../components/troubleshooting/bug/bug.component";
+import {DescriptionComponent} from "../components/troubleshooting/description/description.component";
+import {SolutionComponent} from "../components/troubleshooting/solution/solution.component";
 
 export const adminRoutes: Routes = [
   {
@@ -25,19 +25,19 @@ export const adminRoutes: Routes = [
     children: [
       {
         path: '',
-        component: ViewDeleteBugComponent,
+        component: BugComponent,
         canActivate: [AdminGuard]
       },
 
       {
         path: 'descriptions',
-        component: ViewDeleteDescriptionComponent,
+        component: DescriptionComponent,
         canActivate: [AdminGuard]
       },
 
       {
         path: 'solutions',
-        component: ViewDeleteSolutionComponent,
+        component: SolutionComponent,
         canActivate: [AdminGuard]
       },
     ]

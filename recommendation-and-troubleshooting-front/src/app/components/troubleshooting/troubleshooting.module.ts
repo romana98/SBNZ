@@ -4,9 +4,9 @@ import {TroubleshootComponent} from './troubleshoot/troubleshoot.component';
 import {BugFrequencyComponent} from './bug-frequency/bug-frequency.component';
 import {UnsolvedBugsComponent} from './unsolved-bugs/unsolved-bugs.component';
 import {ComputerStateComponent} from './computer-state/computer-state.component';
-import {BugModule} from "./bug/bug.module";
-import {DescriptionModule} from "./description/description.module";
-import {SolutionModule} from "./solution/solution.module";
+import { BugComponent } from './bug/bug.component';
+import { SolutionComponent } from './solution/solution.component';
+import { DescriptionComponent } from './description/description.component';
 
 
 @NgModule({
@@ -14,18 +14,13 @@ import {SolutionModule} from "./solution/solution.module";
     TroubleshootComponent,
     BugFrequencyComponent,
     UnsolvedBugsComponent,
-    ComputerStateComponent
+    ComputerStateComponent,
+    BugComponent,
+    SolutionComponent,
+    DescriptionComponent
   ],
   imports: [
-    CommonModule,
-    BugModule,
-    DescriptionModule,
-    SolutionModule,
-  ],
-  exports: [
-    BugModule,
-    DescriptionModule,
-    SolutionModule
+    CommonModule
   ]
 })
 export class TroubleshootingModule {
