@@ -3,6 +3,8 @@ package project.recommendationandtroubleshooting.api;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,6 +22,7 @@ import project.recommendationandtroubleshooting.service.impl.SolutionServiceImpl
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @CrossOrigin(origins = "https://localhost:4200")
@@ -29,6 +32,10 @@ public class SolutionController {
 
     @Autowired
     SolutionServiceImpl solutionService;
+
+    @Autowired
+    KieSession kieSession;
+
 
     private final SolutionMapper solutionMapper;
 
@@ -47,6 +54,8 @@ public class SolutionController {
         Solution solution = solutionMapper.toEntity(solutionDTO);
 
         Solution savedSolution = solutionService.saveOne(solution);
+        kieSession.insert(savedSolution);
+
         return new ResponseEntity<>(solutionMapper.toDto(savedSolution), HttpStatus.CREATED);
     }
 
@@ -59,6 +68,17 @@ public class SolutionController {
     public ResponseEntity<String> deleteSolution(@PathVariable @Min(1) Integer id) {
 
         solutionService.delete(id);
+
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle : handlers) {
+            Object obj = kieSession.getObject(handle);
+
+            if (obj.getClass() == Solution.class) {
+                if (((Solution) obj).getId().equals(id))
+                    kieSession.delete(handle);
+            }
+        }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -72,6 +92,18 @@ public class SolutionController {
 
         Solution solution = solutionService.update(solutionMapper.toEntity(solutionDTO));
 
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle : handlers) {
+            Object obj = kieSession.getObject(handle);
+
+            if (obj.getClass() == Solution.class) {
+                if (((Solution) obj).getId().equals(solution.getId()))
+                    kieSession.delete(handle);
+            }
+        }
+
+        kieSession.insert(solution);
+
         return new ResponseEntity<>(solutionMapper.toDto(solution), HttpStatus.OK);
     }
 
@@ -81,7 +113,7 @@ public class SolutionController {
             @ApiResponse(code = 400, message = "Solution with passed id can not be found."),
     })
     @GetMapping("/{id}")
-    public ResponseEntity<SolutionDTO> getSolution(@PathVariable Integer id) {
+    public ResponseEntity<SolutionDTO> getSolution(@PathVariable @Min(1) Integer id) {
 
         Solution solution = solutionService.findOne(id);
         return new ResponseEntity<>(solutionMapper.toDto(solution), HttpStatus.OK);

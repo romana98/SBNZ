@@ -1,0 +1,2 @@
+insert into users (id, email, first_name, last_name, password, verified) values
+(nextval('person_seq'), 'user@user.com', 'user', 'user', '$2y$12$NFN7DJUX1lFfaDX1tc9/6uBtgls9SZOU9iwjhrlXJc0xr471vgKAK', true);

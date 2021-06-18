@@ -1,44 +1,37 @@
 <mat-toolbar color="primary">
 
-    <a routerLink="/">
-        <mat-icon [ngStyle]="{'color':'white'}">
-            star_rate
-        </mat-icon>
-    </a>
-    <span style="padding-left: 0.5%; font-size: medium;">Recommendation and Troubleshootingg</span>
-    <a routerLink="/" style="padding-left: 0.5%;">
-        <mat-icon [ngStyle]="{'color':'white'}">
-            bug_report
-        </mat-icon>
-    </a>
-    <a routerLink="/" style="padding-left: 0.5%;">
-        <mat-icon [ngStyle]="{'color':'white'}">
-            bug_report
-        </mat-icon>
-    </a>
+  <<<<<<< HEAD
+  <mat-icon (click)="router.navigateByUrl('/user/recommendation')" [ngStyle]="{'color':'white'}">
+    star_rate
+  </mat-icon>
+  <span (click)="router.navigateByUrl('/user')" style="padding-left: 0.5%; font-size: medium;">Recommendation and Troubleshooting</span>
+  <mat-icon (click)="router.navigateByUrl('/user/troubleshooting')" [ngStyle]="{'color':'white'}"
+            style="padding-left: 0.5%;">
+    bug_report
+  </mat-icon>
 
-    <!--
-    <span style="padding-left: 3%;">
-        <button (click)="router.navigate(['/user']);" mat-button>SomePage</button>
-      </span>
+  <!--
+  <span style="padding-left: 3%;">
+      <button (click)="router.navigate(['/user']);" mat-button>SomePage</button>
+    </span>
 -->
-    <span style="padding-left: 3%;">
+  <span style="padding-left: 3%;">
         <button (click)="router.navigate(['/user/configurations']);" mat-button>Configurations</button>
     </span>
 
-    <span class="example-spacer" style="width: 75%"></span>
-    <a routerLink="/user/view-profile" style="margin-left: 5%;">
-        <button mat-flat-button color="primary">
-            <mat-icon [ngStyle]="{'color':'white'}">
-                face
-            </mat-icon>
-        </button>
-    </a>
-    <a routerLink="/" style="margin-left: 5%;">
-        <button mat-flat-button color="primary">
-            <mat-icon (click)="logOutUser()" [ngStyle]="{'color':'white'}">
-                logout
-            </mat-icon>
-        </button>
-    </a>
+  <span class="example-spacer" style="width: 75%"></span>
+  <a (click)="router.navigateByUrl('/user/view-profile')" style="margin-left: 5%;">
+    <button mat-flat-button color="primary">
+      <mat-icon [ngStyle]="{'color':'white'}">
+        face
+      </mat-icon>
+    </button>
+  </a>
+  <a routerLink="/" style="margin-left: 5%;">
+    <button mat-flat-button color="primary">
+      <mat-icon (click)="logOutUser()" [ngStyle]="{'color':'white'}">
+        logout
+      </mat-icon>
+    </button>
+  </a>
 </mat-toolbar>

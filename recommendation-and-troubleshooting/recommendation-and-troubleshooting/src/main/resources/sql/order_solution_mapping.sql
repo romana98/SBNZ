@@ -1,4 +1,4 @@
-/*insert into order_solution_mapping (order_id, solution_id, solutions_key) values (1, 1, 1);
+insert into order_solution_mapping (order_id, solution_id, solutions_key) values (1, 1, 1);
 insert into order_solution_mapping (order_id, solution_id, solutions_key) values (1, 2, 2);
 
 insert into order_solution_mapping (order_id, solution_id, solutions_key) values (2, 3, 1);
@@ -68,4 +68,4 @@ insert into order_solution_mapping (order_id, solution_id, solutions_key) values
 insert into order_solution_mapping (order_id, solution_id, solutions_key) values (18, 2, 2);
 
 insert into order_solution_mapping (order_id, solution_id, solutions_key) values (19, 31, 1);
-insert into order_solution_mapping (order_id, solution_id, solutions_key) values (19, 2, 2);*/
+insert into order_solution_mapping (order_id, solution_id, solutions_key) values (19, 2, 2);

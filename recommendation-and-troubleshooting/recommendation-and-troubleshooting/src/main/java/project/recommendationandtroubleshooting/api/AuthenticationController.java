@@ -1,5 +1,7 @@
 package project.recommendationandtroubleshooting.api;
 
+import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,6 +30,7 @@ import project.recommendationandtroubleshooting.service.impl.UserServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 
 //123qweASD
@@ -55,6 +58,9 @@ public class AuthenticationController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    KieSession kieSession;
 
     private UserMapper userMapper;
 
@@ -115,6 +121,18 @@ public class AuthenticationController {
 
         if (regUser == null)
             return new ResponseEntity<>("Activation failed.", HttpStatus.BAD_REQUEST);
+
+        Collection<FactHandle> handlers = kieSession.getFactHandles();
+        for (FactHandle handle : handlers) {
+            Object obj = kieSession.getObject(handle);
+
+            if (obj.getClass() == User.class) {
+                if (((User) obj).getId().equals(regUser.getId()))
+                    kieSession.delete(handle);
+            }
+        }
+
+        kieSession.insert(regUser);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

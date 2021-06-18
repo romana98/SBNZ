@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.sql.Date;
 import java.time.LocalDate;
 
-global Long userId;
+global Integer userId;
 
 rule "Bug frequency"
         agenda-group "bug_frequency"

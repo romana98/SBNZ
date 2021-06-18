@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import project.recommendationandtroubleshooting.exceptions.InvalidIdException;
 import project.recommendationandtroubleshooting.model.troubleshooting.Bug;
 import project.recommendationandtroubleshooting.model.troubleshooting.Description;
-import project.recommendationandtroubleshooting.model.troubleshooting.Solution;
 import project.recommendationandtroubleshooting.repository.BugRepository;
 import project.recommendationandtroubleshooting.service.BugService;
 
@@ -32,6 +31,11 @@ public class BugServiceImpl implements BugService {
     @Override
     public Bug findOne(Integer id) {
         return bugRepository.findById(id).orElseThrow(() -> new InvalidIdException("Bug with id " + id + " doesn't exists."));
+    }
+
+    @Override
+    public Bug findByDescription(Set<Description> descriptions) {
+        return bugRepository.findByDescriptions(descriptions);
     }
 
     @Override
