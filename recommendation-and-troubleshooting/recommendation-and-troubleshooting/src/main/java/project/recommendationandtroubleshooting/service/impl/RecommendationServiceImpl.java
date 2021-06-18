@@ -97,10 +97,10 @@ public class RecommendationServiceImpl implements RecommendationService {
 		Configurations output = new Configurations();
 
 		kieSession.getAgenda().getAgendaGroup("currently_popular").setFocus();
-        kieSession.fireAllRules();
-        
         kieSession.insert(output);
-        
+
+        kieSession.fireAllRules();
+                
         List<ConfigurationClass> configs = output.getConfigurations();
         List<ConfigurationResponseDTO> result = this.toDTOList(configs, idUser);
         
