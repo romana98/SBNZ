@@ -1,6 +1,5 @@
 <mat-toolbar color="primary">
 
-  <<<<<<< HEAD
   <mat-icon (click)="router.navigateByUrl('/user/recommendation')" [ngStyle]="{'color':'white'}">
     star_rate
   </mat-icon>
@@ -10,11 +9,22 @@
     bug_report
   </mat-icon>
 
-  <!--
-  <span style="padding-left: 3%;">
-      <button (click)="router.navigate(['/user']);" mat-button>SomePage</button>
-    </span>
--->
+  <span style="padding-left: 10%;"></span>
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/user/troubleshooting')">
+        <button (click)="router.navigate(['/user/troubleshooting']);" mat-button>Troubleshoot</button>
+      </span>
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/user/troubleshooting')">
+        <button (click)="router.navigate(['/user/troubleshooting/frequent-bugs']);" mat-button>Frequent Bugs</button>
+      </span>
+
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/user/troubleshooting')">
+        <button (click)="router.navigate(['/user/troubleshooting/unsolved-bugs']);" mat-button>Unsolved Bugs</button>
+      </span>
+
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/user/troubleshooting')">
+        <button (click)="router.navigate(['/user/troubleshooting/computer-state']);" mat-button>Computer State</button>
+      </span>
+
   <span style="padding-left: 3%;">
         <button (click)="router.navigate(['/user/configurations']);" mat-button>Configurations</button>
     </span>

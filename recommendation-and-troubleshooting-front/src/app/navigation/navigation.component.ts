@@ -25,7 +25,7 @@ export class NavigationComponent implements OnInit {
     });
 
     const user = JSON.parse(<string>localStorage.getItem('user'));
-    this.role = user ? UserRole.ROLE_ADMINISTRATOR : (this.role = user ? UserRole.ROLE_USER : UserRole.UNAUTHORIZED);
+    this.role = user.role === 'ROLE_ADMINISTRATOR' ? UserRole.ROLE_ADMINISTRATOR : (user.role === 'ROLE_USER' ? UserRole.ROLE_USER : UserRole.UNAUTHORIZED);
   }
 
   ngOnInit(): void {

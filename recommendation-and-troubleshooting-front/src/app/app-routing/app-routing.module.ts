@@ -38,7 +38,7 @@ export const routes: Routes = [
     //component: ActivateAccountComponent,
     canActivate: [LogInGuard]
   },
-  
+
   */
 
 ];

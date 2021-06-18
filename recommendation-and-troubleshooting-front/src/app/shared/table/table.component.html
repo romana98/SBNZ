@@ -7,7 +7,7 @@
 
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef > </th>
-      <td mat-cell *matCellDef="let element">  <button  *ngIf="role==1" mat-raised-button color="warn" (click)="deleted(element.id)" id="{{element.id}}">Delete</button>
+      <td mat-cell *matCellDef="let element">  <button  *ngIf="role === 'admin'" mat-raised-button color="warn" (click)="deleted(element.id)" id="{{element.id}}">Delete</button>
       </td>
     </ng-container>
 

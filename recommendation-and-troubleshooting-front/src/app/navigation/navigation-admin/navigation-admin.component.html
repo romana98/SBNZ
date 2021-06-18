@@ -1,32 +1,40 @@
 <mat-toolbar color="primary">
 
-    <mat-icon (click)="router.navigateByUrl('/admin/recommendation')" [ngStyle]="{'color':'white'}">
-        star_rate
-    </mat-icon>
-    <span (click)="router.navigateByUrl('/admin')" style="padding-left: 0.5%; font-size: medium;">Recommendation and Troubleshooting</span>
-    <mat-icon (click)="router.navigateByUrl('/admin/troubleshooting')" [ngStyle]="{'color':'white'}" style="padding-left: 0.5%;">
-        bug_report
-    </mat-icon>
+  <mat-icon (click)="router.navigateByUrl('/admin/recommendation')" [ngStyle]="{'color':'white'}">
+    star_rate
+  </mat-icon>
+  <span (click)="router.navigateByUrl('/admin')" style="padding-left: 0.5%; font-size: medium;">Recommendation and Troubleshooting</span>
+  <mat-icon (click)="router.navigateByUrl('/admin/troubleshooting')" [ngStyle]="{'color':'white'}"
+            style="padding-left: 0.5%;">
+    bug_report
+  </mat-icon>
 
-    <!--
-    <span style="padding-left: 3%;">
-        <button (click)="router.navigate(['/admin']);" mat-button>SomePage</button>
+  <span style="padding-left: 10%;"></span>
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/troubleshooting')">
+        <button (click)="router.navigate(['/admin/troubleshooting']);" mat-button>Bugs</button>
       </span>
--->
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/troubleshooting')">
+        <button (click)="router.navigate(['/admin/troubleshooting/descriptions']);" mat-button>Descriptions</button>
+      </span>
 
-    <span class="example-spacer" style="width: 75%"></span>
-    <a (click)="router.navigateByUrl('/admin/view-profile')" style="margin-left: 5%;">
-        <button mat-flat-button color="primary">
-            <mat-icon [ngStyle]="{'color':'white'}">
-                face
-            </mat-icon>
-        </button>
-    </a>
-    <a routerLink="/">
-        <button mat-flat-button color="primary">
-            <mat-icon (click)="logOutUser()" [ngStyle]="{'color':'white'}">
-                logout
-            </mat-icon>
-        </button>
-    </a>
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/troubleshooting')">
+        <button (click)="router.navigate(['/admin/troubleshooting/solutions']);" mat-button>Solutions</button>
+      </span>
+
+
+  <span class="example-spacer" style="width: 75%"></span>
+  <a (click)="router.navigateByUrl('/admin/view-profile')" style="margin-left: 5%;">
+    <button mat-flat-button color="primary">
+      <mat-icon [ngStyle]="{'color':'white'}">
+        face
+      </mat-icon>
+    </button>
+  </a>
+  <a routerLink="/">
+    <button mat-flat-button color="primary">
+      <mat-icon (click)="logOutUser()" [ngStyle]="{'color':'white'}">
+        logout
+      </mat-icon>
+    </button>
+  </a>
 </mat-toolbar>

@@ -1,1 +1,52 @@
-<p>description works!</p>
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Solutions</h1>
+<mat-divider></mat-divider>
+<br><br>
+<div style="float: left; margin-left: 1%; font-size: large">
+
+  <mat-label style="margin-left: 10%">Add description</mat-label>
+
+  <form  [formGroup]="form" (ngSubmit)="addDescription()" style="padding-left: 25px;">
+
+    <mat-form-field>
+      <mat-label for="description">Description:</mat-label>
+      <input matInput name="description" placeholder="Description" [formControl]="form.controls.problemDescription">
+      <mat-error *ngIf="form.controls.problemDescription.touched && form.controls.problemDescription.errors?.required">
+        This field can't be empty!</mat-error >
+    </mat-form-field>
+    <br>
+    <button mat-raised-button type="submit" [disabled]="form.controls.problemDescription.errors?.required">Add description</button>
+
+  </form>
+
+  <br><br><br><br>
+
+  <div [hidden]="this.isHidden">
+
+    <mat-label style="margin-left: 10%">Update description</mat-label>
+
+    <form  [formGroup]="formEdit" (ngSubmit)="editDescription()" style="padding-left: 25px;">
+
+      <mat-form-field>
+        <mat-label for="problemDescription">Description:</mat-label>
+        <input matInput  name="problemDescription" placeholder="Description" [formControl]="formEdit.controls.problemDescription">
+        <mat-error *ngIf="formEdit.controls.problemDescription.touched && formEdit.controls.problemDescription.errors?.required">
+          This field can't be empty!</mat-error >
+      </mat-form-field>
+      <br>
+      <button mat-raised-button type="submit" [disabled]="!formEdit.valid">Update description</button>
+
+    </form>
+  </div>
+
+</div>
+<div style="width: 50%; height: 50%; float: right; padding-right: 10%">
+  <app-table [dataSource]="descriptions.content" [columnsToDisplay]="['description', 'delete']" [columnsToIterate]="['problemDescription']" (Click)="editModeOn($event)" (Delete)="deleteDescription($event)"></app-table>
+
+  <app-pagination [pageSize]="pageSize"
+                  [totalItems]="descriptions.totalElements"
+                  [totalPages]="descriptions.totalPages"
+                  [currentPage]="descriptions.number"
+                  (ChangePage)="onPagination($event)"
+  ></app-pagination>
+</div>
+

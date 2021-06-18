@@ -5,7 +5,6 @@ import {ViewProfileComponent} from "../components/users/view-profile/view-profil
 import {ConfigurationsComponent} from "../components/recommendation/configurations/configurations.component";
 import {UserGuard} from "../guards/user.guard";
 import {TroubleshootComponent} from "../components/troubleshooting/troubleshoot/troubleshoot.component";
-import {AdminGuard} from "../guards/admin.guard";
 import {BugFrequencyComponent} from "../components/troubleshooting/bug-frequency/bug-frequency.component";
 import {UnsolvedBugsComponent} from "../components/troubleshooting/unsolved-bugs/unsolved-bugs.component";
 import {ComputerStateComponent} from "../components/troubleshooting/computer-state/computer-state.component";
@@ -38,27 +37,27 @@ export const userRoutes: Routes = [
     path: 'troubleshooting',
     children: [
       {
-        path: 'troubleshoot',
+        path: '',
         component: TroubleshootComponent,
-        canActivate: [AdminGuard]
+        canActivate: [UserGuard]
       },
 
       {
         path: 'frequent-bugs',
         component: BugFrequencyComponent,
-        canActivate: [AdminGuard]
+        canActivate: [UserGuard]
       },
 
       {
         path: 'unsolved-bugs',
         component: UnsolvedBugsComponent,
-        canActivate: [AdminGuard]
+        canActivate: [UserGuard]
       },
 
       {
         path: 'computer-state',
         component: ComputerStateComponent,
-        canActivate: [AdminGuard]
+        canActivate: [UserGuard]
       }
     ]
   }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ConfigurationsService } from 'src/app/services/configurations.service';
+import { ConfigurationsService } from 'src/app/services/recommendation/configurations.service';
 import { DialogConfigurationComponent } from '../dialog-configuration/dialog-configuration.component';
 import { RecommendComponent } from '../recommend/recommend.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -27,10 +27,10 @@ export class ConfigurationsComponent implements OnInit {
   formRate: FormGroup;
   role = 0;
 
-  constructor(private configurationsService: ConfigurationsService, 
-    private router: Router, 
-    public dialog: MatDialog, 
-    private fb: FormBuilder, 
+  constructor(private configurationsService: ConfigurationsService,
+    private router: Router,
+    public dialog: MatDialog,
+    private fb: FormBuilder,
     public snackBar: MatSnackBar,
     private loginService: LogInService) {
     this.formInterval = this.fb.group({
@@ -183,7 +183,7 @@ export class ConfigurationsComponent implements OnInit {
       result => {
         this.configurations = result;
         console.log(this.configurations.content)
-      }, 
+      },
       error => {
         this.snackBar.open('Something went wrong. Rate should be a number.', 'Ok', { duration: 2000 });
       }
