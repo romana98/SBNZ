@@ -11,7 +11,7 @@ public class AdminMapper implements MapperInterface<Admin, UserDTO> {
     }
 
     public Admin toEntityWithPass(UserDTO dto) {
-        return new Admin(dto.getId(), dto.getFirstName(), dto.getLastName(), dto.getEmail());
+        return new Admin(dto.getFirstName(), dto.getLastName(), dto.getEmail(), dto.getPassword());
     }
 
     @Override

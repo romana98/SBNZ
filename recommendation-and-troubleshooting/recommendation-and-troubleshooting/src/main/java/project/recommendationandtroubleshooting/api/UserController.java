@@ -100,7 +100,7 @@ public class UserController {
 
         String password = userDTO.getPassword();
         userDTO.setPassword(userDTO.getPassword().equals("________") ? userLogged.getPassword() : passwordEncoder.encode(userDTO.getPassword()));
-        User user = userService.update(userMapper.toEntity(userDTO));
+        User user = userService.update(userMapper.toEntityWithPass(userDTO));
 
         if (!password.equals("________")) {
             authController.updatedLoggedIn(user.getUsername(), password);

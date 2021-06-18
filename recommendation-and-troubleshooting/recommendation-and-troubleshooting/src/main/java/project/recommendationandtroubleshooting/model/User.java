@@ -22,6 +22,9 @@ public class User extends Person {
     public User() {
 
     }
+    public User(String firstName, String lastName, String email, String password) {
+        super(firstName, lastName, email, password);
+    }
 
     public User(String firstName, String lastName, String email) {
         super(firstName, lastName, email);

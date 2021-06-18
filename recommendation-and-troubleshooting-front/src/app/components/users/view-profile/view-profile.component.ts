@@ -6,6 +6,7 @@ import {validateLength} from "../../../validator/custom-validator-zero-min-eight
 import {UserRole} from "../../../model/user-role";
 import {LogInService} from "../../../services/log-in.service";
 import {UserService} from "../../../services/user.service";
+import {UserModel} from "../../../model/user-model";
 
 @Component({
   selector: 'app-view-profile',
@@ -16,7 +17,7 @@ export class ViewProfileComponent implements OnInit {
 
   form: FormGroup;
   role: String = "";
-  email: String = "";
+  id: number = -1;
 
   constructor(private fb: FormBuilder,
               public snackBar: MatSnackBar,
@@ -31,7 +32,7 @@ export class ViewProfileComponent implements OnInit {
         passwordConfirm: ['']
       },
       {
-        validator:  [validateMatchPassword('password', 'passwordConfirm'), validateLength('password')]
+        validator: [validateMatchPassword('password', 'passwordConfirm'), validateLength('password')]
       });
 
     const currentRole = this.logInService.getRole();
@@ -39,13 +40,13 @@ export class ViewProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getProfile(JSON.parse(<string>localStorage.getItem('user')).id).toPromise().then( res => {
+    this.userService.getProfile(JSON.parse(<string>localStorage.getItem('user')).id).toPromise().then(res => {
       this.form.patchValue({
         firstName: res.firstName,
         lastName: res.lastName,
         email: res.email
       });
-      this.email = res.email;
+      this.id = res.id;
     }, err => {
       this.snackBar.open("Server error: " + err, "Close");
     })
@@ -53,5 +54,16 @@ export class ViewProfileComponent implements OnInit {
 
   submit(): void {
 
+    this.userService.editProfile(new UserModel(
+      this.id,
+      this.form.controls['email'].value,
+      this.form.controls['firstName'].value,
+      this.form.controls['lastName'].value,
+      this.form.controls['password'].value.length == 0 ? "________" : this.form.controls['password'].value
+    )).toPromise().then(() => {
+      this.snackBar.open("Successfully changed profile information", "Close");
+    }, err => {
+      this.snackBar.open("Server error: " + err, "Close");
+    })
   }
 }

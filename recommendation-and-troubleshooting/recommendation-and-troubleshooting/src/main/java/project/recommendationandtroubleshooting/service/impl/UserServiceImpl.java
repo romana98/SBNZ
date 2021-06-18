@@ -68,8 +68,10 @@ public class UserServiceImpl implements UserService {
     public User update(User user) {
         User found = userRepository.findByEmail(user.getEmail());
         if (found != null) {
-            user.setId(found.getId());
-            return userRepository.save(user);
+            found.setFirstName(user.getFirstName());
+            found.setLastName(user.getLastName());
+            found.setPassword(user.getPassword());
+            return userRepository.save(found);
         }
         throw new InvalidIdException("User with email " + user.getEmail() + " doesn't exists.");
     }

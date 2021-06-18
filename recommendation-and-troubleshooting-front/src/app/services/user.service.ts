@@ -13,4 +13,9 @@ export class UserService {
   getProfile(id: String): Observable<UserModel> {
     return this.http.get<UserModel>('http://localhost:8080/administrators/' + id)
   }
+
+  editProfile(user: UserModel): Observable<UserModel> {
+    return this.http.put<UserModel>('http://localhost:8080/administrators',
+      user);
+  }
 }

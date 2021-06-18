@@ -11,7 +11,7 @@ public class UserMapper implements MapperInterface<User, UserDTO> {
     }
 
     public User toEntityWithPass(UserDTO dto) {
-        return new User(dto.getId(), dto.getFirstName(), dto.getLastName(), dto.getEmail());
+        return new User(dto.getFirstName(), dto.getLastName(), dto.getEmail(), dto.getPassword());
     }
 
     @Override
