@@ -15,6 +15,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import project.recommendationandtroubleshooting.dto.BugsDTO;
+import project.recommendationandtroubleshooting.mapper.BugMapper;
 import project.recommendationandtroubleshooting.model.User;
 import project.recommendationandtroubleshooting.model.troubleshooting.Bug;
 import project.recommendationandtroubleshooting.model.troubleshooting.BugHistory;
@@ -43,6 +45,12 @@ public class TroubleshootingController {
 
     @Autowired
     BugServiceImpl bugService;
+
+    private final BugMapper bugMapper;
+
+    public TroubleshootingController() {
+        bugMapper = new BugMapper();
+    }
 
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -101,7 +109,7 @@ public class TroubleshootingController {
             @ApiResponse(code = 400, message = "Failed to return solution."),
     })
     @GetMapping(value = "bug-frequency")
-    public ResponseEntity<Bugs> bugFrequency() {
+    public ResponseEntity<BugsDTO> bugFrequency() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedIn = (User) authentication.getPrincipal();
 
@@ -126,11 +134,16 @@ public class TroubleshootingController {
         }
         kieSession.setGlobal("userId", -1);
 
-        return new ResponseEntity<>(bugs, HttpStatus.OK);
+        BugsDTO bugsDTO = new BugsDTO();
+        for (Bug bug : bugs.getBugs()) {
+            bugsDTO.addBug(bugMapper.toDto(bug));
+        }
+
+        return new ResponseEntity<>(bugsDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "unsolved-bugs")
-    public ResponseEntity<Bugs> unsolvedBugs() {
+    public ResponseEntity<BugsDTO> unsolvedBugs() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User loggedIn = (User) authentication.getPrincipal();
 
@@ -156,7 +169,11 @@ public class TroubleshootingController {
         }
         kieSession.setGlobal("userId", -1);
 
-        return new ResponseEntity<>(bugs, HttpStatus.OK);
+        BugsDTO bugsDTO = new BugsDTO();
+        for (Bug bug : bugs.getBugs()) {
+            bugsDTO.addBug(bugMapper.toDto(bug));
+        }
+        return new ResponseEntity<>(bugsDTO, HttpStatus.OK);
     }
 
     @GetMapping(value = "computer-state")
