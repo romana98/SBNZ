@@ -2,8 +2,12 @@ package project.recommendationandtroubleshooting.model.recommendation;
 
 import project.recommendationandtroubleshooting.enums.ConfigurationType;
 import project.recommendationandtroubleshooting.enums.DiscType;
+import project.recommendationandtroubleshooting.model.troubleshooting.Solution;
 
 import javax.persistence.*;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -73,7 +77,7 @@ public class ConfigurationClass {
 
     @Column(name = "considered", nullable = false)
     private Boolean considered = true;
-
+    
     public ConfigurationClass() {
 
     }
@@ -291,5 +295,24 @@ public class ConfigurationClass {
                 + screenResolution + ", musicCard=" + musicCard + ", touchscreen=" + touchscreen + ", microphone="
                 + microphone + ", camera=" + camera + ", ergonomic=" + ergonomic + "]";
     }
+    
+    public Map<String, String> getAttributes() {
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put("CPU", this.CPU);
+        attributes.put("GPU", this.GPU);
+        attributes.put("RAM", this.RAM);
+        attributes.put("OS", this.OS);
+        attributes.put("PSU", this.PSU);
+        attributes.put("discType", this.discType.toString());
+        attributes.put("discSize", this.discSize);
+        attributes.put("motherboard", this.motherboard);
+        attributes.put("screenSize", this.screenSize);
+        attributes.put("screenResolution", this.screenResolution);
+        attributes.put("musicCard", this.CPU);
+        attributes.put("CPU", this.musicCard);
+        return attributes;
+
+    }
+
 
 }

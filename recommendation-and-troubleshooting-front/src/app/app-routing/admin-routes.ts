@@ -8,6 +8,8 @@ import {DescriptionComponent} from "../components/troubleshooting/description/de
 import {SolutionComponent} from "../components/troubleshooting/solution/solution.component";
 import {AddConfigurationComponent} from "../components/recommendation/add-configuration/add-configuration.component";
 import {ConfigurationsComponent} from "../components/recommendation/configurations/configurations.component";
+import { RequirementsComponent } from "../components/recommendation/requirements/requirements.component";
+import { AddRequirementComponent } from "../components/recommendation/add-requirement/add-requirement.component";
 
 export const adminRoutes: Routes = [
   {
@@ -55,8 +57,18 @@ export const adminRoutes: Routes = [
         canActivate: [AdminGuard]
       },
       {
-        path: 'configurations',
+        path: '',
         component: ConfigurationsComponent,
+        canActivate: [AdminGuard]
+      },
+      {
+        path: 'requirements',
+        component: RequirementsComponent,
+        canActivate: [AdminGuard]
+      },
+      {
+        path: 'add-requirement',
+        component: AddRequirementComponent,
         canActivate: [AdminGuard]
       },
     ]
