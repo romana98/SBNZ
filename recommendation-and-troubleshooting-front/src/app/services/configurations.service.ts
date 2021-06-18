@@ -61,6 +61,22 @@ export class ConfigurationsService {
     return this.http.get('http://localhost:8080/recommendation/getCharacteristics')
   }
 
+  getRequirements(payload: any): Observable<any> {
+    return this.http.get('http://localhost:8080/requirements/by-page?page=' + payload.page + '&size=' + payload.size)
+  }
+
+  addUsage(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/requirements/addUsage', payload)
+  }
+
+  addCharacteristic(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/requirements/addCharacteristic', payload)
+  }
+
+  deleteRequirement(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/requirements/deleteRequirement', payload)
+  }
+
 
 
 }

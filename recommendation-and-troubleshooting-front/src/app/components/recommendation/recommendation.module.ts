@@ -18,14 +18,18 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { AddConfigurationComponent } from './add-configuration/add-configuration.component';
-import {MatCheckboxModule} from '@angular/material/checkbox'; 
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { AddRequirementComponent } from './add-requirement/add-requirement.component';
+import { RequirementsComponent } from './requirements/requirements.component'; 
 
 @NgModule({
   declarations: [
     ConfigurationsComponent,
     DialogConfigurationComponent,
     RecommendComponent,
-    AddConfigurationComponent
+    AddConfigurationComponent,
+    AddRequirementComponent,
+    RequirementsComponent
   ],
   imports: [
     CommonModule,

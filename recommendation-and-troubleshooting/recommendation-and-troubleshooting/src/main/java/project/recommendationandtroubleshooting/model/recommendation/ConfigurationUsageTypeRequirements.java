@@ -1,7 +1,10 @@
 package project.recommendationandtroubleshooting.model.recommendation;
 
 import javax.persistence.*;
+
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -238,5 +241,22 @@ public class ConfigurationUsageTypeRequirements {
 
     public void setErgonomic(Set<Boolean> ergonomic) {
         this.ergonomic = ergonomic;
+    }
+    
+    public Map<String, Set<String>> getRequirements() {
+        Map<String, Set<String>> attributes = new HashMap<>();
+        attributes.put("CPU", this.CPU);
+        attributes.put("GPU", this.GPU);
+        attributes.put("RAM", this.RAM);
+        attributes.put("OS", this.OS);
+        attributes.put("PSU", this.PSU);
+        attributes.put("discType", this.discType);
+        attributes.put("discSize", this.discSize);
+        attributes.put("motherboard", this.motherboard);
+        attributes.put("screenSize", this.screenSize);
+        attributes.put("screenResolution", this.screenResolution);
+        attributes.put("musicCard", this.musicCard);
+        return attributes;
+
     }
 }

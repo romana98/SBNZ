@@ -1,0 +1,60 @@
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Add requirements</h1>
+<mat-divider></mat-divider>
+<br><br>
+
+<div style="padding-left: 1%;padding-right: 1%">
+
+    <form [formGroup]="formAddUsageReq" name="formAddUsageReq" (ngSubmit)="submitFormAddUsageReq()" style="display: block; width: 100%">
+        <mat-form-field name="form-field-usages" [style.width.%]="80" [style.margin.%]="1">
+            <mat-label>Choose usage</mat-label>
+            <mat-select (selectionChange)="onChangeUsages($event)" id="usagesSelect" name="usagesSelect" [formControl]="formAddUsageReq.controls.usagesSelect">
+                <mat-option id={{usage.id}} *ngFor="let usage of usages" [value]="usage">{{usage.usage}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formAddUsageReq.controls.usagesSelect.touched && formAddUsageReq.controls.usagesSelect.errors?.required">
+                This field can't be empty!</mat-error >
+        </mat-form-field>
+        <mat-form-field name="form-field-attrs" [style.width.%]="80" [style.margin.%]="1">
+            <mat-label>Choose attribute</mat-label>
+            <mat-select (selectionChange)="onChangeAttrsUsage($event)" id="attrsSelect" name="attrsSelect" [formControl]="formAddUsageReq.controls.attrsUsageSelect">
+                <mat-option id={{attr}} *ngFor="let attr of attributes" [value]="attr">{{attr}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formAddUsageReq.controls.attrsUsageSelect.touched && formAddUsageReq.controls.attrsUsageSelect.errors?.required">
+                This field can't be empty!</mat-error >
+        </mat-form-field>
+        <mat-form-field style="margin-right:8px" name="form-field-maxRate" [style.width.%]="80" [style.margin.%]="1">
+            <mat-label for="value">Add value:</mat-label>
+            <input matInput id="value" name="value" placeholder="Add value:" [formControl]="formAddUsageReq.controls.value">
+            <mat-error *ngIf="formAddUsageReq.controls.value.touched && formAddUsageReq.controls.value.errors?.required">
+            This field can't be empty!</mat-error >
+        </mat-form-field>
+        <button mat-raised-button color="primary" [style.width.%]="30" style="margin-right:60px" id="rate-button" name="rate-button" type="submit" [disabled]="!formAddUsageReq.valid">Add Usage Requirement</button>  
+    </form>
+
+    <form [formGroup]="formAddCharReq" name="formAddCharReq" (ngSubmit)="submitFormAddCharReq()" style="display: block; width: 100%">
+        <mat-form-field name="form-field-chars" [style.width.%]="80" [style.margin.%]="1">
+            <mat-label>Choose characteristic</mat-label>
+            <mat-select (selectionChange)="onChangeChars($event)" id="charsSelect" name="charsSelect" [formControl]="formAddCharReq.controls.charsSelect">
+                <mat-option id={{characteristic.id}} *ngFor="let characteristic of characteristics" [value]="characteristic">{{characteristic.characteristic}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formAddCharReq.controls.charsSelect.touched && formAddCharReq.controls.charsSelect.errors?.required">
+                This field can't be empty!</mat-error >
+        </mat-form-field>
+        <mat-form-field name="form-field-attrs" [style.width.%]="80" [style.margin.%]="1">
+            <mat-label>Choose attribute</mat-label>
+            <mat-select (selectionChange)="onChangeAttrsChars($event)" id="attrsSelect" name="attrsSelect" [formControl]="formAddCharReq.controls.attrsCharSelect">
+                <mat-option id={{attr}} *ngFor="let attr of attributes" [value]="attr">{{attr}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formAddCharReq.controls.attrsCharSelect.touched && formAddCharReq.controls.attrsCharSelect.errors?.required">
+                This field can't be empty!</mat-error >
+        </mat-form-field> 
+        <mat-form-field style="margin-right:8px" name="form-field-maxRate" [style.width.%]="80" [style.margin.%]="1">
+            <mat-label for="value">Add value:</mat-label>
+            <input matInput id="value" name="value" placeholder="Add value:" [formControl]="formAddCharReq.controls.value">
+            <mat-error *ngIf="formAddCharReq.controls.value.touched && formAddCharReq.controls.value.errors?.required">
+            This field can't be empty!</mat-error >
+        </mat-form-field>
+        <button mat-raised-button color="primary" [style.width.%]="30" style="margin-right:60px;margin-bottom: 30px;" id="rate-button" name="rate-button" type="submit" [disabled]="!formAddCharReq.valid">Add Characteristic Requirement</button>  
+    </form>
+
+    
+</div>
