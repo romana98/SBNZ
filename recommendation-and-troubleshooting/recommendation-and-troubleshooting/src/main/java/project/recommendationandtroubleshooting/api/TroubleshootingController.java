@@ -2,9 +2,6 @@ package project.recommendationandtroubleshooting.api;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import org.kie.api.KieServices;
-import org.kie.api.runtime.ClassObjectFilter;
-import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,16 +15,13 @@ import org.springframework.web.bind.annotation.*;
 import project.recommendationandtroubleshooting.dto.BugsDTO;
 import project.recommendationandtroubleshooting.mapper.BugMapper;
 import project.recommendationandtroubleshooting.model.User;
-import project.recommendationandtroubleshooting.model.troubleshooting.Bug;
-import project.recommendationandtroubleshooting.model.troubleshooting.BugHistory;
-import project.recommendationandtroubleshooting.model.troubleshooting.Bugs;
-import project.recommendationandtroubleshooting.model.troubleshooting.Problem;
+import project.recommendationandtroubleshooting.model.troubleshooting.*;
 import project.recommendationandtroubleshooting.model.troubleshooting.cep.Warning;
 import project.recommendationandtroubleshooting.service.impl.BugServiceImpl;
 import project.recommendationandtroubleshooting.service.impl.UserServiceImpl;
+import project.recommendationandtroubleshooting.util.ActivateCEP;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -60,6 +54,8 @@ public class TroubleshootingController {
     })
     @PostMapping() // user keeps pressing no
     public ResponseEntity<Problem> solution(@Valid @RequestBody Problem problem) {
+        Solution currentSolution = problem.getCurrentSolution();
+
         kieSession.getAgenda().getAgendaGroup("troubleshooting").setFocus();
         kieSession.insert(problem);
         kieSession.fireAllRules();
@@ -73,6 +69,9 @@ public class TroubleshootingController {
                 kieSession.delete(handle);
         }
 
+        if (problem.getCurrentSolution() == null) {
+            problem.setCurrentSolution(currentSolution);
+        }
         return new ResponseEntity<>(problem, HttpStatus.OK);
     }
 
@@ -142,6 +141,7 @@ public class TroubleshootingController {
         return new ResponseEntity<>(bugsDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value = "unsolved-bugs")
     public ResponseEntity<BugsDTO> unsolvedBugs() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -176,30 +176,11 @@ public class TroubleshootingController {
         return new ResponseEntity<>(bugsDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value = "computer-state")
     public ResponseEntity<List<Warning>> getComputerState() {
 
-        KieServices kieServices = KieServices.Factory.get();
-        KieContainer kieContainer = kieServices.getKieClasspathContainer();
-        KieSession kSession = kieContainer.newKieSession("eventsSession");
-
-        //TODO: implement random CEP call
-
-        kSession.fireAllRules();
-
-        List<Warning> warnings = new ArrayList<>();
-        Collection<Warning> newEvents = (Collection<Warning>) kSession.getObjects(new ClassObjectFilter(Bugs.class));
-        for (int i = 0; i < newEvents.toArray().length; i++) {
-            warnings.add((Warning) newEvents.toArray()[i]);
-        }
-
-        Collection<FactHandle> handlers = kSession.getFactHandles();
-        for (FactHandle handle : handlers) {
-            Object obj = kSession.getObject(handle);
-
-            if (obj.getClass() == Warning.class)
-                kSession.delete(handle);
-        }
+        List<Warning> warnings = ActivateCEP.activate();
 
         return new ResponseEntity<>(warnings, HttpStatus.OK);
     }

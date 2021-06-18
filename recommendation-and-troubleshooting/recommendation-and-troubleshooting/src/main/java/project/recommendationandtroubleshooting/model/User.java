@@ -12,7 +12,7 @@ import java.util.Set;
 public class User extends Person {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "bug_historyId")
+    @JoinColumn(name = "user_id")
     private Set<BugHistory> bugHistory = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

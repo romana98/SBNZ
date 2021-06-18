@@ -1,0 +1,15 @@
+<div style="display: block; text-align: center;font-size: large">
+  <mat-label >Solution:</mat-label>
+  <div>
+    <mat-label>{{solution}}</mat-label>
+  </div>
+
+  <div style="margin-top: 10%">
+    <mat-label>Did this help?</mat-label>
+    <div style="margin-top: 2%">
+      <button  mat-raised-button color="accent" (click)="yes()" style="margin-right: 10%">Yes</button>
+      <button  mat-raised-button color="warn" (click)="no()">No</button>
+    </div>
+  </div>
+
+</div>

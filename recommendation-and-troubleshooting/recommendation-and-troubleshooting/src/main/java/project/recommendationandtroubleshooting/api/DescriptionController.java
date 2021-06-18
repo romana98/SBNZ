@@ -131,7 +131,7 @@ public class DescriptionController {
         return new ResponseEntity<>(pageDescriptionDTOS, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @PreAuthorize("hasRole('ROLE_ADMINISTRATOR') || hasRole('ROLE_USER')")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved all descriptions."),
     })

@@ -1,1 +1,27 @@
-<p>computer-state works!</p>
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Computer State</h1>
+<mat-divider></mat-divider>
+
+<div style="display: block; text-align: center; margin-top: 10%; font-size: large">
+
+  <mat-label>Evaluate Computer State:</mat-label>
+  <br><br>
+
+  <div>
+    <button color="accent" (click)="getState()" mat-raised-button>GO</button>
+  </div>
+
+  <div style=" margin-top: 7%;">
+    <mat-label *ngIf="message !== '' || messages.length > 0">Computer State:</mat-label>
+    <br><br>
+
+    <div *ngFor="let message of messages">
+      <mat-label>{{message['warning']}}</mat-label>
+    </div>
+
+    <mat-label *ngIf="message !== ''">{{message}}</mat-label>
+
+
+  </div>
+
+
+</div>

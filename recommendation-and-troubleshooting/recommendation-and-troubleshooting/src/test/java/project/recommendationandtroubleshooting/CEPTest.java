@@ -41,7 +41,7 @@ public class CEPTest {
             }*/
 
         }
-        kieSession.getAgenda().getAgendaGroup("max_cpu_usage").setFocus();
+        kieSession.getAgenda().getAgendaGroup("events").setFocus();
         long ruleFireCount = kieSession.fireAllRules();
         assertEquals(1L, ruleFireCount);
 
@@ -62,7 +62,7 @@ public class CEPTest {
         kieSession.getEntryPoint("entry-temp").insert(new TemperatureEvent(90L));
 
 
-        kieSession.getAgenda().getAgendaGroup("max_temperature").setFocus();
+        kieSession.getAgenda().getAgendaGroup("events").setFocus();
         long ruleFireCount = kieSession.fireAllRules();
         assertEquals(1L, ruleFireCount);
 
@@ -90,7 +90,7 @@ public class CEPTest {
         kieSession.getEntryPoint("entry-temp").insert(new TemperatureEvent(60L));
 
 
-        kieSession.getAgenda().getAgendaGroup("max_temperature").setFocus();
+        kieSession.getAgenda().getAgendaGroup("events").setFocus();
         long ruleFireCount = kieSession.fireAllRules();
         assertEquals(1L, ruleFireCount);
 
@@ -111,7 +111,7 @@ public class CEPTest {
         kieSession.getEntryPoint("entry-ram").insert(new RAMEvent(90L));
 
 
-        kieSession.getAgenda().getAgendaGroup("max_ram").setFocus();
+        kieSession.getAgenda().getAgendaGroup("events").setFocus();
         long ruleFireCount = kieSession.fireAllRules();
         assertEquals(1L, ruleFireCount);
 
@@ -138,7 +138,7 @@ public class CEPTest {
         kieSession.getEntryPoint("entry-ram").insert(new RAMEvent(60L));
 
 
-        kieSession.getAgenda().getAgendaGroup("max_ram").setFocus();
+        kieSession.getAgenda().getAgendaGroup("events").setFocus();
         long ruleFireCount = kieSession.fireAllRules();
         assertEquals(1L, ruleFireCount);
 
@@ -159,7 +159,7 @@ public class CEPTest {
         kieSession.getEntryPoint("entry-disc").insert(new DiscEvent(90L));
 
 
-        kieSession.getAgenda().getAgendaGroup("max_disc").setFocus();
+        kieSession.getAgenda().getAgendaGroup("events").setFocus();
         long ruleFireCount = kieSession.fireAllRules();
         assertEquals(1L, ruleFireCount);
 
@@ -186,7 +186,7 @@ public class CEPTest {
         kieSession.getEntryPoint("entry-disc").insert(new DiscEvent(60L));
 
 
-        kieSession.getAgenda().getAgendaGroup("max_disc").setFocus();
+        kieSession.getAgenda().getAgendaGroup("events").setFocus();
         long ruleFireCount = kieSession.fireAllRules();
         assertEquals(1L, ruleFireCount);
 
@@ -212,7 +212,7 @@ public class CEPTest {
         kieSession.insert(new DiscEvent(90L));
 
 
-        kieSession.getAgenda().getAgendaGroup("avg_disc").setFocus();
+        kieSession.getAgenda().getAgendaGroup("events").setFocus();
         long ruleFireCount = kieSession.fireAllRules();
         assertEquals(1L, ruleFireCount);
 

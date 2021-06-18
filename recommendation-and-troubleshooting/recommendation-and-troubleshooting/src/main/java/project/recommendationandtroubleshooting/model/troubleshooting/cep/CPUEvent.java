@@ -6,7 +6,6 @@ import org.kie.api.definition.type.Role;
 import java.io.Serializable;
 
 @Role(Role.Type.EVENT)
-@Expires("10s")
 public class CPUEvent implements Serializable {
 
     private static final long serialVersionUID = 1L;

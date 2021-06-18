@@ -9,7 +9,7 @@ import project.recommendationandtroubleshooting.model.troubleshooting.cep.Warnin
 import project.recommendationandtroubleshooting.enums.LimitType;
 
 rule "5 times max capacity usage of CPU in 10 seconds"
-        agenda-group "max_cpu_usage"
+        agenda-group "events"
 	when
 	    $l: Limit(type == LimitType.CPU, $limit: limit)
 		Number(intValue > 5) from accumulate (
@@ -24,7 +24,7 @@ rule "5 times max capacity usage of CPU in 10 seconds"
 end;
 
 rule "In last 5min temperature didn't go down"
-        agenda-group "max_temperature"
+        agenda-group "events"
 	when
 	    $l: Limit(type == LimitType.TEMPERATURE, $limit: limit)
 	    $t: TemperatureEvent(currentTemperature >= $limit) from entry-point "entry-temp"
@@ -40,7 +40,7 @@ rule "In last 5min temperature didn't go down"
 end;
 
 rule "In last 60s ram usage didn't go down"
-        agenda-group "max_ram"
+        agenda-group "events"
 	when
 	    $l: Limit(type == LimitType.RAM, $limit: limit)
 	    $r: RAMEvent(currentMemoryUsage >= $limit) from entry-point "entry-ram"
@@ -55,7 +55,7 @@ rule "In last 60s ram usage didn't go down"
 end;
 
 rule "In last 1h disc free memory didn't go up"
-        agenda-group "max_disc"
+        agenda-group "events"
 	when
 	    $l: Limit(type == LimitType.DISC, $limit: limit)
 	    $d: DiscEvent(currentMemoryUsage >= $limit)  from entry-point "entry-disc"
@@ -70,7 +70,7 @@ rule "In last 1h disc free memory didn't go up"
 end;
 
 rule "In last 15h average disc free memory low"
-        agenda-group "avg_disc"
+        agenda-group "events"
 	when
 	    $l: Limit(type == LimitType.DISC, $limit: limit)
 		Number(doubleValue() > $limit) from accumulate (

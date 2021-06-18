@@ -16,6 +16,7 @@ import {SharedModule} from "../../shared/shared.module";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import { TroubleshootDialogComponent } from './troubleshoot-dialog/troubleshoot-dialog.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     ComputerStateComponent,
     BugComponent,
     SolutionComponent,
-    DescriptionComponent
+    DescriptionComponent,
+    TroubleshootDialogComponent
   ],
   imports: [
     CommonModule,

@@ -18,11 +18,9 @@ rule "Troubleshooting"
         );
 
         $tuple:  Map.Entry( $key: key, $value: value ) from $solutions.entrySet() and
-                 Solution(this != $value, $key == $triedSolutions.size()) from $triedSolutions; //ako zasteka probaj dodati size + 1
-                 Map.Entry( key == 1) from $solutions.entrySet();
+                 Solution(this != $value, $key == $triedSolutions.size()) from $triedSolutions;
 
-
-        $s: Solution() from $solutions.get($tuple.key);
+        $s: Solution(this not memberOf $triedSolutions) from $solutions.get($tuple.key);
 
     then
         System.out.println("Rule: Troubleshooting");
@@ -33,7 +31,7 @@ rule "Troubleshooting"
             setSolutionWorked(true)
         };
 end
-
+/*
 rule "Troubleshooting - first request"
 	    agenda-group "troubleshooting"
         salience($val - 0.1)
@@ -50,7 +48,7 @@ rule "Troubleshooting - first request"
         $tuple:  Map.Entry( key == 1) from $solutions.entrySet();
 
 
-        $s: Solution() from $solutions.get($tuple.key);
+        $s: Solution(this not memberOf $triedSolutions) from $solutions.get($tuple.key);
 
     then
         System.out.println("Rule: Troubleshooting - first request");
@@ -61,12 +59,5 @@ rule "Troubleshooting - first request"
             setSolutionWorked(true)
         };
 end
-
-  //Map.Entry( $key: key, $value: value ) from $solutions.entrySet()
-        //$startSolution: Solution() from $solutions.get(1);
-        //$ss: List() from collect (Solution(this != $value, $key == $triedSolutions.size() + 1) from $triedSolutions)
-
-        //$s1: Solution($v: this) from $solutions.values() and Solution(this != $v, $key == $triedSolutions.size() + 1) from $triedSolutions
-                //$s: (Solution(this != $value, $key == $triedSolutions.size() + 1) from $triedSolutions or Solution() from $solutions.get(1)
-                //);
+*/
 

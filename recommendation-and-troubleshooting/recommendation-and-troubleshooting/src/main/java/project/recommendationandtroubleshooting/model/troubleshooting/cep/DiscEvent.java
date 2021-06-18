@@ -6,7 +6,6 @@ import org.kie.api.definition.type.Role;
 import java.io.Serializable;
 
 @Role(Role.Type.EVENT)
-@Expires("16h30m")
 public class DiscEvent implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -1,1 +1,8 @@
-<p>unsolved-bugs works!</p>
+<h1 class="mat-display-1;" style="text-align: center;  margin-top: 1%;">Frequent Bugs</h1>
+<mat-divider></mat-divider>
+<br><br>
+
+<div style=" margin-left: 5%; width: 90%">
+  <app-table [dataSource]="bugs.content" [columnsToDisplay]="['descriptions', 'solutions']" [columnsToIterate]="['descriptionDTO', 'solutionDTOList']"></app-table>
+
+</div>

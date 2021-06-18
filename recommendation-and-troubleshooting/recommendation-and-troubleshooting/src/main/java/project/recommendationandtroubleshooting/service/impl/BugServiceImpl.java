@@ -35,7 +35,11 @@ public class BugServiceImpl implements BugService {
 
     @Override
     public Bug findByDescription(Set<Description> descriptions) {
-        return bugRepository.findByDescriptions(descriptions);
+        List<Integer> ids = new ArrayList<>();
+        for (Description desc: descriptions) {
+            ids.add(desc.getId());
+        }
+        return bugRepository.findByDescriptions(ids, ids.size());
     }
 
     @Override
