@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { StorageService } from "./storage.service";
 import { Observable } from "rxjs";
 import { LogIn, UserRole } from "../model/user-role";
+import {UserModel} from "../model/user-model";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,10 @@ export class LogInService {
 
   activateAccount(id: number): Observable<any> {
     return this.http.post('http://localhost:8080/auth/activate' + id, {});
+  }
+
+  signUp(user: UserModel): Observable<UserModel> {
+    return this.http.post<UserModel>('http://localhost:8080/auth/sign-up', user);
   }
 
   logOut(): void {

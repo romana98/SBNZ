@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivateAccountComponent } from './activate-account/activate-account.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -14,7 +13,6 @@ import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
-    ActivateAccountComponent,
     LogInComponent,
     SignUpComponent
   ],

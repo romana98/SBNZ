@@ -6,13 +6,18 @@ import {RouterModule, Routes} from "@angular/router";
 import {LogInGuard} from "../guards/log-in.guard";
 import {adminRoutes} from './admin-routes';
 import {userRoutes} from './user-routes';
-import {ActivateAccountComponent} from "../components/auth/activate-account/activate-account.component";
+import {SignUpComponent} from "../components/auth/sign-up/sign-up.component";
 
 
 export const routes: Routes = [
   {
     path: '',
     component: LogInComponent,
+    canActivate: [LogInGuard]
+  },
+  {
+    path: 'sign-up',
+    component: SignUpComponent,
     canActivate: [LogInGuard]
   },
   {
@@ -28,16 +33,7 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: '/'
-  },
-  /*{
-    path: 'sign-up',
-    //component: SignUpComponent,
-    canActivate: [LogInGuard]
-  },  */
-  {
-    path: 'activateAccount',
-    component: ActivateAccountComponent
-  },
+  }
 
 
 ];

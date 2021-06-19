@@ -1,20 +1,17 @@
 <mat-toolbar color="primary">
 
-    <a routerLink="/">
-        <mat-icon [ngStyle]="{'color':'white'}">
-            star_rate
-        </mat-icon>
-    </a>
-    <span style="padding-left: 0.5%; font-size: medium;">Recommendation and Troubleshooting</span>
-    <a routerLink="/" style="padding-left: 0.5%;">
-        <mat-icon [ngStyle]="{'color':'white'}">
-            bug_report
-        </mat-icon>
-    </a>
+  <mat-icon [ngStyle]="{'color':'white'}">
+    star_rate
+  </mat-icon>
+  <span  style="padding-left: 0.5%; font-size: medium;">Recommendation and Troubleshooting</span>
+  <mat-icon [ngStyle]="{'color':'white'}"
+            style="padding-left: 0.5%;">
+    bug_report
+  </mat-icon>
 
 
     <span class="example-spacer" style="width: 75%"></span>
-    <a routerLink="/" style="margin-left: 5%;">
+    <a [routerLink]="['/']" style="margin-left: 5%;">
         <button mat-flat-button color="primary">
             <mat-icon [ngStyle]="{'color':'white'}">
                 login

@@ -117,21 +117,8 @@ public class RecommendationServiceImpl implements RecommendationService {
 	public Page<ConfigurationResponseDTO> getIntervalPopular(IntervalDTO dto, Pageable pageable, int idUser) {
 
 		try {
-
             makeIntervalPopular(dto);
-
-            Thread.sleep(2000);
-
-            InvocationRequest request = new DefaultInvocationRequest();
-            //request.setInputStream(InputStream.nullInputStream());
-            request.setPomFile(new File("..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\pom.xml"));
-            request.setGoals(Arrays.asList("clean", "install"));
-
-            Invoker invoker = new DefaultInvoker();
-            invoker.setMavenHome(new File(System.getenv("M2_HOME")));
-            invoker.execute(request);
-
-            Thread.sleep(2000);
+            makeIntervalPopular(dto);
             
             Configurations output = new Configurations();
 
@@ -179,23 +166,26 @@ public class RecommendationServiceImpl implements RecommendationService {
         drlFile.write(drl.getBytes());
         drlFile.close();
 
+        invoke();
+
+    }
+
+    private void invoke() throws MavenInvocationException {
+        InvocationRequest request = new DefaultInvocationRequest();
+        //request.setInputStream(InputStream.nullInputStream());
+        request.setPomFile(new File("..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\pom.xml"));
+        request.setGoals(Arrays.asList("clean", "install"));
+
+        Invoker invoker = new DefaultInvoker();
+        invoker.setMavenHome(new File(System.getenv("M2_HOME")));
+        invoker.execute(request);
     }
 
 	@Override
 	public Page<ConfigurationResponseDTO> searchByRate(RateDTO dto, Pageable pageable, int idUser) {
 		try {
             makeSearchAndRate(dto);
-
-            InvocationRequest request = new DefaultInvocationRequest();
-            //request.setInputStream(InputStream.nullInputStream());
-            request.setPomFile(new File("..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\pom.xml"));
-            request.setGoals(Arrays.asList("clean", "install"));
-
-            Invoker invoker = new DefaultInvoker();
-            invoker.setMavenHome(new File(System.getenv("M2_HOME")));
-            invoker.execute(request);
-
-            Thread.sleep(1000);
+            makeSearchAndRate(dto);
 
             Configurations output = new Configurations();
             output.setConfigurations(new ArrayList<ConfigurationClass>());
@@ -228,7 +218,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
 	}
 
-	private void makeSearchAndRate(RateDTO dto) throws IOException, MavenInvocationException {
+	private void makeSearchAndRate(RateDTO dto) throws IOException, MavenInvocationException, InterruptedException {
         InputStream template = new FileInputStream(
                 //"recommendation-and-troubleshooting/recommendation-and-troubleshooting-drools/src/main/resources/project/recommendationandtroubleshooting/templates/search-by-rate.drt");
                 "..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\templates\\search-by-rate.drt");
@@ -242,6 +232,8 @@ public class RecommendationServiceImpl implements RecommendationService {
                 "..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\search-by-rate.drl"), false);
         drlFile.write(drl.getBytes());
         drlFile.close();
+
+        invoke();
     }
 
 	@Override

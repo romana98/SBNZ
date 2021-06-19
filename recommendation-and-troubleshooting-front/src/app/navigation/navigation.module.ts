@@ -7,6 +7,7 @@ import { NavigationNotLoggedInComponent } from './navigation-not-logged-in/navig
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import {AppRoutingModule} from "../app-routing/app-routing.module";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     MatIconModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    AppRoutingModule
   ],
   exports: [
     NavigationComponent,

@@ -17,7 +17,6 @@ export class LogInComponent implements OnInit {
 
 
   form: FormGroup;
-  error = '';
   private fb: FormBuilder;
 
   constructor(

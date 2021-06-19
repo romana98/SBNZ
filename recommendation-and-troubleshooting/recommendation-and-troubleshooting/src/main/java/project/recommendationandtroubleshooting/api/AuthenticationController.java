@@ -104,37 +104,16 @@ public class AuthenticationController {
         int role = 2;
         List<Authority> auth = authorityService.findById(role);
         existUser.setAuthorities(auth);
-        existUser.setVerified(false);
+        existUser.setVerified(true);
 
         User newUSer = userService.registerUser(existUser);
 
         if (newUSer == null) {
             return new ResponseEntity<>("Email already exists.", HttpStatus.BAD_REQUEST);
         }
+
+        kieSession.insert(newUSer);
         return new ResponseEntity<>(userMapper.toDto(newUSer), HttpStatus.CREATED);
-    }
-
-    // Endpoint za aktivaciju naloga
-    @PostMapping("/activate/{id}")
-    public ResponseEntity<?> activate(@PathVariable Integer id) {
-        User regUser = userService.activateAccount(id);
-
-        if (regUser == null)
-            return new ResponseEntity<>("Activation failed.", HttpStatus.BAD_REQUEST);
-
-        Collection<FactHandle> handlers = kieSession.getFactHandles();
-        for (FactHandle handle : handlers) {
-            Object obj = kieSession.getObject(handle);
-
-            if (obj.getClass() == User.class) {
-                if (((User) obj).getId().equals(regUser.getId()))
-                    kieSession.delete(handle);
-            }
-        }
-
-        kieSession.insert(regUser);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // U slucaju isteka vazenja JWT tokena, endpoint koji se poziva da se token osvezi

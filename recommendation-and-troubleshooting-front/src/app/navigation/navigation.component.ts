@@ -27,7 +27,6 @@ export class NavigationComponent implements OnInit {
     });
 
     const user = JSON.parse(<string>localStorage.getItem('user'));
-    console.log(user);
     if(user != null){
       this.role = user.role === 'ROLE_ADMINISTRATOR' ? UserRole.ROLE_ADMINISTRATOR : (user.role === 'ROLE_USER' ? UserRole.ROLE_USER : UserRole.UNAUTHORIZED);
     }
