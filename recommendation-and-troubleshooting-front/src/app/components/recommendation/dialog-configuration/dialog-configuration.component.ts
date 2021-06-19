@@ -34,6 +34,7 @@ export class DialogConfigurationComponent implements OnInit {
   onValChange(checked: any) {
     console.log(checked)
     this.favoriteLabel = checked ? "Favorited" : "Favorite";
+    this.data.favorite = checked;
     let dto = {
       "configId": this.data.id,
       "value": checked
