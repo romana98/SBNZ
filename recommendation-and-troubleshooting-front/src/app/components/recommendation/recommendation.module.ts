@@ -20,7 +20,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { AddConfigurationComponent } from './add-configuration/add-configuration.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { AddRequirementComponent } from './add-requirement/add-requirement.component';
-import { RequirementsComponent } from './requirements/requirements.component'; 
+import { RequirementsComponent } from './requirements/requirements.component';
+import { AddUdageCharacteristicComponent } from './add-udage-characteristic/add-udage-characteristic.component'; 
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { RequirementsComponent } from './requirements/requirements.component';
     RecommendComponent,
     AddConfigurationComponent,
     AddRequirementComponent,
-    RequirementsComponent
+    RequirementsComponent,
+    AddUdageCharacteristicComponent
   ],
   imports: [
     CommonModule,

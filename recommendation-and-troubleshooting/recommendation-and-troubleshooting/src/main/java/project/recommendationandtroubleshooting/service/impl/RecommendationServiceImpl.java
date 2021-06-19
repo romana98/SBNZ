@@ -172,7 +172,6 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     private void invoke() throws MavenInvocationException {
         InvocationRequest request = new DefaultInvocationRequest();
-        //request.setInputStream(InputStream.nullInputStream());
         request.setPomFile(new File("..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\pom.xml"));
         request.setGoals(Arrays.asList("clean", "install"));
 

@@ -51,7 +51,6 @@ export class ConfigurationsComponent implements OnInit {
     this.configurationsService.getConfigurations({ page: this.page, size: this.pageSize }).subscribe(
       result => {
         this.configurations = result;
-        console.log(this.configurations.content)
       }
     );
   }
@@ -62,7 +61,6 @@ export class ConfigurationsComponent implements OnInit {
       this.configurationsService.getConfigurations({ page: this.page, size: this.pageSize }).subscribe(
         result => {
           this.configurations = result;
-          console.log(this.configurations.content)
         }
       );
     } else if (this.state == "RECOMMENDED") {
@@ -70,7 +68,6 @@ export class ConfigurationsComponent implements OnInit {
       this.configurationsService.getRecommended({ page: this.page, size: this.pageSize, value: this.input }).subscribe(
         result => {
           this.configurations = result;
-          console.log(this.configurations.content)
         }
       );
     } else if (this.state == "POPULAR") {
@@ -78,7 +75,6 @@ export class ConfigurationsComponent implements OnInit {
       this.configurationsService.getCurrentlyPopular({ page: this.page, size: this.pageSize }).subscribe(
         result => {
           this.configurations = result;
-          console.log(this.configurations.content)
         }
       );
     } else if (this.state == "FAVORITES") {
@@ -86,7 +82,6 @@ export class ConfigurationsComponent implements OnInit {
       this.configurationsService.getFavorites({ page: this.page, size: this.pageSize }).subscribe(
         result => {
           this.configurations = result;
-          console.log(this.configurations.content)
         }
       );
     } else if (this.state == "INTERVAL_SEARCH") {
@@ -94,7 +89,6 @@ export class ConfigurationsComponent implements OnInit {
       this.configurationsService.getIntervalPopular({ page: this.page, size: this.pageSize, value: this.intervalInput }).subscribe(
         result => {
           this.configurations = result;
-          console.log(this.configurations.content)
         }
       );
     } else if (this.state == "RATE_SEARCH") {
@@ -102,14 +96,12 @@ export class ConfigurationsComponent implements OnInit {
       this.configurationsService.searchByRate({ page: this.page, size: this.pageSize, value: this.rateInput }).subscribe(
         result => {
           this.configurations = result;
-          console.log(this.configurations.content)
         }
       );
     }
   }
 
   onClick(data: any) {
-    console.log(data)
     const dialogRef = this.dialog.open(DialogConfigurationComponent, {
       width: '800px',
       data: data,
@@ -117,13 +109,11 @@ export class ConfigurationsComponent implements OnInit {
   }
 
   onClickInput(data: any) {
-    console.log(data)
     const dialogRef = this.dialog.open(RecommendComponent, {
       width: '800px',
       data: data,
     });
     const dialogSubmitSubscription = dialogRef.componentInstance.newEvent.subscribe(result => {
-      console.log('Got the data!', result);
       this.getRecommendation(result);
       dialogSubmitSubscription.unsubscribe();
       dialogRef.close();
@@ -131,16 +121,12 @@ export class ConfigurationsComponent implements OnInit {
   }
 
   getRecommendation(event: any) {
-    console.log(event)
     this.page = 0;
     this.state = "RECOMMENDED";
     this.input = event;
     this.configurationsService.getRecommended({ page: this.page, size: this.pageSize, value: event }).subscribe(
       result => {
         this.configurations = result;
-        console.log(this.configurations.content)
-        console.log(this.page)
-        console.log(this.pageSize)
         this.snackBar.open('See configurations for you!', 'Ok', { duration: 2000 });
       },
       error => {
@@ -150,39 +136,32 @@ export class ConfigurationsComponent implements OnInit {
   }
 
   onClickPopular(event: any) {
-    console.log(event)
     this.page = 0;
     this.state = "POPULAR";
     this.configurationsService.getCurrentlyPopular({ page: this.page, size: this.pageSize }).subscribe(
       result => {
         this.configurations = result;
-        console.log(this.configurations.content)
       }
     );
   }
 
   onClickFavorites(event: any) {
-    console.log(event)
     this.page = 0;
     this.state = "FAVORITES";
     this.configurationsService.getFavorites({ page: this.page, size: this.pageSize }).subscribe(
       result => {
         this.configurations = result;
-        console.log(this.configurations.content)
       }
     );
   }
 
   submitRate() {
-    console.log(this.formRate.value.minRate)
-    console.log(this.formRate.value.maxRate)
     this.page = 0;
     this.state = "RATE_SEARCH";
     this.rateInput = { "minRate": this.formRate.value.minRate, "maxRate": this.formRate.value.maxRate };
     this.configurationsService.searchByRate({ page: this.page, size: this.pageSize, value: this.rateInput }).subscribe(
       result => {
         this.configurations = result;
-        console.log(this.configurations.content)
       },
       error => {
         this.snackBar.open('Something went wrong. Rate should be a number.', 'Ok', { duration: 2000 });
@@ -191,22 +170,18 @@ export class ConfigurationsComponent implements OnInit {
   }
 
   onValueChanged(key: string, value: any) {
-    console.log(value.target.value)
     this.formInterval.controls[key].patchValue(value.target.value.toISOString().split('T')[0]);
   }
 
   submitInterval() {
     if (this.formInterval.value.minDate == null) this.formInterval.controls["minDate"].patchValue("2000-01-01");
     if (this.formInterval.value.maxDate == null) this.formInterval.controls["maxDate"].patchValue("2100-01-01");
-    console.log(this.formInterval.value.minDate)
-    console.log(this.formInterval.value.maxDate)
     this.page = 0;
     this.state = "INERVAL_SEARCH";
     this.intervalInput = { "minDate": this.formInterval.value.minDate, "maxDate": this.formInterval.value.maxDate };
     this.configurationsService.getIntervalPopular({ page: this.page, size: this.pageSize, value: this.intervalInput }).subscribe(
       result => {
         this.configurations = result;
-        console.log(this.configurations.content)
       },
       error => {
         this.snackBar.open('Something went wrong.', 'Ok', { duration: 2000 });
@@ -215,16 +190,13 @@ export class ConfigurationsComponent implements OnInit {
   }
 
   onDelete(event: any) {
-    console.log(event)
     this.configurationsService.deleteConfiguration(event).subscribe(
       result => {
-        console.log(result)
         this.state = "ALL";
         this.page = 0;
         this.configurationsService.getConfigurations({ page: this.page, size: this.pageSize }).subscribe(
           result => {
             this.configurations = result;
-            console.log(this.configurations.content)
             this.snackBar.open('Successfully deleted configuration.', 'Ok', { duration: 2000 });
           },
           error => {

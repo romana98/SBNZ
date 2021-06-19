@@ -14,13 +14,18 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import project.recommendationandtroubleshooting.dto.AddUsageOrCharDTO;
 import project.recommendationandtroubleshooting.dto.ConfigurationResponseDTO;
 import project.recommendationandtroubleshooting.dto.RequirementResponseDTO;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationCharacteristicTypeRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationClass;
+import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageType;
 import project.recommendationandtroubleshooting.model.recommendation.ConfigurationUsageTypeRequirements;
 import project.recommendationandtroubleshooting.model.recommendation.Recommendations;
+import project.recommendationandtroubleshooting.repository.ConfigurationCharacteristicTypeRepository;
 import project.recommendationandtroubleshooting.repository.ConfigurationCharacteristicTypeRequirementsRepository;
+import project.recommendationandtroubleshooting.repository.ConfigurationUsageTypeRepository;
 import project.recommendationandtroubleshooting.repository.ConfigurationUsageTypeRequirementsRepository;
 
 @Service
@@ -34,6 +39,20 @@ public class RequirementsService {
 
 	@Autowired
 	ConfigurationCharacteristicTypeRequirementsRepository charRepo;
+	
+	@Autowired
+	ConfigurationUsageTypeRepository usageRepository;
+	
+	@Autowired
+	ConfigurationCharacteristicTypeRepository charRepository;
+	
+	public ConfigurationUsageType addUsage(AddUsageOrCharDTO dto) {
+		return usageRepository.save(new ConfigurationUsageType(dto.getValue()));
+	}
+	
+	public ConfigurationCharacteristicType addCharacteristic(AddUsageOrCharDTO dto) {
+		return charRepository.save(new ConfigurationCharacteristicType(dto.getValue()));
+	}
 	
 	public Page<RequirementResponseDTO> getAll(Pageable pageable) {
 		

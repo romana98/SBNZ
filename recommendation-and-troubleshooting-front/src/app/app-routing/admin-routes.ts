@@ -10,6 +10,7 @@ import {AddConfigurationComponent} from "../components/recommendation/add-config
 import {ConfigurationsComponent} from "../components/recommendation/configurations/configurations.component";
 import { RequirementsComponent } from "../components/recommendation/requirements/requirements.component";
 import { AddRequirementComponent } from "../components/recommendation/add-requirement/add-requirement.component";
+import { AddUdageCharacteristicComponent } from "../components/recommendation/add-udage-characteristic/add-udage-characteristic.component";
 
 export const adminRoutes: Routes = [
   {
@@ -69,6 +70,11 @@ export const adminRoutes: Routes = [
       {
         path: 'add-requirement',
         component: AddRequirementComponent,
+        canActivate: [AdminGuard]
+      },
+      {
+        path: 'add-usage-characteristic',
+        component: AddUdageCharacteristicComponent,
         canActivate: [AdminGuard]
       },
     ]

@@ -77,7 +77,13 @@ export class ConfigurationsService {
     return this.http.post('http://localhost:8080/requirements/deleteRequirement', payload)
   }
 
+  addNewUsage(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/requirements/addNewUsage', payload)
+  }
 
+  addNewCharacteristic(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/requirements/addNewCharacteristic', payload)
+  }
 
 }
 

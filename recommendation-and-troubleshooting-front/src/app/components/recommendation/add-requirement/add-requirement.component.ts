@@ -33,31 +33,25 @@ export class AddRequirementComponent implements OnInit {
     this.configurationsService.getUsages().subscribe(
       result => {
         this.usages = result;
-        console.log(this.usages)
       }
     );
     this.configurationsService.getCharacteristics().subscribe(
       result => {
         this.characteristics = result;
-        console.log(this.characteristics)
       }
     );
   }
 
   onChangeUsages(event: any) {
-    console.log(event)
   }
 
   onChangeChars(event: any) {
-    console.log(event)
   }
 
   onChangeAttrsUsage(event: any) {
-    console.log(event)
   }
 
   onChangeAttrsChars(event: any) {
-    console.log(event)
   }
 
   submitFormAddUsageReq() {
@@ -68,7 +62,6 @@ export class AddRequirementComponent implements OnInit {
       "value": this.formAddUsageReq.value.value,
       "type": "USAGE"
     }
-    console.log(usage)
     this.configurationsService.addUsage(usage).subscribe(
       result => {
         this.snackBar.open('Successfully added usage requirement!', 'Ok', { duration: 2000 });
@@ -87,7 +80,6 @@ export class AddRequirementComponent implements OnInit {
       "value": this.formAddCharReq.value.value,
       "type": "CHARACTERISTIC"
     }
-    console.log(char)
     this.configurationsService.addCharacteristic(char).subscribe(
       result => {
         this.snackBar.open('Successfully added characteristic requirement!', 'Ok', { duration: 2000 });

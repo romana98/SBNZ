@@ -31,38 +31,26 @@ export class RecommendComponent implements OnInit {
     this.configurationsService.getUsages().subscribe(
       result => {
         this.usages = result;
-        console.log(this.usages)
       }
     );
     this.configurationsService.getCharacteristics().subscribe(
       result => {
         this.characteristics = result;
-        console.log(this.characteristics)
       }
     );
   }
 
   onSliderChange(event: any) {
-    console.log(event.value)
     this.form.controls["sliderValue"].patchValue(event.value);
   }
 
   onChangeUsages(event: any) {
-    console.log(this.form.controls.usagesSelect)
-    console.log(event)
   }
 
   onChangeCharacteristics(event: any) {
-    console.log(this.form.controls.characteristicsSelect)
-    console.log(event)
   }
 
   submit = () => {
-    console.log(this.form.value.minprice)
-    console.log(this.form.value.maxprice)
-    console.log(this.form.value.usagesSelect)
-    console.log(this.form.value.characteristicsSelect)
-    console.log(this.form.value.sliderValue)
     let input = {
       "budget": {
         "maxPrice": this.form.value.maxprice,
@@ -74,7 +62,6 @@ export class RecommendComponent implements OnInit {
         "mobility": this.form.value.sliderValue
       }
     }
-    console.log(input)
     /*let input = {
       "budget": {
         "maxPrice": 100000,

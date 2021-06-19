@@ -9,7 +9,7 @@
     bug_report
   </mat-icon>
 
-  <span style="padding-left: 10%;"></span>
+  <span style="padding-left: 5%;"></span>
   <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/troubleshooting')">
         <button (click)="router.navigate(['/admin/troubleshooting']);" mat-button>Bugs</button>
       </span>
@@ -31,6 +31,9 @@
       </span>
   <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/recommendation')">
         <button (click)="router.navigate(['/admin/recommendation/add-requirement']);" mat-button>Add Requirement</button>
+      </span>
+  <span style="padding-left: 3%;" *ngIf="router.url.includes('/admin/recommendation')">
+        <button (click)="router.navigate(['/admin/recommendation/add-usage-characteristic']);" mat-button>Add Usage</button>
       </span>
 
 

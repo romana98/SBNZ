@@ -1,0 +1,11 @@
+insert into bug_histories (date_of_bug, bug_id, solution_id, user_id) values ('2021-06-01 00:00:00', 1, 1, 2);
+insert into bug_histories (date_of_bug, bug_id, solution_id, user_id) values ('2021-06-01 00:00:00', 1, 1, 2);
+insert into bug_histories (date_of_bug, bug_id, solution_id, user_id) values ('2021-06-01 00:00:00', 1, 1, 2);
+insert into bug_histories (date_of_bug, bug_id, solution_id, user_id) values ('2021-06-01 00:00:00', 1, 1, 2);
+insert into bug_histories (date_of_bug, bug_id, solution_id, user_id) values ('2021-06-01 00:00:00', 1, 1, 2);
+insert into bug_histories (date_of_bug, bug_id, solution_id, user_id) values ('2021-06-01 00:00:00', 1, 1, 2);
+insert into bug_histories (date_of_bug, bug_id, solution_id, user_id) values ('2021-06-01 00:00:00', 1, 1, 2);
+insert into bug_histories (date_of_bug, bug_id, solution_id, user_id) values ('2021-06-01 00:00:00', 1, 1, 2);
+insert into bug_histories (date_of_bug, bug_id, solution_id, user_id) values ('2021-06-01 00:00:00', 1, 1, 2);
+insert into bug_histories (date_of_bug, bug_id, solution_id, user_id) values ('2021-06-01 00:00:00', 1, 1, 2);
+insert into bug_histories (date_of_bug, bug_id, solution_id, user_id) values ('2021-06-01 00:00:00', 1, 1, 2);

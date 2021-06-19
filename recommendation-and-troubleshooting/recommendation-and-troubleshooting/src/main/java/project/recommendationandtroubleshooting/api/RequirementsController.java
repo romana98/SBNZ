@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import project.recommendationandtroubleshooting.dto.AddConfigurationDTO;
+import project.recommendationandtroubleshooting.dto.AddUsageOrCharDTO;
 import project.recommendationandtroubleshooting.dto.BugDTO;
 import project.recommendationandtroubleshooting.dto.ConfigurationResponseDTO;
 import project.recommendationandtroubleshooting.dto.FavoriteDTO;
@@ -114,6 +115,36 @@ public class RequirementsController {
 	        return new ResponseEntity<List<RequirementResponseDTO>>(HttpStatus.OK);
 		} else {
 	        return new ResponseEntity<List<RequirementResponseDTO>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfull input."),
+            @ApiResponse(code = 400, message = "Invalid input."),
+    })
+    @PostMapping("/addNewUsage")
+    public ResponseEntity<?> addUsage(@RequestBody AddUsageOrCharDTO dto) {
+		ConfigurationUsageType added = reqService.addUsage(dto);
+		if (added != null) {
+	        return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfull input."),
+            @ApiResponse(code = 400, message = "Invalid input."),
+    })
+    @PostMapping("/addNewCharacteristic")
+    public ResponseEntity<?> addNewCharacteristic(@RequestBody AddUsageOrCharDTO dto) {
+		ConfigurationCharacteristicType added = reqService.addCharacteristic(dto);
+		if (added != null) {
+	        return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
 

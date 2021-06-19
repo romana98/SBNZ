@@ -40,15 +40,12 @@ export class AddConfigurationComponent implements OnInit {
   }
 
   onChangeType(event: any) {
-    console.log(this.form.value.type)
   }
 
   onChangeDiscType(event: any) {
-    console.log(this.form.value.discType)
   }
 
   changedCheckbox(key: string, event: any) {
-    console.log(event.checked)
     this.form.controls[key].patchValue(event.checked);
   }
 
@@ -72,11 +69,8 @@ export class AddConfigurationComponent implements OnInit {
       "touchscreen": this.form.value.touchscreen,
       "type": this.form.value.type
     }
-    console.log(input);
     this.configurationsService.addConfiguration(input).subscribe(
       result => {
-        console.log(result)
-        console.log("success")
         this.snackBar.open('Successfully added configuration!', 'Ok', { duration: 2000 });
       },
       error => {

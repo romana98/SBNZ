@@ -25,14 +25,11 @@ export class DialogConfigurationComponent implements OnInit {
     this.configurationsService.getUsersByRate(this.data.id).subscribe(
       result => {
         this.usersPerGrade = result;
-        console.log("success")
-        console.log(result)
       }
     );
   }
 
   onValChange(checked: any) {
-    console.log(checked)
     this.favoriteLabel = checked ? "Favorited" : "Favorite";
     this.data.favorite = checked;
     let dto = {
@@ -41,22 +38,17 @@ export class DialogConfigurationComponent implements OnInit {
     }
     this.configurationsService.favorite(dto).subscribe(
       result => {
-        console.log("success")
-        console.log(result)
       }
     );
   }
 
   onRatingSet(rating: number): void {
-    console.log(`User set rating to ${rating}`);
     let dto = {
       "configId": this.data.id,
       "rate": rating
     }
     this.configurationsService.rate(dto).subscribe(
       result => {
-        console.log("success")
-        console.log(result)
         this.snackBar.open('Successfully rated configuration!', 'Ok', { duration: 2000 });
       },
       error => {
