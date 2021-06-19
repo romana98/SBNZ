@@ -1,9 +1,6 @@
 package project.recommendationandtroubleshooting.service.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,10 +10,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import org.apache.maven.shared.invoker.DefaultInvocationRequest;
-import org.apache.maven.shared.invoker.DefaultInvoker;
-import org.apache.maven.shared.invoker.InvocationRequest;
-import org.apache.maven.shared.invoker.Invoker;
+import org.apache.maven.shared.invoker.*;
 import org.drools.template.ObjectDataCompiler;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
@@ -123,28 +117,21 @@ public class RecommendationServiceImpl implements RecommendationService {
 	public Page<ConfigurationResponseDTO> getIntervalPopular(IntervalDTO dto, Pageable pageable, int idUser) {
 
 		try {
-            InputStream template = new FileInputStream(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\templates\\interval-report.drt");
 
-            List<IntervalDTO> arguments = new ArrayList<>();
-            arguments.add(new IntervalDTO(dto.getMaxDate(), dto.getMinDate()));
-            ObjectDataCompiler compiler = new ObjectDataCompiler();
-            String drl = compiler.compile(arguments, template);
+            makeIntervalPopular(dto);
 
-            FileOutputStream drlFile = new FileOutputStream(new File(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\interval-report.drl"), false);
-            drlFile.write(drl.getBytes());
-            drlFile.close();
+            Thread.sleep(2000);
 
             InvocationRequest request = new DefaultInvocationRequest();
             //request.setInputStream(InputStream.nullInputStream());
-            request.setPomFile(new File("../recommendation-and-troubleshooting/pom.xml"));
+            request.setPomFile(new File("..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\pom.xml"));
             request.setGoals(Arrays.asList("clean", "install"));
 
             Invoker invoker = new DefaultInvoker();
             invoker.setMavenHome(new File(System.getenv("M2_HOME")));
             invoker.execute(request);
 
+            Thread.sleep(2000);
             
             Configurations output = new Configurations();
 
@@ -178,31 +165,37 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
 	}
 
+    private void makeIntervalPopular(IntervalDTO dto) throws IOException, MavenInvocationException {
+        InputStream template = new FileInputStream(
+                "..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\templates\\interval-report.drt");
+
+        List<IntervalDTO> arguments = new ArrayList<>();
+        arguments.add(new IntervalDTO(dto.getMinDate(), dto.getMaxDate()));
+        ObjectDataCompiler compiler = new ObjectDataCompiler();
+        String drl = compiler.compile(arguments, template);
+
+        FileOutputStream drlFile = new FileOutputStream(new File(
+                "..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\interval-report.drl"), false);
+        drlFile.write(drl.getBytes());
+        drlFile.close();
+
+    }
+
 	@Override
 	public Page<ConfigurationResponseDTO> searchByRate(RateDTO dto, Pageable pageable, int idUser) {
 		try {
-            InputStream template = new FileInputStream(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\templates\\search-by-rate.drt");
-
-            List<RateDTO> arguments = new ArrayList<RateDTO>();
-            arguments.add(new RateDTO(dto.getMinRate(), dto.getMaxRate()));
-            ObjectDataCompiler compiler = new ObjectDataCompiler();
-            System.out.println("++++++++++++++++++++++++++++++++");
-            String drl = compiler.compile(arguments, template);
-            
-            FileOutputStream drlFile = new FileOutputStream(new File(
-                    "..\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\search-by-rate.drl"), false);
-            drlFile.write(drl.getBytes());
-            drlFile.close();
+            makeSearchAndRate(dto);
 
             InvocationRequest request = new DefaultInvocationRequest();
             //request.setInputStream(InputStream.nullInputStream());
-            request.setPomFile(new File("../recommendation-and-troubleshooting/pom.xml"));
+            request.setPomFile(new File("..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\pom.xml"));
             request.setGoals(Arrays.asList("clean", "install"));
 
             Invoker invoker = new DefaultInvoker();
             invoker.setMavenHome(new File(System.getenv("M2_HOME")));
             invoker.execute(request);
+
+            Thread.sleep(1000);
 
             Configurations output = new Configurations();
             output.setConfigurations(new ArrayList<ConfigurationClass>());
@@ -234,6 +227,22 @@ public class RecommendationServiceImpl implements RecommendationService {
             return null;
         }
 	}
+
+	private void makeSearchAndRate(RateDTO dto) throws IOException, MavenInvocationException {
+        InputStream template = new FileInputStream(
+                //"recommendation-and-troubleshooting/recommendation-and-troubleshooting-drools/src/main/resources/project/recommendationandtroubleshooting/templates/search-by-rate.drt");
+                "..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\templates\\search-by-rate.drt");
+        List<RateDTO> arguments = new ArrayList<RateDTO>();
+        arguments.add(new RateDTO(dto.getMinRate(), dto.getMaxRate()));
+        ObjectDataCompiler compiler = new ObjectDataCompiler();
+        System.out.println("++++++++++++++++++++++++++++++++");
+        String drl = compiler.compile(arguments, template);
+
+        FileOutputStream drlFile = new FileOutputStream(new File(
+                "..\\recommendation-and-troubleshooting\\recommendation-and-troubleshooting-drools\\src\\main\\resources\\project\\recommendationandtroubleshooting\\search-by-rate.drl"), false);
+        drlFile.write(drl.getBytes());
+        drlFile.close();
+    }
 
 	@Override
 	public Double getAverageRating(Long configurationId) {

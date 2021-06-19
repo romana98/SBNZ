@@ -19,7 +19,7 @@ when
 	$average: Double() from accumulate (
 		Rating($rate: rate) from $ratings,
 		average($rate));
-	eval($average >= 2.0 && $average <= 5.0)
+	eval($average >= 2.0 && $average <= 4.0)
 then
 	System.out.println($average);
     modify($pc){getConfigurations().add($c)};

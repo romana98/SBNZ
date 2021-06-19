@@ -21,10 +21,13 @@ export class NavigationComponent implements OnInit {
     private router: Router) {
     this.storageService.watchStorage().subscribe(() => {
       const user = JSON.parse(<string>localStorage.getItem('user'));
-      this.role = user ? UserRole.ROLE_ADMINISTRATOR : (this.role = user ? UserRole.ROLE_USER : UserRole.UNAUTHORIZED);
+      if(user != null){
+        this.role = user.role === 'ROLE_ADMINISTRATOR' ? UserRole.ROLE_ADMINISTRATOR : (user.role === 'ROLE_USER' ? UserRole.ROLE_USER : UserRole.UNAUTHORIZED);
+      }
     });
 
     const user = JSON.parse(<string>localStorage.getItem('user'));
+    console.log(user);
     if(user != null){
       this.role = user.role === 'ROLE_ADMINISTRATOR' ? UserRole.ROLE_ADMINISTRATOR : (user.role === 'ROLE_USER' ? UserRole.ROLE_USER : UserRole.UNAUTHORIZED);
     }

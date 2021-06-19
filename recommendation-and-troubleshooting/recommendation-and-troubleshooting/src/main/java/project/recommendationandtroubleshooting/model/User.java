@@ -16,7 +16,7 @@ public class User extends Person {
     private Set<BugHistory> bugHistory = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "favoriteId")
+    @JoinColumn(name = "user_id")
     private Set<Favorite> favorites = new HashSet<>();
 
     public User() {

@@ -372,28 +372,28 @@ insert into configurations(price, type, cpu, gpu, ram, os, psu, disc_type, disc_
 	false, true, true, true, true);
 
 
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 1, 2);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 1, 3);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 1, 4);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 1, 5);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 1, 6);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 2, 1, 7);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 1, 8);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 1, 2);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 1, 3);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 1, 4);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 1, 5);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 1, 6);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 2, 1, 7);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 1, 8);
 
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 2, 3);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 2, 4);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 2, 5);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 2, 6);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 2, 7);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-06-01 00:00:00', 1, 2, 8);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 2, 3);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 2, 4);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 2, 5);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 2, 6);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 2, 7);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-06-01 00:00:00', 1, 2, 8);
 
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (false, '2021-05-05 00:00:00', 1, 3, 2);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-05-05 00:00:00', 1, 3, 3);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (false, '2021-05-05 00:00:00', 1, 3, 4);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (false, '2021-05-05 00:00:00', 1, 3, 5);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (false, '2021-05-05 00:00:00', 1, 3, 6);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-05-05 00:00:00', 1, 3, 7);
-insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, favorite_id) values (true, '2021-05-05 00:00:00', 4, 3, 8);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-05-05 00:00:00', 7, 3, 2);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-05-05 00:00:00', 8, 3, 3);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-05-05 00:00:00', 8, 3, 4);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-05-05 00:00:00', 8, 3, 5);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (false, '2021-05-05 00:00:00', 1, 3, 6);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-05-05 00:00:00', 7, 3, 7);
+insert into favorites (active, date_of_favorite, put_to_favorite, configuration_id, user_id) values (true, '2021-05-05 00:00:00', 4, 3, 8);
 
 
 insert into ratings (rate, rating_id) values (5.0, 1);
