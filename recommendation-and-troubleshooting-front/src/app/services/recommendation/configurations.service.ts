@@ -30,11 +30,19 @@ export class ConfigurationsService {
   }
 
   getIntervalPopular(payload: any): Observable<any> {
-    return this.http.post('http://localhost:8080/recommendation/getIntervalPopular/by-page?page=' + payload.page + '&size=' + payload.size, payload.value)
+    return this.http.get('http://localhost:8080/recommendation/getIntervalPopular/by-page?page=' + payload.page + '&size=' + payload.size)
   }
 
   searchByRate(payload: any): Observable<any> {
-    return this.http.post('http://localhost:8080/recommendation/searchByRate/by-page?page=' + payload.page + '&size=' + payload.size, payload.value)
+    return this.http.get('http://localhost:8080/recommendation/searchByRate/by-page?page=' + payload.page + '&size=' + payload.size)
+  }
+
+  makeIntervalPopular(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/recommendation/makeIntervalPopular', payload.value)
+  }
+
+  makeSearchByRate(payload: any): Observable<any> {
+    return this.http.post('http://localhost:8080/recommendation/makeSearchByRate' , payload.value)
   }
 
   getFavorites(payload: any): Observable<any> {

@@ -1,9 +1,11 @@
 package project.recommendationandtroubleshooting.api;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,14 +115,14 @@ public class RecommendationController {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),
     })
-    @PostMapping("/getIntervalPopular/by-page")
-    public ResponseEntity<Page<ConfigurationResponseDTO>> getIntervalPopular(@Valid @RequestBody IntervalDTO dto, Pageable pageable) {
+    @GetMapping("/getIntervalPopular/by-page")
+    public ResponseEntity<Page<ConfigurationResponseDTO>> getIntervalPopular(Pageable pageable) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) authentication.getPrincipal();
 		Integer id = 0;
 		if (person instanceof User)
 			id = person.getId();
-		Page<ConfigurationResponseDTO> output = recommendationService.getIntervalPopular(dto, pageable, id);
+		Page<ConfigurationResponseDTO> output = recommendationService.getIntervalPopular(pageable, id);
         return new ResponseEntity<Page<ConfigurationResponseDTO>>(output, HttpStatus.OK);
 	}
 	
@@ -130,17 +132,68 @@ public class RecommendationController {
             @ApiResponse(code = 200, message = "Successfull input."),
             @ApiResponse(code = 400, message = "Invalid input."),
     })
-    @PostMapping("/searchByRate/by-page")
-    public ResponseEntity<Page<ConfigurationResponseDTO>> searchByRate(@Valid @RequestBody RateDTO dto, Pageable pageable) {
+    @GetMapping("/searchByRate/by-page")
+    public ResponseEntity<Page<ConfigurationResponseDTO>> searchByRate(Pageable pageable) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		Person person = (Person) authentication.getPrincipal();
 		Integer id = 0;
 		if (person instanceof User)
 			id = person.getId();
-		Page<ConfigurationResponseDTO> output = recommendationService.searchByRate(dto, pageable, id);
+		Page<ConfigurationResponseDTO> output = recommendationService.searchByRate(pageable, id);
         return new ResponseEntity<Page<ConfigurationResponseDTO>>(output, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfull input."),
+            @ApiResponse(code = 400, message = "Invalid input."),
+    })
+    @PostMapping("/makeIntervalPopular")
+    public ResponseEntity<?> makeIntervalPopular(@Valid @RequestBody IntervalDTO dto) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) authentication.getPrincipal();
+		Integer id = 0;
+		if (person instanceof User)
+			id = person.getId();
+		try {
+			recommendationService.makeIntervalPopular(dto);
+		} catch (IOException e) {
+			e.printStackTrace();
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (MavenInvocationException e) {
+			e.printStackTrace();
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+        return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	
+	@PreAuthorize("hasRole('ROLE_ADMINISTRATOR')")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfull input."),
+            @ApiResponse(code = 400, message = "Invalid input."),
+    })
+    @PostMapping("/makeSearchByRate")
+    public ResponseEntity<?> makeSearchByRate(@Valid @RequestBody RateDTO dto) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Person person = (Person) authentication.getPrincipal();
+		Integer id = 0;
+		if (person instanceof User)
+			id = person.getId();
+		try {
+			recommendationService.makeSearchAndRate(dto);
+		} catch (IOException e) {
+			e.printStackTrace();
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (MavenInvocationException e) {
+			e.printStackTrace();
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+	        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+        return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 	@PreAuthorize("hasRole('ROLE_USER') || hasRole('ROLE_ADMINISTRATOR')")
     @ApiResponses(value = {

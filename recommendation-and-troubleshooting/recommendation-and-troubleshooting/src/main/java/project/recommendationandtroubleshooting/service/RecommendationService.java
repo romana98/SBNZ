@@ -19,9 +19,9 @@ public interface RecommendationService {
 	
 	Page<ConfigurationResponseDTO> getCurrentlyPopular(Pageable pageable, int idUser);
 
-	Page<ConfigurationResponseDTO> getIntervalPopular(IntervalDTO dto, Pageable pageable, int idUser);
+	Page<ConfigurationResponseDTO> getIntervalPopular(Pageable pageable, int idUser);
 	
-	Page<ConfigurationResponseDTO> searchByRate(RateDTO dto, Pageable pageable, int idUser);
+	Page<ConfigurationResponseDTO> searchByRate(Pageable pageable, int idUser);
 
 	Double getAverageRating(Long configurationId);
 	

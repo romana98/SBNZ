@@ -159,9 +159,24 @@ export class ConfigurationsComponent implements OnInit {
     this.page = 0;
     this.state = "RATE_SEARCH";
     this.rateInput = { "minRate": this.formRate.value.minRate, "maxRate": this.formRate.value.maxRate };
-    this.configurationsService.searchByRate({ page: this.page, size: this.pageSize, value: this.rateInput }).subscribe(
+    this.configurationsService.makeSearchByRate({ value: this.rateInput }).toPromise().then(
       result => {
-        this.configurations = result;
+        this.configurationsService.searchByRate({ page: this.page, size: this.pageSize }).toPromise().then(
+          result => {
+            this.configurations = result;
+            this.configurationsService.searchByRate({ page: this.page, size: this.pageSize }).toPromise().then(
+              result => {
+                this.configurations = result;
+              },
+              error => {
+                this.snackBar.open('Something went wrong. Rate should be a number.', 'Ok', { duration: 2000 });
+              }
+            );
+          },
+          error => {
+            this.snackBar.open('Something went wrong. Rate should be a number.', 'Ok', { duration: 2000 });
+          }
+        );
       },
       error => {
         this.snackBar.open('Something went wrong. Rate should be a number.', 'Ok', { duration: 2000 });
@@ -179,9 +194,23 @@ export class ConfigurationsComponent implements OnInit {
     this.page = 0;
     this.state = "INERVAL_SEARCH";
     this.intervalInput = { "minDate": this.formInterval.value.minDate, "maxDate": this.formInterval.value.maxDate };
-    this.configurationsService.getIntervalPopular({ page: this.page, size: this.pageSize, value: this.intervalInput }).subscribe(
+    this.configurationsService.makeIntervalPopular({ value: this.intervalInput }).toPromise().then(
       result => {
-        this.configurations = result;
+        this.configurationsService.getIntervalPopular({ page: this.page, size: this.pageSize }).toPromise().then(
+          result => {
+            this.configurationsService.getIntervalPopular({ page: this.page, size: this.pageSize }).toPromise().then(
+              result => {
+                this.configurations = result;
+              },
+              error => {
+                this.snackBar.open('Something went wrong.', 'Ok', { duration: 2000 });
+              }
+            );
+          },
+          error => {
+            this.snackBar.open('Something went wrong.', 'Ok', { duration: 2000 });
+          }
+        );
       },
       error => {
         this.snackBar.open('Something went wrong.', 'Ok', { duration: 2000 });
